@@ -1,4 +1,29 @@
 #root {
+  margin-top: 200px;
   height: 100%;
   width: 100%;
+}
+.container-search {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+}
+.container-logo {
+  font-size: 72px;
+  font-weight: 300;
+  color: #2e7d32;
+  letter-spacing: -2px;
+}
+
+.container-logo .veggie {
+  color: #558b2f;
+}
+.container-logo .box {
+  color: #7cb342;
+}
+.container-logo p{
+  margin-top: 0px;
+  font-size: 1.3rem;
+  letter-spacing: 1px;
 }

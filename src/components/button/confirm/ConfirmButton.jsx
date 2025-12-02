@@ -1,3 +1,5 @@
+import './ConfirmButton.css'
+
 export function ConfirmButton({name}){
     return(
         <>

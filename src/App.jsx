@@ -1,24 +1,25 @@
-import { useState } from 'react'
-import './App.css'
-import { ConfirmButton } from './components/button/confirm/ConfirmButton'
-import { Logo } from './components/logo/Logo'
+import "./App.css";
+import { useState } from "react";
+import { ConfirmButton } from "./components/button/confirm/ConfirmButton";
+import { SearchBar } from "./components/SearchBar/SearchBar";
+
 
 function App() {
-  const [count, setCount] = useState(0)
- 
+  const [count, setCount] = useState(0);
+
   return (
     <>
-      <h1>fgrfr</h1>
-      <Logo></Logo>
-      <ConfirmButton name="Cerca"></ConfirmButton>
-      
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          I task completati oggi sono: {count}
-        </button>
+      <div className="container-search">
+        <div className="container-logo">
+          <span className="veggie">Veggie</span>
+        <span className="box">Box</span>
+        <p>🌱 Scopri ricette vegetariane deliziose</p>
+        </div>
+        <SearchBar></SearchBar>
+        <ConfirmButton name="Cerca"></ConfirmButton>
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

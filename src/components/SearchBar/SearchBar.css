@@ -1,0 +1,15 @@
+form label{
+    color:rgb(9, 73, 36);
+    font-weight: bold;
+    margin-right: 20px;
+}
+.search-text{
+    color: black;
+    background-color: aliceblue;
+    border: solid 1px rgba(0, 128, 0, 0.274);
+    box-shadow: 4px 4px 15px rgba(4, 65, 19, 0.452);
+    width: 40%;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 20px 0px;
+}

@@ -1,0 +1,19 @@
+.confirm-button {
+  padding: 5px;
+  width: 200px;
+  font-size: 1.2rem;
+  margin: auto;
+  background-color: rgb(224, 233, 225);
+  border-radius: 5px;
+  border:none;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  color: rgb(6, 68, 27);
+  transition: ease-in 0.3s;
+
+  &:hover {
+    cursor:pointer;
+    color: aliceblue;
+    background-color: rgb(5, 56, 39);
+  }
+}
