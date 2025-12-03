@@ -3,7 +3,13 @@ import { useState } from "react";
 import { SearchBar } from "./components/SearchBar/SearchBar";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [searchRecipe, setSearchRecipe] = useState("");
+  const [select,setSelect] = useState("")
+  function handleSearch(rec,sec) {
+    setSelect(sec)
+    setSearchRecipe(rec);
+    console.log("Hai cercato:", rec,sec);
+  }
 
   return (
     <>
@@ -13,7 +19,7 @@ function App() {
           <span className="box">Box</span>
           <p>🌱 Scopri ricette vegetariane deliziose</p>
         </div>
-        <SearchBar></SearchBar>
+        <SearchBar onSearch={handleSearch} onScelta={handleSearch}></SearchBar>
       </div>
     </>
   );
