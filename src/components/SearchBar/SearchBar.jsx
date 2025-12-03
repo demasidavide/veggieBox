@@ -17,7 +17,8 @@ export function SearchBar() {
           className="search-text"
           type="text"
           placeholder="Cerca una ricetta"
-        ></input>
+        ></input><br></br>
+        <input type="submit" value="Cerca"></input>
       </form>
     </>
   );
