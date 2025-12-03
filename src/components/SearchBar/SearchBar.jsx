@@ -1,25 +1,23 @@
 import { useState } from "react";
 import "./SearchBar.css";
+import { searchName } from "../../api/searchName";
 
 export function SearchBar({ onSearch, onScelta }) {
   const [input, setInput] = useState("");
   const [scelta,setScelta] = useState("")
 
-function handleScelta(e){
-  setScelta(e.target.value)
-}
-
   function handleSubmit(e) {
     e.preventDefault();
     onSearch(input);
     onScelta(scelta);
+    call();
   }
 
   return (
     <>
       <form className="search" onSubmit={handleSubmit}>
         <label>
-          <input type="radio" name={scelta} value="Vegetariano" onChange={(e)=> setScelta(e.target.value)}/>
+          <input type="radio" name={scelta} value="Vegetariano" onChange={(e)=> setScelta(e.target.value)} defaultChecked/>
           Vegetariano
         </label>
         <label>
