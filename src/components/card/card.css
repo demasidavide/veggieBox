@@ -1,0 +1,73 @@
+.card-style-2 {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            width: 320px;
+            transition: border-color 0.3s;
+        }
+
+        .card-style-2:hover {
+            border-color: #ff6b6b;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .card-description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .buttons-style-2 {
+            display: flex;
+            gap: 10px;
+        }
+
+        .buttons-style-2 .btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .buttons-style-2 .btn-view {
+            background: #ff6b6b;
+            color: white;
+            border: 2px solid #ff6b6b;
+        }
+
+        .buttons-style-2 .btn-view:hover {
+            background: #ff5252;
+            border-color: #ff5252;
+        }
+
+        .buttons-style-2 .btn-save {
+            background: transparent;
+            color: #ff6b6b;
+            border: 2px solid #ff6b6b;
+        }
+
+        .buttons-style-2 .btn-save:hover {
+            background: #ff6b6b;
+            color: white;
+        }
