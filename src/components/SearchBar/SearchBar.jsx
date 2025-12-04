@@ -6,6 +6,7 @@ import icon from "../../assets/icons-filter.png";
 export function SearchBar({ onSearch }) {
   const [input, setInput] = useState("");
   const [scelta, setScelta] = useState("");
+  const [filter, setFilter] = useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -38,7 +39,28 @@ export function SearchBar({ onSearch }) {
           />
           Vegano
         </label>
-        <button type="button" className="button-filter"><img src={icon}></img></button>
+        <button
+          type="button"
+          className="button-filter"
+          onClick={() => {
+            setFilter(!filter);
+          }}
+        >
+          <img src={icon}></img>
+        </button>
+        {/* div per filtri */}
+        {filter && (
+          <div className={"container-filter"}>
+            <label>
+            <input type="checkbox" value="Mostra calorie"></input>
+            Mostra calorie
+            </label>
+            <label>
+            <input type="checkbox" value="Cerca per ingredienti"></input>
+            Cerca per ingredienti
+            </label>
+          </div> 
+        )}
         <br></br>
         <input
           className="search-text"
