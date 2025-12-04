@@ -1,19 +1,17 @@
 import "./card.css";
 
-export function CreateCard(id,img,title,descr) {
+export function Card({id,img,title}) {
+  console.log(`-card-ricevute ${id}${img}${title}`)
   return (
     <>
       <div className="card-style-2">
         <img
           src={img}
-          alt="Tiramisù"
+          alt={title || "immagine non disp"}
           className="card-image"
         />
         <div className="card-content">
           <h3 className="card-title">{title}</h3>
-          <p className="card-description">
-            {descr}
-          </p>
           <div className="buttons-style-2">
             <button className="btn btn-view">Vedi Ricetta</button>
             <button className="btn btn-save">Salva</button>
