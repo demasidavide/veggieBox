@@ -6,6 +6,7 @@ import { SearchBar } from "./components/SearchBar/SearchBar";
 import { searchName } from "./api/searchName";
 import { Card } from "./components/card/card";
 import cibo from "./assets/cibo.jpg";
+import { Modal } from "./components/modal/Modal";
 
 function App() {
   const [recipes, setRecipes] = useState([]);
@@ -16,7 +17,7 @@ function App() {
   const handleErrorSearch = ()=>{
     if(recipes.length === 0){
       setErrorSearch("Errorrreeeee")
-    }else{
+    }else{     
       setErrorSearch("")
     }
   }
@@ -47,6 +48,7 @@ function App() {
         </div>
         <SearchBar onSearch={handleSearch}></SearchBar>
       </div>
+      <Modal></Modal>
       <div className="container-card">
           {/* prova a mano per api finite */}
           <div className="card-style-2">
