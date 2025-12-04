@@ -7,15 +7,13 @@ export async function searchName(query,diet) {
     const response = await axios.get(`${apiBase}`, {
       params: {
         query: query,
-        number: 3,
+        number: 10,
         apiKey: apiKey,
         diet:diet
       }
     });
     return response.data;
-    if(!response.data.results || response.data.results === 0){
-      
-    }
+   
   } catch (e) {
     console.log(e);
     alert('Attenzione chiamata api non riuscita-searchName-')

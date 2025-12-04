@@ -27,3 +27,12 @@
   font-size: 1.3rem;
   letter-spacing: 1px;
 }
+.container-card{
+  margin-top: 40px;
+  display: grid;
+  text-align: left;
+  justify-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(310px,1fr));
+  gap: 20px;
+  padding: 20px;
+}

@@ -24,7 +24,7 @@ function App() {
     <>
       {/* parte Redux */}
       {/* <Provider store={store}>
-        <div className="App">
+        < className="App">
           {/* Qui possono essere aggiunti altri componenti che usano Redux */}
       {/* </div>
       </Provider>  */}
@@ -37,6 +37,8 @@ function App() {
           <p>🌱 Scopri ricette vegetariane deliziose</p>
         </div>
         <SearchBar onSearch={handleSearch}></SearchBar>
+        </div>
+        <div className="container-card">
         {console.log("App-log ricette:", recipes)}
         {recipes.length > 0 ?(
           recipes.map((recipe)=>(
@@ -49,6 +51,7 @@ function App() {
       ))
       ):(<h2>Attenzione Ricetta non trovata</h2>)}
       </div>
+      
     </>
   );
 }
