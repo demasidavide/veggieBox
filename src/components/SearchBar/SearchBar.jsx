@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./SearchBar.css";
 import { searchName } from "../../api/searchName";
+import icon from "../../assets/icons-filter.png";
 
 export function SearchBar({ onSearch }) {
   const [input, setInput] = useState("");
@@ -37,6 +38,7 @@ export function SearchBar({ onSearch }) {
           />
           Vegano
         </label>
+        <button type="button" className="button-filter"><img src={icon}></img></button>
         <br></br>
         <input
           className="search-text"
