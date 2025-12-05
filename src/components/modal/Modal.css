@@ -11,10 +11,14 @@
 .close {
   border-radius: 10px;
   cursor: pointer;
+  background-color: transparent;
+  width: 50px;
+  height: 50px;
+  padding: 0;
 }
 .close img {
   border-radius: 10px;
-  width: 55px;
+  width: fit-content;
   height: 55px;
   transition: all 0.3s;
   &:hover {

@@ -17,10 +17,22 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [showCalories, setShowCalories] = useState(false);
 
+  //gestione apertura e chiusura modale-----------
+  const handleShowModal= ()=>{
+    console.log(showModal)
+    if(!showModal){
+       setShowModal(true)
+      console.log(showModal)
+    }else{
+      setShowModal(false)
+    }
+  }
+
+
   // gestione per mostrare calorie nelle card-----
   const handleCaloriesChange = (value) => {
-    setShowCalories(value);
     console.log("valore cal", showCalories);
+    setShowCalories(value);
   };
   //--------------------------------------------
   // gestione errore ricerca da definire
@@ -62,14 +74,7 @@ function App() {
 
   return (
     <>
-      {/* parte Redux */}
-      {/* <Provider store={store}>
-        < className="App">
-          {/* Qui possono essere aggiunti altri componenti che usano Redux */}
-      {/* </div>
-      </Provider>  */}
-
-      {/* Pagina */}
+      
       <ListButton></ListButton>
       <div className="container-search">
         <div className="container-logo">
@@ -84,20 +89,12 @@ function App() {
       </div>
 
       <div className="container-card">
-        {/* prova a mano per api finite */}
-        {/* <div className="card-style-2">
-          <img src={cibo} alt="immagine non disp" className="card-image" />
-          <div className="card-content">
-            <h3 className="card-title">titolo</h3>
-            <p style={{color:"black"}}>500 kcal</p>
-            <div className="buttons-style-2">
-              <button className="btn btn-view">Vedi Ricetta</button>
-              <button className="btn btn-save">Salva</button>
-            </div>
-          </div>
-        </div> */}
+       { showModal && (
+        <Modal
+        onClose={()=>{setShowModal(false);}}
+        ></Modal>
+       )}
 
-        {/* {console.log("App-log ricette:", recipes)} */}
         {recipes.length > 0
           ? recipes.map((recipe) => (
               <Card
@@ -105,7 +102,9 @@ function App() {
                 id={recipe.id || "id non disp"}
                 img={recipe.image || "img non disp"}
                 title={recipe.title || "titolo non disp"}
-                kcal={recipe.nutrition.nutrient || "non trovato"}
+                showCalories={showCalories}
+                kcal={recipe.nutrition.nutrients.find(n=>n.name === "Calories").amount || "non trovato"}
+                viewRecipe={handleShowModal}
               ></Card>
             ))
           : errorSearch && <h2 style={{ color: "green" }}>{errorSearch}</h2>}

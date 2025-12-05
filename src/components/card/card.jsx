@@ -1,6 +1,6 @@
 import "./card.css";
 
-export function Card({id,img,title,kcal}) {
+export function Card({id,img,title,kcal,showCalories,viewRecipe}) {
   console.log(`-card-ricevute ${id}${img}${title}`)
   return (
     <>
@@ -12,9 +12,10 @@ export function Card({id,img,title,kcal}) {
         />
         <div className="card-content">
           <h3 className="card-title">{title}</h3>
-          <p>{kcal}</p>
+          {showCalories &&
+          <p>{kcal} Kcal</p>}
           <div className="buttons-style-2">
-            <button className="btn btn-view">Vedi Ricetta</button>
+            <button className="btn btn-view" onClick={viewRecipe}>Vedi Ricetta</button>
             <button className="btn btn-save">Salva</button>
           </div>
         </div>

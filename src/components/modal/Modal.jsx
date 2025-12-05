@@ -3,22 +3,20 @@ import cibo from "../../assets/cibo.jpg";
 import close from "../../assets/icon-close.png";
 import { useState } from "react";
 
-export function Modal(isOpen, onClose) {
-
-  if(!isOpen) return null;
-    
+export function Modal({onClose}) {
   return (
     <>
-    { isOpen && (
       <div className="container-modal">
-        <a href="" className="close" onClick={onClose}><img src={close}></img></a>
+        <button className="close" onClick={onClose}>
+          <img src={close}></img>
+        </button>
         <div className="container-title">
           <img src={cibo}></img>
           <h1>titolo</h1>
         </div>
         <hr></hr>
         <div className="container-ingredients">
-            <h3>Ingredienti</h3>
+          <h3>Ingredienti</h3>
           <ul>
             <li>uova</li>
             <li>farina</li>
@@ -29,7 +27,7 @@ export function Modal(isOpen, onClose) {
         </div>
         <hr></hr>
         <div className="container-prep">
-        <h3>Preparazione</h3>
+          <h3>Preparazione</h3>
           <p>
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis
             quisquam ab eligendi quaerat quis beatae libero saepe illo, corrupti
@@ -46,7 +44,6 @@ export function Modal(isOpen, onClose) {
           </p>
         </div>
       </div>
-    )}
     </>
   );
 }
