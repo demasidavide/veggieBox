@@ -22,6 +22,9 @@
 .card-style-2 .card-content {
   padding: 20px;
 }
+.card-style-2 .card-content p{
+  color: black;
+}
 
 .card-style-2 .card-content .card-title {
   font-size: 22px;

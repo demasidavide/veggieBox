@@ -27,4 +27,8 @@ button {
   margin: 0;
   color: rgb(223, 130, 102);
   font-weight: bold;
+  border: solid;
+  padding: 5px;
+  border-radius: 8px;
+  margin-top: 2px;
 }

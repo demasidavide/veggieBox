@@ -2,7 +2,7 @@ import axios from "axios";
 
 const apiBase = "https://api.spoonacular.com/recipes/complexSearch";
 const apiKey = import.meta.env.VITE_API_KEY;
-export async function searchName(query,diet) {
+export async function SearchName(query,diet) {
   try {
     const response = await axios.get(`${apiBase}`, {
       params: {

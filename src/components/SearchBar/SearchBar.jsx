@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./SearchBar.css";
-import { searchName } from "../../api/searchName";
+import { SearchName } from "../../api/searchName";
 import icon from "../../assets/icons-filter.png";
 
 export function SearchBar({ onSearch, onCalories }) {

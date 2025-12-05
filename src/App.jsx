@@ -1,9 +1,10 @@
 import "./App.css";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
-import { use, useActionState, useState } from "react";
+import { use, useActionState, useState, useEffect } from "react";
 import { SearchBar } from "./components/SearchBar/SearchBar";
-import { searchName } from "./api/searchName";
+import { SearchName } from "./api/searchName";
+import { SearchIngredients } from "./api/searchIngredients";
 import { Card } from "./components/card/card";
 import cibo from "./assets/cibo.jpg";
 import { Modal } from "./components/modal/Modal";
@@ -20,12 +21,23 @@ function App() {
   // gestione per mostrare calorie nelle card
   const handleCaloriesChange = (value) => {
     setShowCalories(value);
+    console.log("valore cal", showCalories);
   };
 
   // gestione errore ricerca da definire
+  // useEffect(() => {
+  //   if (recipes.length === 0) {
+  //     console.log("errore trovato");
+  //     setErrorSearch("Errorrreeeee");
+  //   } else {
+  //     setErrorSearch("");
+  //   }
+  // }, [recipes]);
+
   const handleErrorSearch = () => {
     if (recipes.length === 0) {
-      setErrorSearch("Errorrreeeee");
+      console.log("errore trovato");
+      setErrorSearch("Nessuna ricetta trovata");
     } else {
       setErrorSearch("");
     }
@@ -36,9 +48,16 @@ function App() {
     setSelect(searchData.input);
     setSearchRecipe(searchData.scelta);
     console.log("Hai cercato:", searchData.input, searchData.scelta);
-    const data = await searchName(searchData.input, searchData.scelta);
-    console.log(data.results);
-    setRecipes(data.results);
+    if (!searchData.ingredients) {
+      const data = await SearchName(searchData.input, searchData.scelta);
+      console.log(data.results);
+      setRecipes(data.results);
+      handleErrorSearch();
+    } else {
+      const data = await SearchIngredients(searchData.input);
+      console.log("chiamata 2", data.results);
+      setRecipes(data.results);
+    }
   }
   // -----------------------------------
 
@@ -79,20 +98,18 @@ function App() {
           </div>
         </div> */}
 
-        {console.log("App-log ricette:", recipes)}
-        {recipes.length > 0 ? (
-          recipes.map((recipe) => (
-            <Card
-              key={recipe.id}
-              id={recipe.id || "id non disp"}
-              img={recipe.image || "img non disp"}
-              title={recipe.title || "titolo non disp"}
-              kcal={recipe.nutricion || "non trovato"}
-            ></Card>
-          ))
-        ) : (
-          <h2 style={{ color: "green" }}>{handleErrorSearch}</h2>
-        )}
+        {/* {console.log("App-log ricette:", recipes)} */}
+        {recipes.length > 0
+          ? recipes.map((recipe) => (
+              <Card
+                key={recipe.id}
+                id={recipe.id || "id non disp"}
+                img={recipe.image || "img non disp"}
+                title={recipe.title || "titolo non disp"}
+                kcal={recipe.nutrition.nutrient || "non trovato"}
+              ></Card>
+            ))
+          : errorSearch && <h2 style={{ color: "green" }}>{errorSearch}</h2>}
       </div>
     </>
   );
