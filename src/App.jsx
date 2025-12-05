@@ -1,6 +1,5 @@
 import "./App.css";
-import { Provider } from "react-redux";
-import { store } from "./store/store";
+import mockData from "./mocks/recipesData.json";
 import { use, useActionState, useState, useEffect } from "react";
 import { SearchBar } from "./components/SearchBar/SearchBar";
 import { SearchName } from "./api/searchName";
@@ -18,22 +17,13 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [showCalories, setShowCalories] = useState(false);
 
-  // gestione per mostrare calorie nelle card
+  // gestione per mostrare calorie nelle card-----
   const handleCaloriesChange = (value) => {
     setShowCalories(value);
     console.log("valore cal", showCalories);
   };
-
+  //--------------------------------------------
   // gestione errore ricerca da definire
-  // useEffect(() => {
-  //   if (recipes.length === 0) {
-  //     console.log("errore trovato");
-  //     setErrorSearch("Errorrreeeee");
-  //   } else {
-  //     setErrorSearch("");
-  //   }
-  // }, [recipes]);
-
   const handleErrorSearch = () => {
     if (recipes.length === 0) {
       console.log("errore trovato");
@@ -45,9 +35,18 @@ function App() {
   //------------------------------------
   // gestione ricerca ricette da barra di ricerca
   async function handleSearch(searchData) {
+    //-----------test per api--------pasta---------
+    const useMock = import.meta.env.VITE_USE_MOCK === "true";
+    if (useMock) {
+      console.log("🔧 Modalità test: usando dati mock");
+      setRecipes(mockData.results);
+      return;
+    }
+//fine test per api pasta------------------------------
     setSelect(searchData.input);
     setSearchRecipe(searchData.scelta);
     console.log("Hai cercato:", searchData.input, searchData.scelta);
+
     if (!searchData.ingredients) {
       const data = await SearchName(searchData.input, searchData.scelta);
       console.log(data.results);
