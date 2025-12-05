@@ -9,13 +9,19 @@ export async function searchName(query,diet) {
         query: query,
         number: 10,
         apiKey: apiKey,
-        diet:diet
+        diet:diet,
+        addRecipeNutrition:true
       }
+
     });
+    console.log(response.status)
+    
     return response.data;
-   
   } catch (e) {
     console.log(e);
+    if(e.response.status === 402){
+     alert("abbonamento scaduto")
+    }
     alert('Attenzione chiamata api non riuscita-searchName-')
   }
 }

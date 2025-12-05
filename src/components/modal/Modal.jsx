@@ -1,12 +1,17 @@
 import "./Modal.css";
 import cibo from "../../assets/cibo.jpg";
 import close from "../../assets/icon-close.png";
+import { useState } from "react";
 
-export function Modal(id) {
+export function Modal(isOpen, onClose) {
+
+  if(!isOpen) return null;
+    
   return (
     <>
+    { isOpen && (
       <div className="container-modal">
-        <a href="" className="close"><img src={close}></img></a>
+        <a href="" className="close" onClick={onClose}><img src={close}></img></a>
         <div className="container-title">
           <img src={cibo}></img>
           <h1>titolo</h1>
@@ -41,6 +46,7 @@ export function Modal(id) {
           </p>
         </div>
       </div>
+    )}
     </>
   );
 }
