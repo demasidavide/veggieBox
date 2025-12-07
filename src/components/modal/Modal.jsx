@@ -1,9 +1,19 @@
 import "./Modal.css";
 import cibo from "../../assets/cibo.jpg";
 import close from "../../assets/icon-close.png";
-import { useState } from "react";
+import { use, useEffect } from "react";
 
 export function Modal({onClose}) {
+
+  useEffect(()=>{
+    document.body.style.overflow = 'hidden';
+
+    return()=>{
+      document.body.style.overflow = 'unset';
+    }
+  },[]);
+
+
   return (
     <>
       <div className="container-modal">
@@ -29,6 +39,54 @@ export function Modal({onClose}) {
         <div className="container-prep">
           <h3>Preparazione</h3>
           <p>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis
+            quisquam ab eligendi quaerat quis beatae libero saepe illo, corrupti
+            repellendus aut sequi officiis natus soluta sed asperiores, eius
+            dicta porro quod ducimus perspiciatis quos. Voluptate veniam fugit
+            rem iste distinctio quaerat, ullam exercitationem tenetur
+            necessitatibus at ad magni excepturi quibusdam obcaecati alias
+            inventore atque corrupti commodi vitae repellendus! Ipsa quaerat
+            magni aliquam possimus veniam! Consectetur quam, aliquid saepe quod
+            earum quaerat totam consequatur debitis laborum quia doloribus,
+            delectus hic eaque. Quisquam optio, quidem impedit accusantium
+            eveniet et ipsa. Eaque vero veritatis ipsa quidem voluptatem soluta
+            ab excepturi nostrum pariatur molestias.
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis
+            quisquam ab eligendi quaerat quis beatae libero saepe illo, corrupti
+            repellendus aut sequi officiis natus soluta sed asperiores, eius
+            dicta porro quod ducimus perspiciatis quos. Voluptate veniam fugit
+            rem iste distinctio quaerat, ullam exercitationem tenetur
+            necessitatibus at ad magni excepturi quibusdam obcaecati alias
+            inventore atque corrupti commodi vitae repellendus! Ipsa quaerat
+            magni aliquam possimus veniam! Consectetur quam, aliquid saepe quod
+            earum quaerat totam consequatur debitis laborum quia doloribus,
+            delectus hic eaque. Quisquam optio, quidem impedit accusantium
+            eveniet et ipsa. Eaque vero veritatis ipsa quidem voluptatem soluta
+            ab excepturi nostrum pariatur molestias.
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis
+            quisquam ab eligendi quaerat quis beatae libero saepe illo, corrupti
+            repellendus aut sequi officiis natus soluta sed asperiores, eius
+            dicta porro quod ducimus perspiciatis quos. Voluptate veniam fugit
+            rem iste distinctio quaerat, ullam exercitationem tenetur
+            necessitatibus at ad magni excepturi quibusdam obcaecati alias
+            inventore atque corrupti commodi vitae repellendus! Ipsa quaerat
+            magni aliquam possimus veniam! Consectetur quam, aliquid saepe quod
+            earum quaerat totam consequatur debitis laborum quia doloribus,
+            delectus hic eaque. Quisquam optio, quidem impedit accusantium
+            eveniet et ipsa. Eaque vero veritatis ipsa quidem voluptatem soluta
+            ab excepturi nostrum pariatur molestias.
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis
+            quisquam ab eligendi quaerat quis beatae libero saepe illo, corrupti
+            repellendus aut sequi officiis natus soluta sed asperiores, eius
+            dicta porro quod ducimus perspiciatis quos. Voluptate veniam fugit
+            rem iste distinctio quaerat, ullam exercitationem tenetur
+            necessitatibus at ad magni excepturi quibusdam obcaecati alias
+            inventore atque corrupti commodi vitae repellendus! Ipsa quaerat
+            magni aliquam possimus veniam! Consectetur quam, aliquid saepe quod
+            earum quaerat totam consequatur debitis laborum quia doloribus,
+            delectus hic eaque. Quisquam optio, quidem impedit accusantium
+            eveniet et ipsa. Eaque vero veritatis ipsa quidem voluptatem soluta
+            ab excepturi nostrum pariatur molestias.
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis
             quisquam ab eligendi quaerat quis beatae libero saepe illo, corrupti
             repellendus aut sequi officiis natus soluta sed asperiores, eius

@@ -75,7 +75,7 @@ function App() {
   return (
     <>
       
-      <ListButton></ListButton>
+    <ListButton></ListButton>
       <div className="container-search">
         <div className="container-logo">
           <span className="veggie">Veggie</span>
@@ -88,12 +88,12 @@ function App() {
         ></SearchBar>
       </div>
 
-      <div className="container-card">
        { showModal && (
         <Modal
         onClose={()=>{setShowModal(false);}}
         ></Modal>
        )}
+      <div className="container-card">
 
         {recipes.length > 0
           ? recipes.map((recipe) => (
