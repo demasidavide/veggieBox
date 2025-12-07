@@ -8,6 +8,7 @@ import { Card } from "./components/card/card";
 import cibo from "./assets/cibo.jpg";
 import { Modal } from "./components/modal/Modal";
 import { ListButton } from "./components/button/lista/listButton";
+import { SearchRecipe } from "./api/searchRecipe";
 
 function App() {
   const [recipes, setRecipes] = useState([]);
@@ -18,16 +19,18 @@ function App() {
   const [showCalories, setShowCalories] = useState(false);
 
   //gestione apertura e chiusura modale-----------
-  const handleShowModal= ()=>{
-    console.log(showModal)
-    if(!showModal){
-       setShowModal(true)
-      console.log(showModal)
-    }else{
-      setShowModal(false)
+  const handleShowModal = async (id) => {
+    if (!showModal) {
+      //setShowModal(true);
+      const data =  await SearchRecipe(id);
+      console.log('dettagli ricetta:')
+      console.log(id)
+      console.log(data.id)
+      console.log(JSON.stringify(data,null,2));
+    } else {
+      setShowModal(false);
     }
-  }
-
+  };
 
   // gestione per mostrare calorie nelle card-----
   const handleCaloriesChange = (value) => {
@@ -48,13 +51,13 @@ function App() {
   // gestione ricerca ricette da barra di ricerca
   async function handleSearch(searchData) {
     //-----------test per api--------pasta---------
-    const useMock = import.meta.env.VITE_USE_MOCK === "true";
+    const useMock = import.meta.env.VITE_USE_MOCK === "false";
     if (useMock) {
       console.log("🔧 Modalità test: usando dati mock");
       setRecipes(mockData.results);
       return;
     }
-//fine test per api pasta------------------------------
+    //fine test per api pasta------------------------------
     setSelect(searchData.input);
     setSearchRecipe(searchData.scelta);
     console.log("Hai cercato:", searchData.input, searchData.scelta);
@@ -74,8 +77,7 @@ function App() {
 
   return (
     <>
-      
-    <ListButton></ListButton>
+      <ListButton></ListButton>
       <div className="container-search">
         <div className="container-logo">
           <span className="veggie">Veggie</span>
@@ -88,13 +90,14 @@ function App() {
         ></SearchBar>
       </div>
 
-       { showModal && (
+      {showModal && (
         <Modal
-        onClose={()=>{setShowModal(false);}}
+          onClose={() => {
+            setShowModal(false);
+          }}
         ></Modal>
-       )}
+      )}
       <div className="container-card">
-
         {recipes.length > 0
           ? recipes.map((recipe) => (
               <Card
@@ -103,8 +106,11 @@ function App() {
                 img={recipe.image || "img non disp"}
                 title={recipe.title || "titolo non disp"}
                 showCalories={showCalories}
-                kcal={recipe.nutrition.nutrients.find(n=>n.name === "Calories").amount || "non trovato"}
-                viewRecipe={handleShowModal}
+                kcal={
+                  recipe.nutrition.nutrients.find((n) => n.name === "Calories")
+                    .amount || "non trovato"
+                }
+                viewRecipe={() => handleShowModal(recipe.id)}
               ></Card>
             ))
           : errorSearch && <h2 style={{ color: "green" }}>{errorSearch}</h2>}

@@ -3,7 +3,7 @@ import cibo from "../../assets/cibo.jpg";
 import close from "../../assets/icon-close.png";
 import { use, useEffect } from "react";
 
-export function Modal({onClose}) {
+export function Modal({onClose,recipe}) {
 
   useEffect(()=>{
     document.body.style.overflow = 'hidden';
@@ -21,8 +21,8 @@ export function Modal({onClose}) {
           <img src={close}></img>
         </button>
         <div className="container-title">
-          <img src={cibo}></img>
-          <h1>titolo</h1>
+          <img src={recipe.image}></img>
+          <h1>{recipe.title}</h1>
         </div>
         <hr></hr>
         <div className="container-ingredients">
