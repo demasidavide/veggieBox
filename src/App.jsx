@@ -12,7 +12,8 @@ import { SearchRecipe } from "./api/searchRecipe";
 
 function App() {
   const [recipes, setRecipes] = useState([]);
-  const [searchRecipe, setSearchRecipe] = useState("");
+  const [searchRecipe, setSearchRecipe] = useState("vegetarian");
+  const [onlyIngredients, setOnlyIngredients] = useState(false);
   const [select, setSelect] = useState("");
   const [errorSearch, setErrorSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -67,17 +68,21 @@ function App() {
     //fine test per api pasta------------------------------
     setSelect(searchData.input);
     setSearchRecipe(searchData.scelta);
+    setOnlyIngredients(searchData.ingredients)
     console.log("Hai cercato:", searchData.input, searchData.scelta);
 
-    if (!searchData.ingredients) {
+    if (!onlyIngredients) {
       const data = await SearchName(searchData.input, searchData.scelta);
-      console.log(data.results);
+      console.log("hai cercato per nome",data.results);
       setRecipes(data.results);
       handleErrorSearch();
     } else {
       const data = await SearchIngredients(searchData.input);
-      console.log("chiamata 2", data.results);
-      setRecipes(data.results);
+      console.log("primo check",data)
+      console.log("secondo check",data.length)
+      console.log("hai cercato per ingredienti:", data);
+      setRecipes(data);
+      handleErrorSearch();
     }
   }
   // -----------------------------------
@@ -116,9 +121,10 @@ function App() {
                 title={recipe.title || "titolo non disp"}
                 showCalories={showCalories}
                 kcal={
+                  !onlyIngredients ? (
                   (recipe.nutrition.nutrients.find((n) => n.name === "Calories")
                     .amount/recipe.servings).toFixed(1) || "non trovato"
-                }
+          ):("Non disponibile")}
                 viewRecipe={() => handleShowModal(recipe.id)}
               ></Card>
             ))

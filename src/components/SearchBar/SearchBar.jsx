@@ -5,7 +5,7 @@ import icon from "../../assets/icons-filter.png";
 
 export function SearchBar({ onSearch, onCalories }) {
   const [input, setInput] = useState("");
-  const [scelta, setScelta] = useState("");
+  const [scelta, setScelta] = useState("vegetarian");
   const [filter, setFilter] = useState(false);
   const [calories, setCalories] = useState(false);
   const [ingredients, setIngredients] = useState(false);
@@ -29,6 +29,7 @@ export function SearchBar({ onSearch, onCalories }) {
       calories: calories,
       ingredients: ingredients,
     };
+    console.log("controllo", searchData)
     onSearch(searchData);
   }
   // ------------------------------
@@ -38,8 +39,8 @@ export function SearchBar({ onSearch, onCalories }) {
         <label>
           <input
             type="radio"
-            name={scelta}
-            value="Vegetariano"
+            name="diet"
+            value="vegetarian"
             onChange={(e) => setScelta(e.target.value)}
             defaultChecked
           />
@@ -48,8 +49,8 @@ export function SearchBar({ onSearch, onCalories }) {
         <label>
           <input
             type="radio"
-            name={scelta}
-            value="Vegano"
+            name="diet"
+            value="vegan"
             onChange={(e) => setScelta(e.target.value)}
           />
           Vegano

@@ -42,11 +42,11 @@ export function Modal({ onClose, recipe, loading }) {
               {recipe.nutrition?.nutrients && (
                 <p>
                   Calorie:{" "}
-                  {
-                    (recipe.nutrition.nutrients.find(
+                  {(
+                    recipe.nutrition.nutrients.find(
                       (n) => n.name === "Calories"
-                    )?.amount / recipe.servings).toFixed(1)
-                  }{" "}
+                    )?.amount / recipe.servings
+                  ).toFixed(1)}{" "}
                   kcal per persona
                 </p>
               )}
