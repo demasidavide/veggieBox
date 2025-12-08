@@ -5,14 +5,15 @@ import { SearchBar } from "./components/SearchBar/SearchBar";
 import { SearchName } from "./api/searchName";
 import { SearchIngredients } from "./api/searchIngredients";
 import { Card } from "./components/card/card";
-import cibo from "./assets/cibo.jpg";
 import { Modal } from "./components/modal/Modal";
 import { ListButton } from "./components/button/lista/listButton";
 import { SearchRecipe } from "./api/searchRecipe";
+import { ButtonMore } from "./components/button/loadMore/loadMore";
 
 function App() {
   const [recipes, setRecipes] = useState([]);
   const [searchRecipe, setSearchRecipe] = useState("vegetarian");
+  const [offset, Setoffset] = useState(0);
   const [onlyIngredients, setOnlyIngredients] = useState(false);
   const [select, setSelect] = useState("");
   const [errorSearch, setErrorSearch] = useState("");
