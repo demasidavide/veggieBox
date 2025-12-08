@@ -1,106 +1,71 @@
 import "./Modal.css";
 import cibo from "../../assets/cibo.jpg";
 import close from "../../assets/icon-close.png";
-import { use, useEffect } from "react";
+import { useEffect } from "react";
 
-export function Modal({onClose,recipe}) {
+export function Modal({ onClose, recipe, loading }) {
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
 
-  useEffect(()=>{
-    document.body.style.overflow = 'hidden';
-
-    return()=>{
-      document.body.style.overflow = 'unset';
-    }
-  },[]);
-
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, []);
 
   return (
     <>
       <div className="container-modal">
         <button className="close" onClick={onClose}>
-          <img src={close}></img>
+          <img src={close} alt="chiudi"></img>
         </button>
-        <div className="container-title">
-          <img src={recipe.image}></img>
-          <h1>{recipe.title}</h1>
-        </div>
-        <hr></hr>
-        <div className="container-ingredients">
-          <h3>Ingredienti</h3>
-          <ul>
-            <li>uova</li>
-            <li>farina</li>
-            <li>acqua</li>
-            <li>olio</li>
-          </ul>
-          <p>calorie: 300kcal</p>
-        </div>
-        <hr></hr>
-        <div className="container-prep">
-          <h3>Preparazione</h3>
-          <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis
-            quisquam ab eligendi quaerat quis beatae libero saepe illo, corrupti
-            repellendus aut sequi officiis natus soluta sed asperiores, eius
-            dicta porro quod ducimus perspiciatis quos. Voluptate veniam fugit
-            rem iste distinctio quaerat, ullam exercitationem tenetur
-            necessitatibus at ad magni excepturi quibusdam obcaecati alias
-            inventore atque corrupti commodi vitae repellendus! Ipsa quaerat
-            magni aliquam possimus veniam! Consectetur quam, aliquid saepe quod
-            earum quaerat totam consequatur debitis laborum quia doloribus,
-            delectus hic eaque. Quisquam optio, quidem impedit accusantium
-            eveniet et ipsa. Eaque vero veritatis ipsa quidem voluptatem soluta
-            ab excepturi nostrum pariatur molestias.
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis
-            quisquam ab eligendi quaerat quis beatae libero saepe illo, corrupti
-            repellendus aut sequi officiis natus soluta sed asperiores, eius
-            dicta porro quod ducimus perspiciatis quos. Voluptate veniam fugit
-            rem iste distinctio quaerat, ullam exercitationem tenetur
-            necessitatibus at ad magni excepturi quibusdam obcaecati alias
-            inventore atque corrupti commodi vitae repellendus! Ipsa quaerat
-            magni aliquam possimus veniam! Consectetur quam, aliquid saepe quod
-            earum quaerat totam consequatur debitis laborum quia doloribus,
-            delectus hic eaque. Quisquam optio, quidem impedit accusantium
-            eveniet et ipsa. Eaque vero veritatis ipsa quidem voluptatem soluta
-            ab excepturi nostrum pariatur molestias.
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis
-            quisquam ab eligendi quaerat quis beatae libero saepe illo, corrupti
-            repellendus aut sequi officiis natus soluta sed asperiores, eius
-            dicta porro quod ducimus perspiciatis quos. Voluptate veniam fugit
-            rem iste distinctio quaerat, ullam exercitationem tenetur
-            necessitatibus at ad magni excepturi quibusdam obcaecati alias
-            inventore atque corrupti commodi vitae repellendus! Ipsa quaerat
-            magni aliquam possimus veniam! Consectetur quam, aliquid saepe quod
-            earum quaerat totam consequatur debitis laborum quia doloribus,
-            delectus hic eaque. Quisquam optio, quidem impedit accusantium
-            eveniet et ipsa. Eaque vero veritatis ipsa quidem voluptatem soluta
-            ab excepturi nostrum pariatur molestias.
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis
-            quisquam ab eligendi quaerat quis beatae libero saepe illo, corrupti
-            repellendus aut sequi officiis natus soluta sed asperiores, eius
-            dicta porro quod ducimus perspiciatis quos. Voluptate veniam fugit
-            rem iste distinctio quaerat, ullam exercitationem tenetur
-            necessitatibus at ad magni excepturi quibusdam obcaecati alias
-            inventore atque corrupti commodi vitae repellendus! Ipsa quaerat
-            magni aliquam possimus veniam! Consectetur quam, aliquid saepe quod
-            earum quaerat totam consequatur debitis laborum quia doloribus,
-            delectus hic eaque. Quisquam optio, quidem impedit accusantium
-            eveniet et ipsa. Eaque vero veritatis ipsa quidem voluptatem soluta
-            ab excepturi nostrum pariatur molestias.
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis
-            quisquam ab eligendi quaerat quis beatae libero saepe illo, corrupti
-            repellendus aut sequi officiis natus soluta sed asperiores, eius
-            dicta porro quod ducimus perspiciatis quos. Voluptate veniam fugit
-            rem iste distinctio quaerat, ullam exercitationem tenetur
-            necessitatibus at ad magni excepturi quibusdam obcaecati alias
-            inventore atque corrupti commodi vitae repellendus! Ipsa quaerat
-            magni aliquam possimus veniam! Consectetur quam, aliquid saepe quod
-            earum quaerat totam consequatur debitis laborum quia doloribus,
-            delectus hic eaque. Quisquam optio, quidem impedit accusantium
-            eveniet et ipsa. Eaque vero veritatis ipsa quidem voluptatem soluta
-            ab excepturi nostrum pariatur molestias.
-          </p>
-        </div>
+        {loading ? (
+          <div className="loading">Caricamento...</div>
+        ) : recipe ? (
+          <>
+            <div className="container-title">
+              <img
+                src={recipe.image || cibo}
+                alt={recipe.title || "titolo"}
+              ></img>
+              <h1>{recipe.title}</h1>
+            </div>
+            <hr></hr>
+            <div className="container-ingredients">
+              <h5>Tempo di Preparazione: {recipe.readyInMinutes}'</h5>
+              <p>Ricetta per: {recipe.servings} pers.</p>
+              <h3>Ingredienti</h3>
+              <ul>
+                {recipe.extendedIngredients?.map((ing) => (
+                  <li key={ing.id}>{ing.original}</li>
+                ))}
+              </ul>
+              {recipe.nutrition?.nutrients && (
+                <p>
+                  Calorie:{" "}
+                  {
+                    (recipe.nutrition.nutrients.find(
+                      (n) => n.name === "Calories"
+                    )?.amount / recipe.servings).toFixed(1)
+                  }{" "}
+                  kcal per persona
+                </p>
+              )}
+            </div>
+            <hr></hr>
+            <div className="container-prep">
+              <h3>Preparazione</h3>
+              {recipe.instructions ? (
+                <div
+                  dangerouslySetInnerHTML={{ __html: recipe.instructions }}
+                ></div>
+              ) : (
+                <p>Istruzioni non disponibili</p>
+              )}
+            </div>
+          </>
+        ) : (
+          <div>Errore nel caricamento</div>
+        )}
       </div>
     </>
   );

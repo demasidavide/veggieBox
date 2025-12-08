@@ -13,7 +13,7 @@ export function Card({id,img,title,kcal,showCalories,viewRecipe}) {
         <div className="card-content">
           <h3 className="card-title">{title}</h3>
           {showCalories &&
-          <p>{kcal} Kcal</p>}
+          <p>{kcal} Kcal pers.</p>}
           <div className="buttons-style-2">
             <button className="btn btn-view" onClick={viewRecipe}>Vedi Ricetta</button>
             <button className="btn btn-save">Salva</button>

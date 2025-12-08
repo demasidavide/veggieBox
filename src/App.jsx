@@ -17,16 +17,23 @@ function App() {
   const [errorSearch, setErrorSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [showCalories, setShowCalories] = useState(false);
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [loadingDetails, setLoadingDetails] = useState(false);
 
   //gestione apertura e chiusura modale-----------
   const handleShowModal = async (id) => {
     if (!showModal) {
-      //setShowModal(true);
-      const data =  await SearchRecipe(id);
-      console.log('dettagli ricetta:')
-      console.log(id)
-      console.log(data.id)
-      console.log(JSON.stringify(data,null,2));
+      setShowModal(true);
+      setLoadingDetails(true);
+      try{
+      const data = await SearchRecipe(id);
+      console.log("dettagli ricetta:", data);
+      setSelectedRecipe(data);
+      }catch(e){
+        console.log("errore ricetta-app-:",e)
+      }finally{
+        setLoadingDetails(false);
+      }
     } else {
       setShowModal(false);
     }
@@ -95,6 +102,8 @@ function App() {
           onClose={() => {
             setShowModal(false);
           }}
+          recipe={selectedRecipe}
+          loading={loadingDetails}
         ></Modal>
       )}
       <div className="container-card">
@@ -107,8 +116,8 @@ function App() {
                 title={recipe.title || "titolo non disp"}
                 showCalories={showCalories}
                 kcal={
-                  recipe.nutrition.nutrients.find((n) => n.name === "Calories")
-                    .amount || "non trovato"
+                  (recipe.nutrition.nutrients.find((n) => n.name === "Calories")
+                    .amount/recipe.servings).toFixed(1) || "non trovato"
                 }
                 viewRecipe={() => handleShowModal(recipe.id)}
               ></Card>
