@@ -60,6 +60,15 @@ function Home() {
   //------------------------------------
   // gestione ricerca ricette da barra di ricerca
   async function handleSearch(searchData) {
+  //controllo ricerca vuota------------------------
+  if(!searchData.input || searchData.input.trim()===""){
+    setErrorSearch("Inserisci qualcosa da cercare");
+    setTimeout(()=>setErrorSearch(""),3000);
+    setRecipes([]);
+    setSelect("");
+    Setoffset(0);
+    return;
+  }
     //-----------test per api--------pasta---------
     const useMock = import.meta.env.VITE_USE_MOCK === "false";
     if (useMock) {
@@ -71,7 +80,6 @@ function Home() {
     setSelect(searchData.input);
     setSearchRecipe(searchData.scelta);
     setOnlyIngredients(searchData.ingredients);
-    setRecipes([]);
     setSelect("");
     Setoffset(0);
     console.log("Hai cercato:", searchData.input, searchData.scelta, offset);
