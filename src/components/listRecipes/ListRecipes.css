@@ -1,16 +1,4 @@
-.container-list {
-  max-width: fit-content;
-  min-width: 350px;
-  color: rgb(16, 85, 9);
-  margin-left: 1%;
-  border-right: solid 3px green;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 1.3rem;
-}
+
 .container-list ul {
     color: black;
     font-weight: 500;

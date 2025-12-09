@@ -1,0 +1,82 @@
+.card-ing {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px;
+  width: fit-content;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, white 0%, aliceblue 100%);
+  border-radius: 12px;
+  border-left: 5px solid green;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.card-ing:hover {
+  transform: translateX(8px);
+  box-shadow: 0 5px 20px black;
+  border-left-color: yellow;
+  cursor: pointer;
+}
+
+.card-ing .name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: black;
+  flex: 1;
+}
+
+.card-ing .number {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: rgb(226, 235, 225);
+  background: rgb(67, 141, 44);
+  padding: 8px 16px;
+  border-radius: 50%;
+  min-width: 50px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.card-ing:hover .number {
+  background: rgb(199, 199, 41);
+  transform: scale(1.1);
+  color: black;
+}
+/*-------------------------- parte per card selected --------------------------*/
+.card-ing.selected {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px;
+  width: fit-content;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, white 0%, aliceblue 100%);
+  border-radius: 12px;
+  border-left: 5px solid rgb(128, 30, 0);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  &:hover{
+    cursor: pointer;
+  }
+}
+.card-ing.selected .name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.349);
+  flex: 1;
+}
+
+.card-ing.selected .number {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: rgba(11, 128, 0, 0.411);
+  background: rgba(192, 192, 35, 0.37);
+  padding: 8px 16px;
+  border-radius: 50%;
+  min-width: 50px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(253, 216, 53, 0.3);
+  transition: all 0.3s ease;
+}
+
