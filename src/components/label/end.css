@@ -1,0 +1,14 @@
+.end{
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.end label{
+    background-color: aliceblue;
+    padding: 15px;
+    color: #ff6b6b;
+font-weight: bold;
+border-radius: 10px;
+border: solid 2px #ff6b6b;
+
+}
