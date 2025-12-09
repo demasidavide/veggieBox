@@ -8,23 +8,50 @@ export function ListRecipes() {
         Ricette selezionate
         <ul>
           <li>
-            ricetta pasta
-            <button>
-              <img src={close}></img>
-            </button>
+            <button>X</button>
+            ricetta pasta 
+            <select className="number">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
           </li>
-          <li>ricetta riso<button>
-              <img src={close}></img>
-            </button></li>
-          <li>ricetta pomodoro<button>
-              <img src={close}></img>
-            </button></li>
-          <li>ricetta carne<button>
-              <img src={close}></img>
-            </button></li>
-          <li>ricetta torta<button>
-              <img src={close}></img>
-            </button></li>
+          <li>
+            <button>X</button>
+            ricetta riso
+             <select className="number">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select> 
+          </li>
+          <li>
+            <button>X</button>
+            ricetta pomodoro
+             <select className="number">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select> 
+          </li>
+          <li>
+            <button>X</button>
+            ricetta carne
+             <select className="number">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select> 
+          </li>
+          <li>
+            <button>X</button>
+            ricetta torta
+             <select className="number">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select> 
+          </li>
         </ul>
       </div>
     </>

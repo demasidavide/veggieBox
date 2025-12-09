@@ -1,9 +1,20 @@
-.container-list {
-  animation: slideIn 0.5s ease-in-out;
-  color: black;
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
-.container-list ul li {
-  color: black;
+
+.container-main {
+    display: flex;
+  position: relative;
+  align-items: flex-start;
+  justify-content: flex-start;
+  top: -140px;
+  width: 100%;
+  height: 100%;
+  animation: slideIn 0.5s ease-in-out;
 }
 
 @keyframes slideIn {

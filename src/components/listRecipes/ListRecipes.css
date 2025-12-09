@@ -1,0 +1,40 @@
+.container-list {
+  max-width: fit-content;
+  min-width: 350px;
+  color: rgb(16, 85, 9);
+  margin-left: 1%;
+  border-right: solid 3px green;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+.container-list ul {
+    color: black;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-right: 15%;
+    text-decoration: none;
+}
+.container-list ul li {
+    margin-top: 10px;
+    list-style: none;
+}
+
+.container-list ul li button {
+  background-color: rgb(209, 94, 94);
+  padding: 3px 8px 3px 8px;
+  margin-right: 10px;
+}
+.number{
+margin-left: 10px;
+background-color: aliceblue;
+color: rgb(85, 73, 9);
+border-radius: 5px;
+padding: 5px;
+}
