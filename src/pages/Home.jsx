@@ -71,19 +71,18 @@ function Home() {
     setSelect(searchData.input);
     setSearchRecipe(searchData.scelta);
     setOnlyIngredients(searchData.ingredients);
-    console.log("Hai cercato:", searchData.input, searchData.scelta);
+    setRecipes([]);
+    setSelect("");
+    Setoffset(0);
+    console.log("Hai cercato:", searchData.input, searchData.scelta, offset);
 
     if (!onlyIngredients) {
-      const data = await SearchName(
-        searchData.input,
-        searchData.scelta,
-        offset
-      );
+      const data = await SearchName(searchData.input, searchData.scelta, 0);
       console.log("hai cercato per nome", data.results);
       setRecipes(data.results);
       handleErrorSearch();
     } else {
-      const data = await SearchIngredients(searchData.input, offset);
+      const data = await SearchIngredients(searchData.input, 0);
       console.log("primo check", data);
       console.log("secondo check", data.length);
       console.log("hai cercato per ingredienti:", data);
@@ -98,7 +97,7 @@ function Home() {
       const data = await SearchName(select, searchRecipe, newOffset);
       setRecipes([...recipes, ...data.results]);
     } else {
-      const data = await SearchIngredients(searchData.input, offset);
+      const data = await SearchIngredients(select, newOffset);
       setRecipes([...recipes, ...data]);
     }
     Setoffset(newOffset);
@@ -150,12 +149,10 @@ function Home() {
               ></Card>
             ))
           : errorSearch && <h2 style={{ color: "green" }}>{errorSearch}</h2>}
-
-        {recipes.length >= 10 ? (
+        {recipes.length > 0 && recipes.length >= 10 && (
           <ButtonMore load={loadMore}></ButtonMore>
-        ) : (
-          <EndLabel></EndLabel>
         )}
+        {recipes.length > 0 && recipes.length < 10 && <EndLabel></EndLabel>}
       </div>
     </>
   );

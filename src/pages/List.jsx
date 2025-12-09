@@ -3,7 +3,7 @@ import "./List.css";
 export default function List() {
   return (
     <>
-      <div>
+      <div className="container-list">
         dffsdfgsdgfdsf
         <ul>
           <li>ciao </li>
