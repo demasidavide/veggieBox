@@ -1,9 +1,9 @@
 import "./loadMore.css"
 
-export function ButtonMore(){
+export function ButtonMore({load}){
     return(
         <>
-        <button className ="more" type="button">More</button>
+        <button className ="more" type="button" onClick={load}>More</button>
         
         </>
     )

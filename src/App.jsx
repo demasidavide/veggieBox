@@ -9,6 +9,7 @@ import { Modal } from "./components/modal/Modal";
 import { ListButton } from "./components/button/lista/listButton";
 import { SearchRecipe } from "./api/searchRecipe";
 import { ButtonMore } from "./components/button/loadMore/loadMore";
+import { EndLabel } from "./components/label/end";
 
 function App() {
   const [recipes, setRecipes] = useState([]);
@@ -73,20 +74,34 @@ function App() {
     console.log("Hai cercato:", searchData.input, searchData.scelta);
 
     if (!onlyIngredients) {
-      const data = await SearchName(searchData.input, searchData.scelta);
+      const data = await SearchName(searchData.input, searchData.scelta, offset);
       console.log("hai cercato per nome",data.results);
       setRecipes(data.results);
       handleErrorSearch();
+      
     } else {
-      const data = await SearchIngredients(searchData.input);
-      console.log("primo check",data)
+      const data = await SearchIngredients(searchData.input, offset);
+      console.log("primo check",data) 
       console.log("secondo check",data.length)
       console.log("hai cercato per ingredienti:", data);
       setRecipes(data);
       handleErrorSearch();
-    }
+      
+    }  
   }
   // -----------------------------------
+  const loadMore = async ()=>{
+    const newOffset = offset+10;
+    if (!onlyIngredients) {
+      const data = await SearchName(select, searchRecipe, newOffset)
+    setRecipes([...recipes, ...data.results]);
+  } else {
+      const data = await SearchIngredients(searchData.input, offset);
+    setRecipes([...recipes, ...data]);
+  }
+  Setoffset(newOffset);
+  }
+
 
   return (
     <>
@@ -128,9 +143,16 @@ function App() {
           ):("Non disponibile")}
                 viewRecipe={() => handleShowModal(recipe.id)}
               ></Card>
+              
             ))
           : errorSearch && <h2 style={{ color: "green" }}>{errorSearch}</h2>}
+
+          {recipes.length >= 10  ? (
+          <ButtonMore load={loadMore}></ButtonMore>
+): ( <EndLabel></EndLabel> )}
       </div>
+
+      
     </>
   );
 }

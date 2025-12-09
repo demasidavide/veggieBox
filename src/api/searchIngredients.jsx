@@ -3,12 +3,13 @@ import axios from "axios";
 const apiBase = "https://api.spoonacular.com/recipes/findByIngredients";
 const apiKey = import.meta.env.VITE_API_KEY;
 
-export async function SearchIngredients(ingredients) {
+export async function SearchIngredients(ingredients, offset = 0) {
   try {
     const response = await axios.get(apiBase, {
       params: {
         ingredients: ingredients,
         number: 10,
+        offset:offset,
         ranking: 1,
         apiKey: apiKey,
         ignorePantry: true,
