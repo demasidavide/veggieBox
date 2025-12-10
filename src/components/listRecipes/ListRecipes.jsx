@@ -1,56 +1,21 @@
 import "./ListRecipes.css";
-import close from "../../assets/icon-close.png";
 
-export function ListRecipes() {
+export function ListRecipes({ onClose, title, id, key,servings }) {
   return (
     <>
       <div className="container-list">
         Ricette selezionate
         <ul>
           <li>
-            <button>X</button>
-            ricetta pasta 
+            <button onClick={onClose}>X</button>
+            {title}
             <select className="number">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
+              {Array.from({ length: servings }, (_, i) => (
+                <option key={i + 1} value={i + 1} selected>
+                  {i + 1} /pers
+                </option>
+              ))}
             </select>
-          </li>
-          <li>
-            <button>X</button>
-            ricetta riso
-             <select className="number">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-            </select> 
-          </li>
-          <li>
-            <button>X</button>
-            ricetta pomodoro
-             <select className="number">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-            </select> 
-          </li>
-          <li>
-            <button>X</button>
-            ricetta carne
-             <select className="number">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-            </select> 
-          </li>
-          <li>
-            <button>X</button>
-            ricetta torta
-             <select className="number">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-            </select> 
           </li>
         </ul>
       </div>

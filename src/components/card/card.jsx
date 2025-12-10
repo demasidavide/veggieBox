@@ -1,6 +1,6 @@
 import "./card.css";
 
-export function Card({id,img,title,kcal,showCalories,viewRecipe}) {
+export function Card({id,img,title,kcal,showCalories,viewRecipe,onSave,recipe}) {
   console.log(`-card-ricevute ${id}${img}${title}`)
   return (
     <>
@@ -16,7 +16,7 @@ export function Card({id,img,title,kcal,showCalories,viewRecipe}) {
           <p>{kcal} Kcal pers.</p>}
           <div className="buttons-style-2">
             <button className="btn btn-view" onClick={viewRecipe}>Vedi Ricetta</button>
-            <button className="btn btn-save">Salva</button>
+            <button className="btn btn-save" onClick={() => onSave(recipe)}>Salva</button>
           </div>
         </div>
       </div>

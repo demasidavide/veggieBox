@@ -10,6 +10,7 @@ import { ListButton } from "../components/button/lista/listButton";
 import { SearchRecipe } from "../api/searchRecipe";
 import { ButtonMore } from "../components/button/loadMore/loadMore";
 import { EndLabel } from "../components/label/end";
+import { useSavedRecipes } from "../context/RecipeContext";
 
 function Home() {
   const [recipes, setRecipes] = useState([]);
@@ -22,6 +23,19 @@ function Home() {
   const [showCalories, setShowCalories] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [loadingDetails, setLoadingDetails] = useState(false);
+  const { addRecipe } = useSavedRecipes();
+
+  //salvataggio ricette in context------------------
+  const handleSave = (recipe) => {
+    console.log("---",recipe.nutrition.ingredients)
+    addRecipe({
+      id: recipe.id,
+      title: recipe.title,
+      servings: recipe.servings,
+      ingredients: recipe.nutrition.ingredients,
+    });
+  };
+  //------------------------------------------------
 
   //gestione apertura e chiusura modale-----------
   const handleShowModal = async (id) => {
@@ -41,6 +55,7 @@ function Home() {
       setShowModal(false);
     }
   };
+  //------------------------------------------------
 
   // gestione per mostrare calorie nelle card-----
   const handleCaloriesChange = (value) => {
@@ -48,7 +63,8 @@ function Home() {
     setShowCalories(value);
   };
   //--------------------------------------------
-  // gestione errore ricerca da definire
+
+  // gestione errore ricerca da definire---------
   const handleErrorSearch = () => {
     if (recipes.length === 0) {
       console.log("errore trovato");
@@ -57,18 +73,19 @@ function Home() {
       setErrorSearch("");
     }
   };
-  //------------------------------------
+  //-----------------------------------------------
+
   // gestione ricerca ricette da barra di ricerca
   async function handleSearch(searchData) {
-  //controllo ricerca vuota------------------------
-  if(!searchData.input || searchData.input.trim()===""){
-    setErrorSearch("Inserisci qualcosa da cercare");
-    setTimeout(()=>setErrorSearch(""),3000);
-    setRecipes([]);
-    setSelect("");
-    Setoffset(0);
-    return;
-  }
+    //controllo ricerca vuota------------------------
+    if (!searchData.input || searchData.input.trim() === "") {
+      setErrorSearch("Inserisci qualcosa da cercare");
+      setTimeout(() => setErrorSearch(""), 3000);
+      setRecipes([]);
+      setSelect("");
+      Setoffset(0);
+      return;
+    }
     //-----------test per api--------pasta---------
     const useMock = import.meta.env.VITE_USE_MOCK === "false";
     if (useMock) {
@@ -99,6 +116,8 @@ function Home() {
     }
   }
   // -----------------------------------
+
+  //funzione pulsante per caricare altre card--------
   const loadMore = async () => {
     const newOffset = offset + 10;
     if (!onlyIngredients) {
@@ -110,7 +129,7 @@ function Home() {
     }
     Setoffset(newOffset);
   };
-
+  //-----------------------------------------------------
   return (
     <>
       <ListButton></ListButton>
@@ -141,6 +160,7 @@ function Home() {
               <Card
                 key={recipe.id}
                 id={recipe.id || "id non disp"}
+                recipe={recipe}
                 img={recipe.image || "img non disp"}
                 title={recipe.title || "titolo non disp"}
                 showCalories={showCalories}
@@ -154,6 +174,7 @@ function Home() {
                     : "Non disponibile"
                 }
                 viewRecipe={() => handleShowModal(recipe.id)}
+                onSave={handleSave}
               ></Card>
             ))
           : errorSearch && <h2 style={{ color: "green" }}>{errorSearch}</h2>}
