@@ -1,9 +1,15 @@
 import "./CardIng.css";
+import { useState } from "react";
 
-export function CardIng({ing,qta,id,key,unit}) {
+export function CardIng({ ing, qta, id, key, unit }) {
+  const [selected, setSelected] = useState(false);
+
   return (
     <>
-      <div className="card-ing">
+      <div
+        className={selected ? "card-ing selected" : "card-ing"}
+        onClick={()=>setSelected(!selected)}
+      >
         <span className="name">{ing}</span>
         <span className="number">{qta}</span>
         <p>{unit}</p>

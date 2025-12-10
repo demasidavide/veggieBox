@@ -132,6 +132,7 @@ function Home() {
   //-----------------------------------------------------
   return (
     <>
+    <div className="wrap">  
       <ListButton></ListButton>
       <div className="container-search">
         <div className="container-logo">
@@ -183,6 +184,7 @@ function Home() {
         {recipes.length > 0 && recipes.length >= 10 && (
           <ButtonMore load={loadMore}></ButtonMore>
         )}
+        </div>
     </>
   );
 }

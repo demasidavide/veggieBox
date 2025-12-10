@@ -8,6 +8,7 @@
   top: 20px;
   border-radius: 10px;
   background-color: rgba(240, 248, 255, 0.637);
+  animation: slideOut 0.8s ease-in-out;
 }
 button {
   padding-left: 15px;
@@ -37,5 +38,15 @@ button {
   &:hover{
     background-color: aliceblue;
     cursor: context-menu;
+  }
+}
+@keyframes slideOut {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
   }
 }

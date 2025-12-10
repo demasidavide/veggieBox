@@ -1,13 +1,14 @@
 
 .container-list {
-    color: rgb(131, 57, 57);
+    color: #8B6F47;
     font-weight: 500;
     font-size: 1.1rem;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-start;
-    text-decoration: none;
+    margin-right: 20px;
+   
 }
 
 .container-list button {

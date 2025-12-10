@@ -5,16 +5,16 @@
   padding: 18px 20px;
   width: fit-content;
   margin-bottom: 12px;
-  background: linear-gradient(135deg, white 0%, aliceblue 100%);
+  background: #9CAF88;
   border-radius: 12px;
-  border-left: 5px solid green;
+  border-left: 5px solid #6b7e61;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
 }
 
 .card-ing:hover {
-  transform: translateX(8px);
-  box-shadow: 0 5px 20px black;
+  transform: translateY(-8px);
+  box-shadow: 0 5px 20px #8B6F47;
   border-left-color: yellow;
   cursor: pointer;
 }
@@ -22,15 +22,16 @@
 .card-ing .name {
   font-size: 1.2rem;
   font-weight: 600;
-  color: black;
+  color: #3D3D3D;
   flex: 1;
+  margin-right: 5px;
 }
 
 .card-ing .number {
   font-size: 1.5rem;
   font-weight: bold;
-  color: rgb(226, 235, 225);
-  background: rgb(67, 141, 44);
+  color: #8B6F47;
+  background: #FFFFFF;
   padding: 8px 16px;
   border-radius: 50%;
   min-width: 50px;
@@ -40,7 +41,6 @@
 
 .card-ing:hover .number {
   background: rgb(199, 199, 41);
-  transform: scale(1.1);
   color: black;
 }
 /*-------------------------- parte per card selected --------------------------*/
@@ -58,6 +58,8 @@
   transition: all 0.3s ease;
   &:hover{
     cursor: pointer;
+      transform: translateY(0px);
+
   }
 }
 .card-ing.selected .name {

@@ -2,17 +2,18 @@
   height: 100%;
   width: 100%;
 }
-body{
+
+.wrap{
   background: radial-gradient(circle, white 50%, rgb(167, 243, 167) 100%);
-  
+  min-height: 100vh;
 }
 .container-search {
   display: flex;
   flex-direction: column;
   text-align: center;
   justify-content: center;
-    animation: slideOut 0.5s ease-in-out;
-
+  animation: slideOut 0.5s ease-in-out;
+  
 }
 .container-logo {
   font-size: 72px;
@@ -44,10 +45,10 @@ body{
 @keyframes slideOut {
   from {
     opacity: 0;
-    transform: translateX(-100px);
+    transform: translateX(0px);
   }
   to {
     opacity: 1;
-    transform: translateX(0px);
+    transform: translateX(100px);
   }
 }

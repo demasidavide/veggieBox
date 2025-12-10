@@ -17,7 +17,7 @@ export default function List() {
     <div className="container-main">
         <div className="container-recipes">
           {savedRecipes.length === 0 ? (
-            <p>Nessuna ricetta salvata</p>
+            <p style={{marginRight:"20px"}}>Nessuna ricetta salvata</p>
           ) : (
             savedRecipes.map((recipe) => (
               <ListRecipes
@@ -34,7 +34,7 @@ export default function List() {
           <h2 className="title">Lista ingredienti totali</h2>
           <div className="container-card-ing">
             {ingredientsList.length === 0 ? (
-              <p>Nessun ingrediente</p>
+              <p>Nessun ingrediente da mostrare</p>
             ) : (
               ingredientsList.map((ing) => (
                 <CardIng

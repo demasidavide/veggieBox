@@ -4,13 +4,13 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: aliceblue;
+  background-color: #f5f1e8;
 }
-.home{
-  margin:20px 20px;
+.home {
+  margin: 20px 20px;
 }
 .container-main {
-    display: flex;
+  display: flex;
   position: relative;
   align-items: flex-start;
   justify-content: flex-start;
@@ -19,37 +19,40 @@ body {
   animation: slideIn 0.5s ease-in-out;
   color: black;
 }
-.container-main .container-recipes{
+.container-main .container-recipes {
   max-width: fit-content;
   min-width: 5%;
-  color: rgb(16, 85, 9);
   margin-top: 5%;
   margin-left: 1%;
-  border-right: solid 3px green;
+  border-right: solid 3px #9caf88;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   justify-content: center;
   font-weight: bold;
 }
-.container-main .container-ingredients{
-height: 100%;
-width: 70%;
-margin-left: 0;
+.container-main .container-ingredients {
+  height: 100%;
+  width: 70%;
+  margin-left: 0;
   margin-top: 5%;
-
 }
-.container-main .container-ingredients .title{
-   margin:0 auto;
-   font-family: sans-serif;
+.container-main .container-ingredients .title {
+  margin: 0 auto;
+  color: #8b6f47;
+  font-family: sans-serif;
 }
-.container-main .container-ingredients .container-card-ing{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 10px;
+.container-main p {
+  color: #9caf88;
+}
+.container-main .container-ingredients .container-card-ing {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 10px;
   padding: 20px;
   margin: 0 20px;
 }
+
 @keyframes slideIn {
   from {
     opacity: 0;
