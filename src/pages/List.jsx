@@ -4,7 +4,7 @@ import { CardIng } from "../components/listIngredients/CardIng.jsx";
 import { useSavedRecipes } from "../context/RecipeContext.jsx";
 
 export default function List() {
-  const { savedRecipes, removeRecipe } = useSavedRecipes();
+  const { savedRecipes, removeRecipe, ingredientsList } = useSavedRecipes();
   console.log("List- ric salvate n.", savedRecipes.length, savedRecipes.id);
   return (
     <>
@@ -27,7 +27,19 @@ export default function List() {
         <div className="container-ingredients">
           <h2 className="title">Lista ingredienti totali</h2>
           <div className="container-card-ing">
-            <CardIng></CardIng>
+            {ingredientsList.length === 0 ? (
+              <p>Nessun ingrediente</p>
+            ) : (
+              ingredientsList.map((ing) => (
+                <CardIng
+                  key={ing.id}
+                  id={ing.id}
+                  ing={ing.name}
+                  qta={ing.totalAmount.toFixed(2)}
+                  unit={ing.unit}
+                ></CardIng>
+              ))
+            )}
           </div>
         </div>
       </div>
