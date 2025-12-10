@@ -10,7 +10,7 @@ export function ListButton() {
     <Link to = "/list" >
         <button>Lista ➜ </button>
       </Link>
-        <p>{savedRecipes.length} Elementi</p>
+        <p key={savedRecipes.length}>{savedRecipes.length} Elementi</p>
       </div>
     </>
   );

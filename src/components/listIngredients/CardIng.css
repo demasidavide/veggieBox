@@ -43,6 +43,9 @@
   background: rgb(199, 199, 41);
   color: black;
 }
+.card-ing p{
+  color:#3D3D3D;
+}
 /*-------------------------- parte per card selected --------------------------*/
 .card-ing.selected {
   display: flex;
@@ -80,5 +83,8 @@
   text-align: center;
   box-shadow: 0 2px 8px rgba(253, 216, 53, 0.3);
   transition: all 0.3s ease;
+}
+.card-ing.selected p{
+  color:#3d3d3d80
 }
 
