@@ -7,7 +7,7 @@
   left: 20px;
   top: 20px;
   border-radius: 10px;
-  background-color: rgba(240, 248, 255, 0.637);
+  background-color: transparent;
   animation: slideOut 0.8s ease-in-out;
 }
 button {
@@ -17,7 +17,7 @@ button {
   padding-right: 15px;
   border-radius: 8px;
   border: none;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   background-color: rgb(71, 126, 73);
   cursor: pointer;
   transition: all 0.3s;
@@ -27,6 +27,7 @@ button {
   }
 }
 .container-button p {
+  font-size: 1.2rem;
   margin: 0;
   color:#9CAF88;
   font-weight: bold;
@@ -36,6 +37,7 @@ button {
   margin-top: 2px;
   transition: ease-in-out 0.5s;
   animation: doublePulse 1.9s ease;
+  background-color: aliceblue;
   &:hover{
     background-color: aliceblue;
     cursor: context-menu;
