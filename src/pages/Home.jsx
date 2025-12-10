@@ -178,11 +178,11 @@ function Home() {
               ></Card>
             ))
           : errorSearch && <h2 style={{ color: "green" }}>{errorSearch}</h2>}
+        {recipes.length > 0 && recipes.length < 10 && <EndLabel></EndLabel>}
+      </div>
         {recipes.length > 0 && recipes.length >= 10 && (
           <ButtonMore load={loadMore}></ButtonMore>
         )}
-        {recipes.length > 0 && recipes.length < 10 && <EndLabel></EndLabel>}
-      </div>
     </>
   );
 }

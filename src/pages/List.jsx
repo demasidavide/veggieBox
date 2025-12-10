@@ -2,13 +2,19 @@ import "./List.css";
 import { ListRecipes } from "../components/listRecipes/ListRecipes.jsx";
 import { CardIng } from "../components/listIngredients/CardIng.jsx";
 import { useSavedRecipes } from "../context/RecipeContext.jsx";
+import { ConfirmButton } from "../components/button/confirm/ConfirmButton.jsx";
+import { Link } from 'react-router-dom'
+
 
 export default function List() {
   const { savedRecipes, removeRecipe, ingredientsList } = useSavedRecipes();
   console.log("List- ric salvate n.", savedRecipes.length, savedRecipes.id);
   return (
-    <>
-      <div className="container-main">
+        <>
+        <Link to="/">
+        <button className="home">↩ Home</button>
+        </Link>
+    <div className="container-main">
         <div className="container-recipes">
           {savedRecipes.length === 0 ? (
             <p>Nessuna ricetta salvata</p>

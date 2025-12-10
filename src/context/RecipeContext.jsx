@@ -114,7 +114,7 @@ export function RecipeProvider({ children }) {
     const updatedRecipe = updatedRecipes.find((r) => r.id === recipeId);
     addIngredientsFromRecipe(updatedRecipe);
 
-    console.log("Serving aggiornati per ricetta:", recipeId, "->", newServings);
+    console.log("Serving aggiornati per ricetta:", recipeId, newServings);
   };
 
   //----------------------------------------------------------

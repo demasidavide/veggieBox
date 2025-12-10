@@ -1,28 +1,26 @@
 
-.container-list ul {
-    color: black;
+.container-list {
+    color: rgb(131, 57, 57);
     font-weight: 500;
+    font-size: 1.1rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-right: 15%;
+    justify-content: flex-end;
+    align-items: flex-start;
     text-decoration: none;
 }
-.container-list ul li {
-    margin-top: 10px;
-    list-style: none;
-}
 
-.container-list ul li button {
+.container-list button {
   background-color: rgb(209, 94, 94);
-  padding: 3px 8px 3px 8px;
-  margin-right: 10px;
+  padding: 5px 18px 5px 18px;
+  margin-left: 10%;
 }
-.number{
+.container-list div label select{
 margin-left: 10px;
 background-color: aliceblue;
-color: rgb(85, 73, 9);
+font-weight: 600;
+color: black;
 border-radius: 5px;
 padding: 5px;
+cursor: pointer;
 }
