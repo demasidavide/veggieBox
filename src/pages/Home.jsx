@@ -13,7 +13,7 @@ import { EndLabel } from "../components/label/end";
 import { useSavedRecipes } from "../context/RecipeContext";
 
 function Home() {
-  const [recipes, setRecipes] = useState([]);
+  //const [recipes, setRecipes] = useState([]);
   const [searchRecipe, setSearchRecipe] = useState("vegetarian");
   const [offset, Setoffset] = useState(0);
   const [onlyIngredients, setOnlyIngredients] = useState(false);
@@ -23,7 +23,7 @@ function Home() {
   const [showCalories, setShowCalories] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [loadingDetails, setLoadingDetails] = useState(false);
-  const { addRecipe } = useSavedRecipes();
+  const { addRecipe,searchResults, setSearchResults } = useSavedRecipes();
 
   //salvataggio ricette in context------------------
   const handleSave = (recipe) => {
@@ -37,7 +37,7 @@ function Home() {
   };
   //------------------------------------------------
 
-  //gestione apertura e chiusura modale-----------
+  //gestione apertura e chiusura modale-------------
   const handleShowModal = async (id) => {
     if (!showModal) {
       setShowModal(true);
@@ -55,18 +55,18 @@ function Home() {
       setShowModal(false);
     }
   };
-  //------------------------------------------------
+  //-----------------------------------------------
 
-  // gestione per mostrare calorie nelle card-----
+  // gestione per mostrare calorie nelle card------
   const handleCaloriesChange = (value) => {
     console.log("valore cal", showCalories);
     setShowCalories(value);
   };
-  //--------------------------------------------
+  //-----------------------------------------------
 
-  // gestione errore ricerca da definire---------
+  // gestione errore ricerca da definire-----------
   const handleErrorSearch = () => {
-    if (recipes.length === 0) {
+    if (searchResults.length === 0) {
       setErrorSearch("Nessuna ricetta trovata");
     } else {
       setErrorSearch("");
@@ -80,7 +80,7 @@ function Home() {
     if (!searchData.input || searchData.input.trim() === "") {
       setErrorSearch("Inserisci qualcosa da cercare");
       setTimeout(() => setErrorSearch(""), 3000);
-      setRecipes([]);
+      setSearchResults([]);
       setSelect("");
       Setoffset(0);
       return;
@@ -89,7 +89,7 @@ function Home() {
     const useMock = import.meta.env.VITE_USE_MOCK === "false";
     if (useMock) {
       console.log("🔧 Modalità test: usando dati mock");
-      setRecipes(mockData.results);
+      setSearchResults(mockData.results);
       return;
     }
     //fine test per api pasta------------------------------
@@ -103,14 +103,14 @@ function Home() {
     if (!onlyIngredients) {
       const data = await SearchName(searchData.input, searchData.scelta, 0);
       console.log("hai cercato per nome", data.results);
-      setRecipes(data.results);
+      setSearchResults(data.results);
       handleErrorSearch();
     } else {
       const data = await SearchIngredients(searchData.input, 0);
       console.log("primo check", data);
       console.log("secondo check", data.length);
       console.log("hai cercato per ingredienti:", data);
-      setRecipes(data);
+      setSearchResults(data);
       handleErrorSearch();
     }
   }
@@ -154,8 +154,8 @@ function Home() {
         ></Modal>
       )}
       <div className="container-card">
-        {recipes.length > 0
-          ? recipes.map((recipe) => (
+        {searchResults.length > 0
+          ? searchResults.map((recipe) => (
               <Card
                 key={recipe.id}
                 id={recipe.id || "id non disp"}
@@ -177,9 +177,9 @@ function Home() {
               ></Card>
             ))
           : errorSearch && <h2 style={{ color: "green" }}>{errorSearch}</h2>}
-        {recipes.length > 0 && recipes.length < 10 && <EndLabel></EndLabel>}
+        {searchResults.length > 0 && searchResults.length < 10 && <EndLabel></EndLabel>}
       </div>
-        {recipes.length > 0 && recipes.length >= 10 && (
+        {searchResults.length > 0 && searchResults.length >= 10 && (
           <ButtonMore load={loadMore}></ButtonMore>
         )}
         </div>

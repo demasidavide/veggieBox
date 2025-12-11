@@ -6,6 +6,7 @@ const RecipeContext = createContext();
 export function RecipeProvider({ children }) {
   const [savedRecipes, setSavedRecipes] = useState([]);
   const [ingredientsList, setIngredientsList] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
 
 //funzione per convertire unita di misura in grammi------------
 const convertIngredientsToGrams = async () => {
@@ -142,6 +143,8 @@ const convertIngredientsToGrams = async () => {
     <RecipeContext.Provider
       value={{
         savedRecipes,
+        searchResults,
+        setSearchResults,
         ingredientsList,
         updateServings,
         addRecipe,
