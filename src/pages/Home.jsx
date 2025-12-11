@@ -67,7 +67,6 @@ function Home() {
   // gestione errore ricerca da definire---------
   const handleErrorSearch = () => {
     if (recipes.length === 0) {
-      console.log("errore trovato");
       setErrorSearch("Nessuna ricetta trovata");
     } else {
       setErrorSearch("");
@@ -115,7 +114,7 @@ function Home() {
       handleErrorSearch();
     }
   }
-  // -----------------------------------
+  // ------------------------------------------------
 
   //funzione pulsante per caricare altre card--------
   const loadMore = async () => {
@@ -145,7 +144,6 @@ function Home() {
           onCalories={handleCaloriesChange}
         ></SearchBar>
       </div>
-
       {showModal && (
         <Modal
           onClose={() => {

@@ -1,12 +1,13 @@
 import "./ListRecipes.css";
 import { useSavedRecipes } from "../../context/RecipeContext";
 
-export function ListRecipes({ onClose, title, id, key, servings }) {
+export function ListRecipes({ onClose, title, id, servings }) {
   const { savedRecipes, updateServings, removeRecipe } = useSavedRecipes();
+  const recipe = savedRecipes.find(r => r.id === id);
   return (
     <>
       <div className="container-list">
-        {savedRecipes.map((recipe) => (
+       
           <div key={recipe.id}>
             <h3>{recipe.title}</h3>
             <label>
@@ -27,7 +28,7 @@ export function ListRecipes({ onClose, title, id, key, servings }) {
             <button onClick={() => removeRecipe(recipe.id)}>X</button>
             <hr />
           </div>
-        ))}
+       
       </div>
     </>
   );

@@ -8,7 +8,6 @@ export function RecipeProvider({ children }) {
 
   //funzione per aggiungere ricette alla lista-----------------
   const addRecipe = (recipe) => {
-    // Controlla se la ricetta è già salvata
 
     if (savedRecipes.find((r) => r.id === recipe.id)) {
       console.log("context-Ricetta già salvata");
@@ -16,7 +15,7 @@ export function RecipeProvider({ children }) {
     }
     const newRecipe = {
       ...recipe,
-      selectedServings: recipe.servings, // Serving iniziali = quelli originali
+      selectedServings: recipe.servings 
     };
 
     const updatedRecipes = [...savedRecipes, newRecipe];
@@ -25,7 +24,8 @@ export function RecipeProvider({ children }) {
     // Aggiungi ingredienti alla lista
     addIngredientsFromRecipe(newRecipe);
 
-    console.log("Ricetta salvata:", newRecipe);
+    console.log("HH-new", newRecipe);
+    console.log("HH-sav",savedRecipes)
   };
   //----------------------------------------------------------
 

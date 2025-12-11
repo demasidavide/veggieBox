@@ -56,7 +56,6 @@ button {
 @keyframes doublePulse {
   0%, 100% {
     transform: scale(1);
-    
   }
   15% {
     transform: scale(1.2);
@@ -72,7 +71,5 @@ button {
   }
   60% {
     transform: scale(1);
-
-    
   }
 }
