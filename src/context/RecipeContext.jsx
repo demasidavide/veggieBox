@@ -1,10 +1,33 @@
 import { useState, createContext, useContext } from "react";
+import { ConvertToGrams } from '../api/convertUnit';
 
 const RecipeContext = createContext();
 
 export function RecipeProvider({ children }) {
   const [savedRecipes, setSavedRecipes] = useState([]);
   const [ingredientsList, setIngredientsList] = useState([]);
+
+//funzione per convertire unita di misura in grammi------------
+const convertIngredientsToGrams = async () => {
+  const convertedList = [];
+  
+  for (const ing of ingredientsList) {
+    const gramsAmount = await ConvertToGrams(
+      ing.name,
+      ing.totalAmount,
+      ing.unit
+    );
+    
+    convertedList.push({
+      ...ing,
+      totalAmount: gramsAmount,
+      unit: 'g'
+    });
+  }
+  
+  return convertedList;
+};
+
 
   //funzione per aggiungere ricette alla lista-----------------
   const addRecipe = (recipe) => {

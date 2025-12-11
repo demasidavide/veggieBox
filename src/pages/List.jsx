@@ -4,12 +4,41 @@ import { CardIng } from "../components/listIngredients/CardIng.jsx";
 import { useSavedRecipes } from "../context/RecipeContext.jsx";
 import { ConfirmButton } from "../components/button/confirm/ConfirmButton.jsx";
 import { Link } from 'react-router-dom'
+import { useEffect, useState } from "react";
+import { ConvertToGrams } from "../api/convertUnit.jsx";
 
 
 export default function List() {
   const { savedRecipes, removeRecipe, ingredientsList } = useSavedRecipes();
+  const [convertedIngredients, setConvertedIngredients] = useState([]);
+  const [isConverting, setIsConverting] = useState(false);
   console.log("Numero ricette salvate", savedRecipes.length);
   console.log("Lista ingredienti", ingredientsList);
+
+  //prova funzione conversione in grammi-----------------------------------
+   useEffect(() => {
+    const convertAll = async () => {
+      setIsConverting(true);
+      const converted = [];
+      
+      for (const ing of ingredientsList) {
+        const grams = await ConvertToGrams(ing.name, ing.totalAmount, ing.unit);
+        converted.push({
+          ...ing,
+          totalAmount: grams,
+          unit: 'g'
+        });
+      }
+      
+      setConvertedIngredients(converted);
+      setIsConverting(false);
+    };
+    
+    if (ingredientsList.length > 0) {
+      convertAll();
+    }
+  }, [ingredientsList]);
+
   return (
         <>
         <Link to="/">
@@ -37,14 +66,14 @@ export default function List() {
             {ingredientsList.length === 0 ? (
               <p>Nessun ingrediente da mostrare</p>
             ) : (
-              ingredientsList.map((ing) => (
+              convertedIngredients.map((ing) => (
                 <CardIng
                   key={ing.id}
                   id={ing.id}
                   ing={ing.name}
                   qta={ing.totalAmount.toFixed(2)}
-                  unit={ing.unit}
-                ></CardIng>
+                  unit="g"                
+                  ></CardIng>
               ))
             )}
           </div>
