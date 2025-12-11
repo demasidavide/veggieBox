@@ -79,3 +79,15 @@
   background: #ff6b6b;
   color: white;
 }
+.buttons-style-2 .btn-save.selected {
+  background: transparent;
+  color: #2e2525;
+  border: 2px solid #2e2727ad;
+  
+}
+
+.buttons-style-2 .btn-save.selected:hover {
+  color: rgb(17, 16, 16);
+  transform: translateY(0px);
+  box-shadow: none;
+}

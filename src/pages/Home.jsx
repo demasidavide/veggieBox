@@ -154,6 +154,8 @@ function Home() {
         ></Modal>
       )}
       <div className="container-card">
+        {/* prova card */}
+        
         {searchResults.length > 0
           ? searchResults.map((recipe) => (
               <Card
