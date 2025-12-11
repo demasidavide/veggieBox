@@ -8,7 +8,8 @@ import { Link } from 'react-router-dom'
 
 export default function List() {
   const { savedRecipes, removeRecipe, ingredientsList } = useSavedRecipes();
-  console.log("List- ric salvate n.", savedRecipes.length, savedRecipes.id);
+  console.log("HH", savedRecipes.length);
+  console.log("HH", ingredientsList);
   return (
         <>
         <Link to="/">

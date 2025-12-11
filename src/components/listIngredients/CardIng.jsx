@@ -1,7 +1,7 @@
 import "./CardIng.css";
 import { useState } from "react";
 
-export function CardIng({ ing, qta, id, key, unit }) {
+export function CardIng({ ing, qta, id, unit }) {
   const [selected, setSelected] = useState(false);
 
   return (
