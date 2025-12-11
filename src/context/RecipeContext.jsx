@@ -3,20 +3,18 @@ import { useState, createContext, useContext } from "react";
 const RecipeContext = createContext();
 
 export function RecipeProvider({ children }) {
-
   const [savedRecipes, setSavedRecipes] = useState([]);
   const [ingredientsList, setIngredientsList] = useState([]);
 
   //funzione per aggiungere ricette alla lista-----------------
   const addRecipe = (recipe) => {
-
     if (savedRecipes.find((r) => r.id === recipe.id)) {
       console.log("context-Ricetta già salvata");
       return;
     }
     const newRecipe = {
       ...recipe,
-      selectedServings: recipe.servings 
+      selectedServings: recipe.servings,
     };
 
     const updatedRecipes = [...savedRecipes, newRecipe];
@@ -24,13 +22,12 @@ export function RecipeProvider({ children }) {
 
     // Aggiungi ingredienti alla lista
     addIngredientsFromRecipe(newRecipe);
-
   };
   //----------------------------------------------------------
 
   //funzione per rimuovere elementi dall lista ricette--------
   const removeRecipe = (id) => {
-    const recipe = savedRecipes.find(r=> r.id ===  id);
+    const recipe = savedRecipes.find((r) => r.id === id);
     removeIngredientsFromRecipe(recipe);
     setSavedRecipes(savedRecipes.filter((r) => r.id !== id));
     console.log("HH-context-Ricetta rimossa:", id);

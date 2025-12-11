@@ -166,7 +166,7 @@ function Home() {
                 kcal={
                   !onlyIngredients
                     ? (
-                        recipe.nutrition.nutrients.find(
+                        recipe.nutrition?.nutrients?.find(
                           (n) => n.name === "Calories"
                         ).amount / recipe.servings
                       ).toFixed(1) || "non trovato"
