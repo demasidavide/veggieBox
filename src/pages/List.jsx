@@ -101,10 +101,12 @@ const downloadAsTxt = () => {
         </div>
         <div className="container-ingredients">
           <h2 className="title">Lista ingredienti totali</h2>
+          {ingredientsList.length > 0 ? (
             <div className="buttons-container">
               <button onClick={shareList} className="share-btn">⇧ Condividi</button>
               <button onClick={downloadAsTxt} className="download-btn">⇩ Scarica TXT</button>
             </div>
+          ): ""}
           <div className="container-card-ing">
             {ingredientsList.length === 0 ? (
               <p>Nessun ingrediente da mostrare</p>

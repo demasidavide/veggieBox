@@ -4,6 +4,8 @@
   display: flex;
   margin-top: 20px;
   margin-bottom: 20px;
+  padding-top: 50px;
+  padding-bottom: 100px;
 }
 
 .more {
@@ -13,7 +15,7 @@
   margin: auto;
   background-color: rgb(224, 233, 225);
   border-radius: 5px;
-  border: none;
+  border: solid 2px rgb(6, 68, 27);
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
   text-decoration: none;
   color: rgb(6, 68, 27);

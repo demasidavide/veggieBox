@@ -1,5 +1,6 @@
 import "./card.css";
 import { useState } from "react";
+import { useSavedRecipes } from "../../context/RecipeContext";
 
 export function Card({
   id,
@@ -12,11 +13,14 @@ export function Card({
   recipe,
 }) {
   const [selected, setSelected] = useState(false);
+  const { savedRecipes } = useSavedRecipes();
+
+  const isSaved = savedRecipes.some(r => r.id === id);
 
   console.log(`-card-ricevute ${id}${img}${title}`);
   return (
     <>
-      <div className="card-style-2">
+      <div className={!isSaved ? "card-style-2" : "card-style-2 selected"}>
         <img
           src={img}
           alt={title || "immagine non disp"}
@@ -30,13 +34,13 @@ export function Card({
               Vedi Ricetta
             </button>
             <button
-              className={!selected ? "btn btn-save" : "btn btn-save selected"}
+              className={!isSaved ? "btn btn-save" : "btn btn-save selected"}
               onClick={() => {
                 onSave(recipe);
                 setSelected(!selected);
               }}
             >
-              {!selected ? "Salva" : "Salvato"}
+              {!isSaved ? "Salva" : "Salvato"}
             </button>
           </div>
         </div>
