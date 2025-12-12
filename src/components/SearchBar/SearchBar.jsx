@@ -3,9 +3,10 @@ import "./SearchBar.css";
 import { SearchName } from "../../api/searchName";
 import icon from "../../assets/icons-filter.png";
 import { useSavedRecipes } from "../../context/RecipeContext";
+import { t } from "../../translation/translation";
 
 export function SearchBar({ onSearch, onCalories }) {
-  const { lastSearch } = useSavedRecipes();
+  const { lastSearch, language } = useSavedRecipes();
   const [input, setInput] = useState("");
   const [scelta, setScelta] = useState("vegetarian");
   const [filter, setFilter] = useState(false);
@@ -13,22 +14,21 @@ export function SearchBar({ onSearch, onCalories }) {
   const [ingredients, setIngredients] = useState(false);
   const [placeholder, setPlaceholder] = useState("Cerca una ricetta");
 
-
   useEffect(() => {
-    console.log("SS",lastSearch)
-    setInput(lastSearch.input || '');
-    setScelta(lastSearch.scelta || 'vegetarian');
+    console.log("SS", lastSearch);
+    setInput(lastSearch.input || "");
+    setScelta(lastSearch.scelta || "vegetarian");
     setIngredients(lastSearch.ingredients || false);
   }, [lastSearch]);
 
   // funzione per gestire placeholder in barra di ricerca
   useEffect(() => {
     if (ingredients) {
-      setPlaceholder("Ricerca per ingredienti inserita");
+      setPlaceholder(t("placeholdering", language));
     } else {
-      setPlaceholder("Cerca una ricetta");
+      setPlaceholder(t("placeholdername", language));
     }
-  }, [ingredients]);
+  }, [ingredients, language]);
 
   // funzione per gestire il submit
   function handleSubmit(e) {
@@ -39,7 +39,7 @@ export function SearchBar({ onSearch, onCalories }) {
       calories: calories,
       ingredients: ingredients,
     };
-    console.log("controllo", searchData)
+    console.log("controllo", searchData);
     onSearch(searchData);
   }
   // ------------------------------
@@ -54,7 +54,7 @@ export function SearchBar({ onSearch, onCalories }) {
             onChange={(e) => setScelta(e.target.value)}
             defaultChecked
           />
-          Vegetariano
+          {t("vegetarian", language)}
         </label>
         <label>
           <input
@@ -63,7 +63,7 @@ export function SearchBar({ onSearch, onCalories }) {
             value="vegan"
             onChange={(e) => setScelta(e.target.value)}
           />
-          Vegano
+          {t("vegan", language)}
         </label>
         <button
           type="button"
@@ -86,7 +86,7 @@ export function SearchBar({ onSearch, onCalories }) {
                   setCalories(!calories), onCalories(e.target.checked);
                 }}
               ></input>
-              Mostra calorie
+              {t("showcal", language)}
             </label>
             <label>
               <input
@@ -95,7 +95,7 @@ export function SearchBar({ onSearch, onCalories }) {
                 checked={ingredients}
                 onChange={(e) => setIngredients(!ingredients)}
               ></input>
-              Cerca per ingredienti
+              {t("searchbying", language)}
             </label>
           </div>
         )}
@@ -108,7 +108,7 @@ export function SearchBar({ onSearch, onCalories }) {
           placeholder={placeholder}
         ></input>
         <br></br>
-        <input type="submit" value="Cerca"></input>
+        <input type="submit" value={t("search", language)}></input>
       </form>
     </>
   );

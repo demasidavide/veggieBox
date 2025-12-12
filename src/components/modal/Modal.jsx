@@ -4,6 +4,7 @@ import close from "../../assets/icon-close.png";
 import { useEffect, useState } from "react";
 import { TranslateText } from "../../api/translateText";
 import { useSavedRecipes } from "../../context/RecipeContext";
+import { t } from "../../translation/translation";
 
 export function Modal({ onClose, recipe, loading }) {
   const { language, savedRecipes } = useSavedRecipes();
@@ -83,7 +84,7 @@ export function Modal({ onClose, recipe, loading }) {
           <img src={close} alt="chiudi"></img>
         </button>
         {loading || isTranslating ? (
-          <div className="loading">Caricamento...</div>
+          <div className="loading">{t('loading', language)}</div>
         ) : recipe ? (
           <>
             <div className="container-title">
@@ -95,9 +96,9 @@ export function Modal({ onClose, recipe, loading }) {
             </div>
             <hr></hr>
             <div className="container-ingredients">
-              <h5>Tempo di Preparazione: {recipe.readyInMinutes}'</h5>
-              <p>Ricetta per: {recipe.servings} pers.</p>
-              <h3>Ingredienti</h3>
+              <h5>{t('prepTime', language)} {recipe.readyInMinutes}'</h5>
+              <p>{t('recipeFor', language)}: {recipe.servings} pers.</p>
+              <h3>{t('ingredients', language)}</h3>
               <ul>
                 {recipe.extendedIngredients?.map((ing) => (
                   <li key={ing.id}>{ing.original}</li>
@@ -105,30 +106,30 @@ export function Modal({ onClose, recipe, loading }) {
               </ul>
               {recipe.nutrition?.nutrients && (
                 <p>
-                  Calorie:{" "}
+                  {t('calories', language)}:{" "}
                   {(
                     recipe.nutrition.nutrients.find(
                       (n) => n.name === "Calories"
                     )?.amount / recipe.servings
                   ).toFixed(1)}{" "}
-                  kcal per persona
+                  kcal per pers
                 </p>
               )}
             </div>
             <hr></hr>
             <div className="container-prep">
-              <h3>Preparazione</h3>
+              <h3>{t('prep', language)}</h3>
               {recipe.instructions ? (
                 <div
                   dangerouslySetInnerHTML={{ __html: recipe.instructions }}
                 ></div>
               ) : (
-                <p>Istruzioni non disponibili</p>
+                <p>{t('instNotAvailable', language)}</p>
               )}
             </div>
           </>
         ) : (
-          <div>Errore nel caricamento</div>
+          <div>{t('errorLoading', language)}</div>
         )}
       </div>
     </>

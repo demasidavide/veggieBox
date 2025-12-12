@@ -1,6 +1,7 @@
 import "./card.css";
 import { useState } from "react";
 import { useSavedRecipes } from "../../context/RecipeContext";
+import { t } from "../../translation/translation";
 
 export function Card({
   id,
@@ -35,7 +36,7 @@ export function Card({
           {showCalories && <p>{kcal} Kcal pers.</p>}
           <div className="buttons-style-2">
             <button className="btn btn-view" onClick={viewRecipe}>
-              Vedi Ricetta
+              {t('viewRecipe', language)}
             </button>
             <button
               className={!isSaved ? "btn btn-save" : "btn btn-save selected"}
@@ -44,7 +45,7 @@ export function Card({
                 setSelected(!selected);
               }}
             >
-              {!isSaved ? "Salva" : "Salvato"}
+              {!isSaved ? `${t('save', language)}` : `${t('saved', language)}`}
             </button>
           </div>
         </div>

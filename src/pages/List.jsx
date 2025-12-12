@@ -8,9 +8,10 @@ import { useEffect, useState } from "react";
 import { ConvertToGrams } from "../api/convertUnit.jsx";
 import { Modal } from "../components/modal/Modal.jsx";
 import { SearchRecipe } from "../api/searchRecipe.jsx";
+import { t } from "../translation/translation.jsx";
 
 export default function List() {
-  const { savedRecipes, removeRecipe, ingredientsList } = useSavedRecipes();
+  const { savedRecipes, removeRecipe, ingredientsList, language } = useSavedRecipes();
   const [convertedIngredients, setConvertedIngredients] = useState([]);
   const [isConverting, setIsConverting] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -113,7 +114,7 @@ export default function List() {
       <div className="container-main">
         <div className="container-recipes">
           {savedRecipes.length === 0 ? (
-            <p style={{ marginRight: "20px" }}>Nessuna ricetta salvata</p>
+            <p style={{ marginRight: "20px" }}>{t('noRecipes', language)}</p>
           ) : (
             savedRecipes.map((recipe) => (
               <ListRecipes
@@ -128,14 +129,14 @@ export default function List() {
           )}
         </div>
         <div className="container-ingredients">
-          <h2 className="title">Lista ingredienti totali</h2>
+          <h2 className="title">{t('ingredientsList', language)}</h2>
           {ingredientsList.length > 0 ? (
             <div className="buttons-container">
               <button onClick={shareList} className="share-btn">
-                ⇧ Condividi
+                ⇧ {t('share', language)}
               </button>
               <button onClick={downloadAsTxt} className="download-btn">
-                ⇩ Scarica TXT
+                ⇩ {t('download', language)} TXT
               </button>
             </div>
           ) : (
@@ -143,7 +144,7 @@ export default function List() {
           )}
           <div className="container-card-ing">
             {ingredientsList.length === 0 ? (
-              <p>Nessun ingrediente da mostrare</p>
+              <p>{t('noIngredients', language)}</p>
             ) : (
               convertedIngredients.map((ing) => (
                 <CardIng
