@@ -13,6 +13,8 @@ import { EndLabel } from "../components/label/end";
 import { useSavedRecipes } from "../context/RecipeContext";
 import { TranslateText } from "../api/translateText";
 import { ButtonLang } from "../components/buttonLang/ButtonLang";
+import { t } from "../translation/translation";
+
 
 function Home() {
   //const [recipes, setRecipes] = useState([]);
@@ -107,7 +109,7 @@ function Home() {
     if (!searchData.input || searchData.input.trim() === "") {
       setErrorSearch("Inserisci qualcosa da cercare");
       setTimeout(() => setErrorSearch(""), 3000);
-      setRecipes([]);
+      //setRecipes([]);
       setSearchResults([]);
       setSelect("");
       Setoffset(0);
@@ -135,7 +137,7 @@ function Home() {
       console.log("hai cercato per nome", data.results);
       //traduzione
       const translated = await translateRecipeTitles(data.results);
-      setRecipes(translated);
+      setSearchResults(translated);
       handleErrorSearch();
     } else {
       const data = await SearchIngredients(searchData.input, 0);
@@ -144,7 +146,7 @@ function Home() {
       console.log("hai cercato per ingredienti:", data);
       // Traduci titoli
       const translated = await translateRecipeTitles(data);
-      setRecipes(translated);
+      setSearchResults(translated);
       handleErrorSearch();
     }
   }
@@ -156,11 +158,11 @@ function Home() {
     if (!onlyIngredients) {
       const data = await SearchName(select, searchRecipe, newOffset);
       const translated = await translateRecipeTitles(data.results);
-      setRecipes([...recipes, ...translated]);
+      setSearchResults([...recipes, ...translated]);
     } else {
       const data = await SearchIngredients(select, newOffset);
       const translated = await translateRecipeTitles(data);
-      setRecipes([...recipes, ...translated]);
+      setSearchResults([...recipes, ...translated]);
     }
     Setoffset(newOffset);
   };
@@ -174,7 +176,7 @@ function Home() {
           <div className="container-logo">
             <span className="veggie">Veggie</span>
             <span className="box">Box</span>
-            <p>🌱 Scopri ricette vegetariane deliziose</p>
+            <p>🌱 {t('disct',language)}</p>
           </div>
           <SearchBar
             onSearch={handleSearch}

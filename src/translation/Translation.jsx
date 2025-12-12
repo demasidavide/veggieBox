@@ -18,3 +18,65 @@ export const translationPresets = {
   "Pasta with Tomato-it": "Pasta al pomodoro",
   "Vegetarian Pizza-it": "Pizza vegetariana",
 };
+// Traduzioni interfaccia (per bottoni, testi, ecc.)
+export const translations = {
+  en: {
+    disct: 'Discover delicious vegetarian and vegan recipes',
+    vegetarian: 'Vegetarian',
+    vegan:'Vegan',
+    showcal:'show calories',
+    searchbying:'Search by ingredients',
+    placeholdername:'search for a recipe',
+    placeholdering:'ingredient search entered',
+    save: 'Save',
+    saved: 'Saved',
+    inList: 'In List',
+    add: 'Add',
+    myRecipes: 'My Recipes',
+    ingredientsList: 'Total Ingredients List',
+    servings: 'Servings',
+    viewRecipe: 'View Recipe',
+    search: 'Search',
+    searchPlaceholder: 'Search recipes...',
+    home: 'Home',
+    share: 'Share',
+    download: 'Download',
+    noRecipes: 'No recipes saved',
+    noIngredients: 'No ingredients to show',
+    translating: 'Translating...',
+    loading: 'Loading...',
+    remove: 'Remove',
+  },
+  it: {
+    disct: 'Scopri ricette vegetariane e vegane deliziose',
+    vegetarian: 'Vegetariano',
+    vegan:'Vegano',
+    showcal:'Mostra le calorie',
+    searchbying:'Cerca per ingredienti',
+    placeholdername:'Cerca una ricetta',
+    placeholdering:'Ricerca per ingredienti inserita',
+    save: 'Salva',
+    saved: 'Salvata',
+    inList: 'In Lista',
+    add: 'Aggiungi',
+    myRecipes: 'Le mie ricette',
+    ingredientsList: 'Lista ingredienti totali',
+    servings: 'Porzioni',
+    viewRecipe: 'Vedi Ricetta',
+    search: 'Cerca',
+    searchPlaceholder: 'Cerca ricette...',
+    home: 'Home',
+    share: 'Condividi',
+    download: 'Scarica',
+    noRecipes: 'Nessuna ricetta salvata',
+    noIngredients: 'Nessun ingrediente da mostrare',
+    translating: 'Traduzione in corso...',
+    loading: 'Caricamento...',
+    remove: 'Rimuovi',
+  }
+};
+
+// Helper function per ottenere traduzioni
+export const t = (key, language) => {
+  return translations[language]?.[key] || key;
+};
