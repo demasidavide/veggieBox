@@ -11,6 +11,8 @@ import { SearchRecipe } from "../api/searchRecipe";
 import { ButtonMore } from "../components/button/loadMore/loadMore";
 import { EndLabel } from "../components/label/end";
 import { useSavedRecipes } from "../context/RecipeContext";
+import { TranslateText } from "../api/translateText";
+import { ButtonLang } from "../components/buttonLang/ButtonLang";
 
 function Home() {
   //const [recipes, setRecipes] = useState([]);
@@ -23,11 +25,35 @@ function Home() {
   const [showCalories, setShowCalories] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [loadingDetails, setLoadingDetails] = useState(false);
-  const { addRecipe,searchResults, setSearchResults,lastSearch,setLastSearch } = useSavedRecipes();
+  const {
+    addRecipe,
+    searchResults,
+    setSearchResults,
+    lastSearch,
+    setLastSearch,
+    language,
+  } = useSavedRecipes();
+
+  // Funzione per tradurre titoli ricette
+  const translateRecipeTitles = async (recipes) => {
+    if (language === "en") {
+      return recipes; // Nessuna traduzione necessaria
+    }
+
+    console.log("🔄 Traduzione titoli in corso...");
+    const translated = await Promise.all(
+      recipes.map(async (recipe) => ({
+        ...recipe,
+        translatedTitle: await TranslateText(recipe.title, "it"),
+      }))
+    );
+    console.log("✅ Titoli tradotti");
+    return translated;
+  };
 
   //salvataggio ricette in context------------------
   const handleSave = (recipe) => {
-    console.log("---",recipe.nutrition.ingredients)
+    console.log("---", recipe.nutrition.ingredients);
     addRecipe({
       id: recipe.id,
       title: recipe.title,
@@ -76,17 +102,16 @@ function Home() {
 
   // gestione ricerca ricette da barra di ricerca
   async function handleSearch(searchData) {
-    console.log("HHH",searchData)
     setLastSearch(searchData);
-    console.log("HH",searchData.input)
     //controllo ricerca vuota------------------------
     if (!searchData.input || searchData.input.trim() === "") {
       setErrorSearch("Inserisci qualcosa da cercare");
       setTimeout(() => setErrorSearch(""), 3000);
+      setRecipes([]);
       setSearchResults([]);
       setSelect("");
       Setoffset(0);
-      
+
       return;
     }
     //-----------test per api--------pasta---------
@@ -100,22 +125,26 @@ function Home() {
     setSelect(searchData.input);
     setSearchRecipe(searchData.scelta);
     setOnlyIngredients(searchData.ingredients);
-    //setSelect("");
+    setLastSearch(searchData);
     Setoffset(0);
-    
+
     console.log("Hai cercato:", searchData.input, searchData.scelta, offset);
 
     if (!onlyIngredients) {
       const data = await SearchName(searchData.input, searchData.scelta, 0);
       console.log("hai cercato per nome", data.results);
-      setSearchResults(data.results);
+      //traduzione
+      const translated = await translateRecipeTitles(data.results);
+      setRecipes(translated);
       handleErrorSearch();
     } else {
       const data = await SearchIngredients(searchData.input, 0);
       console.log("primo check", data);
       console.log("secondo check", data.length);
       console.log("hai cercato per ingredienti:", data);
-      setSearchResults(data);
+      // Traduci titoli
+      const translated = await translateRecipeTitles(data);
+      setRecipes(translated);
       handleErrorSearch();
     }
   }
@@ -126,70 +155,75 @@ function Home() {
     const newOffset = offset + 10;
     if (!onlyIngredients) {
       const data = await SearchName(select, searchRecipe, newOffset);
-      setSearchResults([...searchResults, ...data.results]);
+      const translated = await translateRecipeTitles(data.results);
+      setRecipes([...recipes, ...translated]);
     } else {
       const data = await SearchIngredients(select, newOffset);
-      setSearchResults([...searchResults, ...data]);
+      const translated = await translateRecipeTitles(data);
+      setRecipes([...recipes, ...translated]);
     }
     Setoffset(newOffset);
   };
   //-----------------------------------------------------
   return (
     <>
-    <div className="wrap">  
-      <ListButton></ListButton>
-      <div className="container-search">
-        <div className="container-logo">
-          <span className="veggie">Veggie</span>
-          <span className="box">Box</span>
-          <p>🌱 Scopri ricette vegetariane deliziose</p>
+      <div className="wrap">
+        <ListButton></ListButton>
+        <ButtonLang></ButtonLang>
+        <div className="container-search">
+          <div className="container-logo">
+            <span className="veggie">Veggie</span>
+            <span className="box">Box</span>
+            <p>🌱 Scopri ricette vegetariane deliziose</p>
+          </div>
+          <SearchBar
+            onSearch={handleSearch}
+            onCalories={handleCaloriesChange}
+          ></SearchBar>
         </div>
-        <SearchBar
-          onSearch={handleSearch}
-          onCalories={handleCaloriesChange}
-        ></SearchBar>
-      </div>
-      {showModal && (
-        <Modal
-          onClose={() => {
-            setShowModal(false);
-          }}
-          recipe={selectedRecipe}
-          loading={loadingDetails}
-        ></Modal>
-      )}
-      <div className="container-card">
-        {/* prova card */}
-        
-        {searchResults.length > 0
-          ? searchResults.map((recipe) => (
-              <Card
-                key={recipe.id}
-                id={recipe.id || "id non disp"}
-                recipe={recipe}
-                img={recipe.image || "img non disp"}
-                title={recipe.title || "titolo non disp"}
-                showCalories={showCalories}
-                kcal={
-                  !onlyIngredients
-                    ? (
-                        recipe.nutrition?.nutrients?.find(
-                          (n) => n.name === "Calories"
-                        ).amount / recipe.servings
-                      ).toFixed(1) || "non trovato"
-                    : "Non disponibile"
-                }
-                viewRecipe={() => handleShowModal(recipe.id)}
-                onSave={handleSave}
-              ></Card>
-            ))
-          : errorSearch && <h2 style={{ color: "green" }}>{errorSearch}</h2>}
-        {searchResults.length > 0 && searchResults.length < 10 && <EndLabel></EndLabel>}
-      </div>
+        {showModal && (
+          <Modal
+            onClose={() => {
+              setShowModal(false);
+            }}
+            recipe={selectedRecipe}
+            loading={loadingDetails}
+          ></Modal>
+        )}
+        <div className="container-card">
+          {/* prova card */}
+
+          {searchResults.length > 0
+            ? searchResults.map((recipe) => (
+                <Card
+                  key={recipe.id}
+                  id={recipe.id || "id non disp"}
+                  recipe={recipe}
+                  img={recipe.image || "img non disp"}
+                  title={recipe.title || "titolo non disp"}
+                  showCalories={showCalories}
+                  kcal={
+                    !onlyIngredients
+                      ? (
+                          recipe.nutrition?.nutrients?.find(
+                            (n) => n.name === "Calories"
+                          ).amount / recipe.servings
+                        ).toFixed(1) || "non trovato"
+                      : "Non disponibile"
+                  }
+                  viewRecipe={() => handleShowModal(recipe.id)}
+                  onSave={handleSave}
+                ></Card>
+              ))
+            : errorSearch && <h2 style={{ color: "green" }}>{errorSearch}</h2>}
+          {searchResults.length > 0 && searchResults.length < 10 && (
+            <EndLabel></EndLabel>
+          )}
+        </div>
         {searchResults.length > 0 && searchResults.length >= 10 && (
           <ButtonMore load={loadMore}></ButtonMore>
         )}
-        </div>
+      </div>
     </>
   );
 }

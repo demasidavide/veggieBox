@@ -1,9 +1,73 @@
 import "./Modal.css";
 import cibo from "../../assets/cibo.jpg";
 import close from "../../assets/icon-close.png";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { TranslateText } from "../../api/translateText";
+import { useSavedRecipes } from "../../context/RecipeContext";
 
 export function Modal({ onClose, recipe, loading }) {
+  const { language, savedRecipes } = useSavedRecipes();
+  const [translatedContent, setTranslatedContent] = useState(null);
+  const [isTranslating, setIsTranslating] = useState(false);
+  // Controlla se è una ricetta salvata
+  const savedRecipe = savedRecipes.find((r) => r.id === recipe?.id);
+
+  useEffect(() => {
+    const translateContent = async () => {
+      if (!recipe || language === "en") {
+        setTranslatedContent(null);
+        return;
+      }
+
+      // Se è salvata, usa traduzioni già pronte
+      if (savedRecipe?.translations?.it) {
+        setTranslatedContent(savedRecipe.translations.it);
+        return;
+      }
+
+      // Altrimenti traduci al volo
+      setIsTranslating(true);
+      console.log("🔄 Traduzione modale in corso...");
+
+      try {
+        const [title, summary, instructions] = await Promise.all([
+          TranslateText(recipe.title || "", "it"),
+          TranslateText(recipe.summary || "", "it"),
+          TranslateText(recipe.instructions || "", "it"),
+        ]);
+
+        setTranslatedContent({
+          title,
+          summary,
+          instructions,
+        });
+        console.log("✅ Traduzione modale completata");
+      } catch (e) {
+        console.error("❌ Errore traduzione modale:", e);
+      } finally {
+        setIsTranslating(false);
+      }
+    };
+
+    translateContent();
+  }, [recipe, language, savedRecipe]);
+
+  // Determina quale contenuto mostrare
+  const displayTitle =
+    language === "it" && translatedContent
+      ? translatedContent.title
+      : recipe?.title;
+
+  const displaySummary =
+    language === "it" && translatedContent
+      ? translatedContent.summary
+      : recipe?.summary;
+
+  const displayInstructions =
+    language === "it" && translatedContent
+      ? translatedContent.instructions
+      : recipe?.instructions;
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
 
@@ -18,16 +82,16 @@ export function Modal({ onClose, recipe, loading }) {
         <button className="close" onClick={onClose}>
           <img src={close} alt="chiudi"></img>
         </button>
-        {loading ? (
+        {loading || isTranslating ? (
           <div className="loading">Caricamento...</div>
         ) : recipe ? (
           <>
             <div className="container-title">
               <img
                 src={recipe.image || cibo}
-                alt={recipe.title || "titolo"}
+                alt={displayTitle || "titolo"}
               ></img>
-              <h1>{recipe.title}</h1>
+              <h1>{displayTitle}</h1>
             </div>
             <hr></hr>
             <div className="container-ingredients">

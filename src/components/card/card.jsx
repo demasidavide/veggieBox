@@ -13,9 +13,13 @@ export function Card({
   recipe,
 }) {
   const [selected, setSelected] = useState(false);
-  const { savedRecipes } = useSavedRecipes();
+  const { savedRecipes, language } = useSavedRecipes();
 
   const isSaved = savedRecipes.some(r => r.id === id);
+  // Determina quale titolo mostrare
+  const displayTitle = language === 'it' 
+    ? (recipe?.translatedTitle || title)  // Usa tradotto se esiste
+    : title;  // Altrimenti originale
 
   console.log(`-card-ricevute ${id}${img}${title}`);
   return (
@@ -23,11 +27,11 @@ export function Card({
       <div className={!isSaved ? "card-style-2" : "card-style-2 selected"}>
         <img
           src={img}
-          alt={title || "immagine non disp"}
+          alt={displayTitle || "immagine non disp"}
           className="card-image"
         />
         <div className="card-content">
-          <h3 className="card-title">{title}</h3>
+          <h3 className="card-title">{displayTitle}</h3>
           {showCalories && <p>{kcal} Kcal pers.</p>}
           <div className="buttons-style-2">
             <button className="btn btn-view" onClick={viewRecipe}>
