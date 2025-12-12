@@ -2,14 +2,24 @@ import { useState, useEffect } from "react";
 import "./SearchBar.css";
 import { SearchName } from "../../api/searchName";
 import icon from "../../assets/icons-filter.png";
+import { useSavedRecipes } from "../../context/RecipeContext";
 
 export function SearchBar({ onSearch, onCalories }) {
+  const { lastSearch } = useSavedRecipes();
   const [input, setInput] = useState("");
   const [scelta, setScelta] = useState("vegetarian");
   const [filter, setFilter] = useState(false);
   const [calories, setCalories] = useState(false);
   const [ingredients, setIngredients] = useState(false);
   const [placeholder, setPlaceholder] = useState("Cerca una ricetta");
+
+
+  useEffect(() => {
+    console.log("SS",lastSearch)
+    setInput(lastSearch.input || '');
+    setScelta(lastSearch.scelta || 'vegetarian');
+    setIngredients(lastSearch.ingredients || false);
+  }, [lastSearch]);
 
   // funzione per gestire placeholder in barra di ricerca
   useEffect(() => {
@@ -93,6 +103,7 @@ export function SearchBar({ onSearch, onCalories }) {
         <input
           className="search-text"
           type="text"
+          value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder={placeholder}
         ></input>

@@ -20,7 +20,14 @@
   min-width: 300px;
   width: 100%;
 }
+.container-list div h3{
+cursor:pointer;
 
+&:hover{
+
+  text-decoration: underline;
+}
+}
 .container-list div label select{
 margin-left: 10px;
 background-color: aliceblue;

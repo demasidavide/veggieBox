@@ -1,12 +1,35 @@
-import { useState, createContext, useContext } from "react";
+import { useState, createContext, useContext, useEffect } from "react";
 import { ConvertToGrams } from '../api/convertUnit';
 
 const RecipeContext = createContext();
 
 export function RecipeProvider({ children }) {
-  const [savedRecipes, setSavedRecipes] = useState([]);
-  const [ingredientsList, setIngredientsList] = useState([]);
+  //const [savedRecipes, setSavedRecipes] = useState([]);
+  //const [ingredientsList, setIngredientsList] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
+const [lastSearch, setLastSearch] = useState({
+  input: "",
+  scelta: "vegetarian",
+  ingredients: false
+});
+  //local storage ricette e ingredienti------------------------
+  const [savedRecipes, setSavedRecipes] = useState(() => {
+    const saved = localStorage.getItem('savedRecipes');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const [ingredientsList, setIngredientsList] = useState(() => {
+    const saved = localStorage.getItem('ingredientsList');
+    return saved ? JSON.parse(saved) : [];
+  });
+  //salavataggio al cambio
+  useEffect(() => {
+    localStorage.setItem('savedRecipes', JSON.stringify(savedRecipes));
+  }, [savedRecipes]);
+
+  useEffect(() => {
+    localStorage.setItem('ingredientsList', JSON.stringify(ingredientsList));
+  }, [ingredientsList]);
 
 //funzione per convertire unita di misura in grammi------------
 const convertIngredientsToGrams = async () => {
@@ -145,6 +168,8 @@ const convertIngredientsToGrams = async () => {
         savedRecipes,
         searchResults,
         setSearchResults,
+        lastSearch,
+        setLastSearch,
         ingredientsList,
         updateServings,
         addRecipe,

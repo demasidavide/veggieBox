@@ -1,7 +1,7 @@
 import "./ListRecipes.css";
 import { useSavedRecipes } from "../../context/RecipeContext";
 
-export function ListRecipes({ onClose, title, id, servings }) {
+export function ListRecipes({ onClose, title, id, servings,onViewRecipe }) {
   const { savedRecipes, updateServings, removeRecipe } = useSavedRecipes();
   const recipe = savedRecipes.find(r => r.id === id);
   return (
@@ -9,7 +9,7 @@ export function ListRecipes({ onClose, title, id, servings }) {
       <div className="container-list">
        
           <div key={recipe.id}>
-            <h3>{recipe.title}</h3>
+            <h3 onClick={()=>onViewRecipe(id)}>{recipe.title}</h3>
             <label>
               Porzioni:
               <select

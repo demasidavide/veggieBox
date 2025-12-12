@@ -23,7 +23,7 @@ function Home() {
   const [showCalories, setShowCalories] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [loadingDetails, setLoadingDetails] = useState(false);
-  const { addRecipe,searchResults, setSearchResults } = useSavedRecipes();
+  const { addRecipe,searchResults, setSearchResults,lastSearch,setLastSearch } = useSavedRecipes();
 
   //salvataggio ricette in context------------------
   const handleSave = (recipe) => {
@@ -76,6 +76,9 @@ function Home() {
 
   // gestione ricerca ricette da barra di ricerca
   async function handleSearch(searchData) {
+    console.log("HHH",searchData)
+    setLastSearch(searchData);
+    console.log("HH",searchData.input)
     //controllo ricerca vuota------------------------
     if (!searchData.input || searchData.input.trim() === "") {
       setErrorSearch("Inserisci qualcosa da cercare");
@@ -83,6 +86,7 @@ function Home() {
       setSearchResults([]);
       setSelect("");
       Setoffset(0);
+      
       return;
     }
     //-----------test per api--------pasta---------
@@ -96,8 +100,9 @@ function Home() {
     setSelect(searchData.input);
     setSearchRecipe(searchData.scelta);
     setOnlyIngredients(searchData.ingredients);
-    setSelect("");
+    //setSelect("");
     Setoffset(0);
+    
     console.log("Hai cercato:", searchData.input, searchData.scelta, offset);
 
     if (!onlyIngredients) {
@@ -121,10 +126,10 @@ function Home() {
     const newOffset = offset + 10;
     if (!onlyIngredients) {
       const data = await SearchName(select, searchRecipe, newOffset);
-      setRecipes([...recipes, ...data.results]);
+      setSearchResults([...searchResults, ...data.results]);
     } else {
       const data = await SearchIngredients(select, newOffset);
-      setRecipes([...recipes, ...data]);
+      setSearchResults([...searchResults, ...data]);
     }
     Setoffset(newOffset);
   };
