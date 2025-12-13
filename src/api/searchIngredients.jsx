@@ -8,7 +8,7 @@ export async function SearchIngredients(ingredients, offset = 0) {
     const response = await axios.get(apiBase, {
       params: {
         ingredients: ingredients,
-        number: 10,
+        number: 6,
         offset:offset,
         ranking: 1,
         apiKey: apiKey,

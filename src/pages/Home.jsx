@@ -15,7 +15,6 @@ import { TranslateText } from "../api/translateText";
 import { ButtonLang } from "../components/buttonLang/ButtonLang";
 import { t } from "../translation/translation";
 
-
 function Home() {
   //const [recipes, setRecipes] = useState([]);
   const [searchRecipe, setSearchRecipe] = useState("vegetarian");
@@ -54,13 +53,20 @@ function Home() {
   };
 
   //salvataggio ricette in context------------------
-  const handleSave = (recipe) => {
-    console.log("---", recipe.nutrition.ingredients);
+  const handleSave = async (recipe) => {
+    // Carica dettagli completi della ricetta
+    const fullRecipe = await SearchRecipe(recipe.id);
+    console.log("---", fullRecipe.extendedIngredients);
     addRecipe({
-      id: recipe.id,
-      title: recipe.title,
-      servings: recipe.servings,
-      ingredients: recipe.nutrition.ingredients,
+      id: fullRecipe.id,
+      title: fullRecipe.title,
+      servings: fullRecipe.servings,
+      instructions: fullRecipe.instructions,
+      ingredients: fullRecipe.extendedIngredients.map((ing) => ({
+        id: ing.id,
+        name: ing.name,
+        original: ing.original,
+      })),
     });
   };
   //------------------------------------------------
@@ -176,7 +182,7 @@ function Home() {
           <div className="container-logo">
             <span className="veggie">Veggie</span>
             <span className="box">Box</span>
-            <p>🌱 {t('disct',language)}</p>
+            <p>🌱 {t("disct", language)}</p>
           </div>
           <SearchBar
             onSearch={handleSearch}

@@ -74,8 +74,11 @@ export function RecipeProvider({ children }) {
 
     console.log("🔄 Traduzione ricetta in corso...");
 
-    // Traduci il titolo
-    const translatedTitle = await TranslateText(recipe.title, "it");
+    // Traduci il titolo e ingredienti
+    const [translatedTitle, translatedInstructions] = await Promise.all([
+  TranslateText(recipe.title, "it"),
+  TranslateText(recipe.instructions || "", "it")
+]);
 
     // Traduci i nomi degli ingredienti
     const translatedIngredients = [];
@@ -96,6 +99,7 @@ export function RecipeProvider({ children }) {
       translations: {
         it: {
           title: translatedTitle,
+          instructions: translatedInstructions,
           ingredients: translatedIngredients,
         },
       },

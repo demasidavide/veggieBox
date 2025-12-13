@@ -14,7 +14,7 @@ try{
             addTasteData:false
         }
     });
-    console.log('-searcrecipe- dati:',response.data)
+    console.log('-searchrecipe- dati:',response.data)
     return response.data;
 }catch(e){
     console.log('errore chiamata -cearchRecipe-', e)

@@ -31,16 +31,24 @@ export function Modal({ onClose, recipe, loading }) {
       console.log("🔄 Traduzione modale in corso...");
 
       try {
-        const [title, summary, instructions] = await Promise.all([
+        const [title, instructions] = await Promise.all([
           TranslateText(recipe.title || "", "it"),
-          TranslateText(recipe.summary || "", "it"),
+          //TranslateText(recipe.summary || "", "it"),
           TranslateText(recipe.instructions || "", "it"),
         ]);
 
+        const translatedIngredients = await Promise.all(
+      recipe.extendedIngredients?.map(async (ing) => ({
+        ...ing,
+        original: await TranslateText(ing.original, "it"),
+      })) || []
+    );
+
         setTranslatedContent({
           title,
-          summary,
           instructions,
+          //summary,
+          ingredients: translatedIngredients,
         });
         console.log("✅ Traduzione modale completata");
       } catch (e) {
@@ -59,10 +67,15 @@ export function Modal({ onClose, recipe, loading }) {
       ? translatedContent.title
       : recipe?.title;
 
-  const displaySummary =
-    language === "it" && translatedContent
-      ? translatedContent.summary
-      : recipe?.summary;
+      const displayIngredients =
+  language === "it" && translatedContent?.ingredients
+    ? translatedContent.ingredients
+    : recipe?.extendedIngredients;
+
+  // const displaySummary =
+  //   language === "it" && translatedContent
+  //     ? translatedContent.summary
+  //     : recipe?.summary;
 
   const displayInstructions =
     language === "it" && translatedContent
@@ -100,8 +113,8 @@ export function Modal({ onClose, recipe, loading }) {
               <p>{t('recipeFor', language)}: {recipe.servings} pers.</p>
               <h3>{t('ingredients', language)}</h3>
               <ul>
-                {recipe.extendedIngredients?.map((ing) => (
-                  <li key={ing.id}>{ing.original}</li>
+                {displayIngredients?.map((ing) => (
+                  <li key={ing.id}>{ing.original || ing.name}</li>
                 ))}
               </ul>
               {recipe.nutrition?.nutrients && (
@@ -119,9 +132,9 @@ export function Modal({ onClose, recipe, loading }) {
             <hr></hr>
             <div className="container-prep">
               <h3>{t('prep', language)}</h3>
-              {recipe.instructions ? (
+              {displayInstructions ? (
                 <div
-                  dangerouslySetInnerHTML={{ __html: recipe.instructions }}
+                  dangerouslySetInnerHTML={{ __html: displayInstructions }}
                 ></div>
               ) : (
                 <p>{t('instNotAvailable', language)}</p>

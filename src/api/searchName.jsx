@@ -7,7 +7,7 @@ export async function SearchName(query, diet, offset = 0) {
     const response = await axios.get(`${apiBase}`, {
       params: {
         query: query,
-        number: 10,
+        number: 6,
         offset: offset,
         apiKey: apiKey,
         diet: diet,

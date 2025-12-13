@@ -5,21 +5,23 @@ import { translationPresets } from "../translation/translation";
 const translationCache = { ...translationPresets };
 
 export async function TranslateText(text, targetLang = 'it') {
+  //limite caratteri 499 per limiti api
+  const cutText = text.substring(0,499);
   // Crea chiave unica per questa traduzione
-  const cacheKey = `${text}-${targetLang}`;
+  const cacheKey = `${cutText}-${targetLang}`;
   
   // Controlla cache
   if (translationCache[cacheKey]) {
-    console.log(`✅ Cache HIT traduzione: ${text.substring(0, 30)}...`);
+    console.log(`✅ Cache HIT traduzione: ${cutText.substring(0, 30)}...`);
     return translationCache[cacheKey];
   }
   
   // Se non in cache, chiama API
-  console.log(`🌐 Cache MISS traduzione: ${text.substring(0, 30)}... - Chiamata API`);
+  console.log(`🌐 Cache MISS traduzione: ${cutText.substring(0, 30)}... - Chiamata API`);
   
   try {
     // MyMemory API - GET request
-    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|${targetLang}`;
+    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(cutText)}&langpair=en|${targetLang}`;
     
     const response = await axios.get(url);
     
@@ -28,13 +30,13 @@ export async function TranslateText(text, targetLang = 'it') {
     
     // Salva in cache
     translationCache[cacheKey] = translatedText;
-    console.log(`💾 Salvato in cache: ${text.substring(0, 30)}...`);
+    console.log(`💾 Salvato in cache: ${cutText.substring(0, 30)}...`);
     
     return translatedText;
     
   } catch (e) {
     console.error("❌ Errore traduzione:", e);
     // Fallback: restituisci testo originale
-    return text;
+    return cutText;
   }
 }
