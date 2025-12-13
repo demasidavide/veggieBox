@@ -1,22 +1,31 @@
-import { useSavedRecipes } from '../../context/RecipeContext';
-import './ButtonLang.css';
+import { useSavedRecipes } from "../../context/RecipeContext";
+import "./ButtonLang.css";
+import gb from "../../assets/gb.png";
+import it from "../../assets/it.png";
 
 export function ButtonLang() {
   const { language, setLanguage } = useSavedRecipes();
-  
+
   const toggleLanguage = () => {
-    const newLang = language === 'en' ? 'it' : 'en';
+    const newLang = language === "en" ? "it" : "en";
     setLanguage(newLang);
-    console.log('🌍 Lingua cambiata:', newLang);
+    console.log("🌍 Lingua cambiata:", newLang);
   };
-  
+
   return (
-    <button 
-      className="language-switch" 
+    <div className="container">
+
+    
+    <button
+      className="language-switch"
       onClick={toggleLanguage}
-      title={language === 'en' ? 'Cambia in Italiano' : 'Switch to English'}
+      title={language === "en" ? "Cambia in Italiano" : "Switch to English"}
     >
-      {language === 'en' ? '🇬🇧 English' : '🇮🇹 Italiano'}
+      <img
+        src={language === "en" ? gb : it}
+        alt={language === "en" ? "English" : "Italiano"}
+      />
     </button>
+    </div>
   );
 }
