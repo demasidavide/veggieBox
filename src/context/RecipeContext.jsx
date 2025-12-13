@@ -5,7 +5,7 @@ import { TranslateText } from "../api/translateText";
 const RecipeContext = createContext();
 
 export function RecipeProvider({ children }) {
-  //--cancellare alla fine-----const [savedRecipes, setSavedRecipes] = useState([]);
+  //const [savedRecipes, setSavedRecipes] = useState([]);
   //--cancellare alla fine-----const [ingredientsList, setIngredientsList] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [lastSearch, setLastSearch] = useState({
@@ -23,6 +23,7 @@ export function RecipeProvider({ children }) {
     localStorage.setItem("language", language);
     console.log("🌍 Lingua impostata:", language);
   }, [language]);
+
   //local storage ricette e ingredienti------------------------
   const [savedRecipes, setSavedRecipes] = useState(() => {
     const saved = localStorage.getItem("savedRecipes");
@@ -62,8 +63,9 @@ export function RecipeProvider({ children }) {
 
     return convertedList;
   };
+//---------------------------------------------------------------
 
-  //funzione per aggiungere ricette alla lista-----------------
+  //funzione per aggiungere ricette alla lista-------------------
   const addRecipe = async (recipe) => {
     if (savedRecipes.find((r) => r.id === recipe.id)) {
       console.log("context-Ricetta già salvata");
@@ -87,7 +89,7 @@ export function RecipeProvider({ children }) {
 
     console.log("✅ Traduzione completata");
 
-    // Crea la ricetta con traduzioni
+    // Crea la ricetta con traduzioni-----------------
     const newRecipe = {
       ...recipe,
       selectedServings: recipe.servings,
@@ -101,8 +103,9 @@ export function RecipeProvider({ children }) {
 
     const updatedRecipes = [...savedRecipes, newRecipe];
     setSavedRecipes(updatedRecipes);
+//-----------------------------------------------------
 
-    // Aggiungi ingredienti alla lista
+// Aggiungi ingredienti alla lista---------------------
     addIngredientsFromRecipe(newRecipe);
   };
 
@@ -157,7 +160,7 @@ export function RecipeProvider({ children }) {
     setIngredientsList(newIngredients);
   };
 
-  //funzione per aggiungere elementi alla lista ingredienti---
+  //funzione per aggiungere elementi alla lista ingredienti-----------
   const addIngredientsFromRecipe = (recipe) => {
     const servingRatio = recipe.selectedServings / recipe.servings;
     const newIngredients = [...ingredientsList];

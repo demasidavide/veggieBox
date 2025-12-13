@@ -1,17 +1,22 @@
 import "./ListRecipes.css";
 import { useSavedRecipes } from "../../context/RecipeContext";
+import { t } from "../../translation/translation";
 
 export function ListRecipes({ onClose, title, id, servings,onViewRecipe }) {
-  const { savedRecipes, updateServings, removeRecipe } = useSavedRecipes();
+  const { savedRecipes, updateServings, removeRecipe, language } = useSavedRecipes();
   const recipe = savedRecipes.find(r => r.id === id);
+   // Determina quale titolo mostrare
+  const displayTitle = language === 'it' && recipe?.translations?.it?.title
+    ? recipe.translations.it.title
+    : title;
   return (
     <>
       <div className="container-list">
        
           <div key={recipe.id}>
-            <h3 onClick={()=>onViewRecipe(id)}>{recipe.title}</h3>
+            <h3 onClick={()=>onViewRecipe(id)}>{displayTitle}</h3>
             <label>
-              Porzioni:
+              {t('servings', language)}
               <select
                 value={recipe.selectedServings}
                 onChange={(e) =>

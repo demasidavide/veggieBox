@@ -35,8 +35,7 @@ export default function List() {
   };
   //-------------------------------------------------------------------------
 
-  //condivisione-----------------------------------------------------------
-  // Funzione per condividere con Web Share API
+  // Funzione per condividere con Web Share API------------------------------
   const shareList = async () => {
     const text = convertedIngredients
       .map((ing) => `${ing.totalAmount.toFixed(0)}g - ${ing.name}`)
@@ -56,6 +55,7 @@ export default function List() {
       alert("Condivisione non supportata su questo browser");
     }
   };
+//----------------------------------------------------------------
 
   // Funzione per scaricare come TXT
   const downloadAsTxt = () => {
@@ -74,8 +74,9 @@ export default function List() {
     a.click();
     URL.revokeObjectURL(url); // Pulisci l'URL dopo il download
   };
+//--------------------------------------------------------------------
 
-  //prova funzione conversione in grammi-----------------------------------
+  //prova funzione conversione in grammi------------------------------
   useEffect(() => {
     const convertAll = async () => {
       setIsConverting(true);
