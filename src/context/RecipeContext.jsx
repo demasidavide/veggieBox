@@ -165,9 +165,14 @@ export function RecipeProvider({ children }) {
     const servingRatio = recipe.selectedServings / recipe.servings;
     const newIngredients = [...ingredientsList];
 
-    recipe.ingredients.forEach((ing) => {
+     
+    
+    recipe.ingredients.forEach((ing,index) => {
       const adjustedAmount = ing.amount * servingRatio;
       const existingIndex = newIngredients.findIndex((i) => i.id === ing.id);
+    // Prendi il nome tradotto dalle traduzioni salvate
+    const translatedName = recipe.translations?.it?.ingredients?.[index]?.name || ing.name;
+
 
       if (existingIndex >= 0) {
         // Ingrediente già esiste: incrementa
@@ -178,6 +183,7 @@ export function RecipeProvider({ children }) {
         newIngredients.push({
           id: ing.id,
           name: ing.name,
+          translatedName: translatedName,
           totalAmount: adjustedAmount,
           unit: ing.unit,
           count: 1,

@@ -11,7 +11,8 @@ import { SearchRecipe } from "../api/searchRecipe.jsx";
 import { t } from "../translation/translation.jsx";
 
 export default function List() {
-  const { savedRecipes, removeRecipe, ingredientsList, language } = useSavedRecipes();
+  const { savedRecipes, removeRecipe, ingredientsList, language } =
+    useSavedRecipes();
   const [convertedIngredients, setConvertedIngredients] = useState([]);
   const [isConverting, setIsConverting] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -55,7 +56,7 @@ export default function List() {
       alert("Condivisione non supportata su questo browser");
     }
   };
-//----------------------------------------------------------------
+  //----------------------------------------------------------------
 
   // Funzione per scaricare come TXT
   const downloadAsTxt = () => {
@@ -74,7 +75,7 @@ export default function List() {
     a.click();
     URL.revokeObjectURL(url); // Pulisci l'URL dopo il download
   };
-//--------------------------------------------------------------------
+  //--------------------------------------------------------------------
 
   //prova funzione conversione in grammi------------------------------
   useEffect(() => {
@@ -115,7 +116,7 @@ export default function List() {
       <div className="container-main">
         <div className="container-recipes">
           {savedRecipes.length === 0 ? (
-            <p style={{ marginRight: "20px" }}>{t('noRecipes', language)}</p>
+            <p style={{ marginRight: "20px" }}>{t("noRecipes", language)}</p>
           ) : (
             savedRecipes.map((recipe) => (
               <ListRecipes
@@ -130,14 +131,14 @@ export default function List() {
           )}
         </div>
         <div className="container-ingredients">
-          <h2 className="title">{t('ingredientsList', language)}</h2>
+          <h2 className="title">{t("ingredientsList", language)}</h2>
           {ingredientsList.length > 0 ? (
             <div className="buttons-container">
               <button onClick={shareList} className="share-btn">
-                ⇧ {t('share', language)}
+                ⇧ {t("share", language)}
               </button>
               <button onClick={downloadAsTxt} className="download-btn">
-                ⇩ {t('download', language)} TXT
+                ⇩ {t("download", language)} TXT
               </button>
             </div>
           ) : (
@@ -145,17 +146,30 @@ export default function List() {
           )}
           <div className="container-card-ing">
             {ingredientsList.length === 0 ? (
-              <p>{t('noIngredients', language)}</p>
+              <p>{t("noIngredients", language)}</p>
             ) : (
-              convertedIngredients.map((ing) => (
-                <CardIng
-                  key={ing.id}
-                  id={ing.id}
-                  ing={ing.name}
-                  qta={ing.totalAmount.toFixed(2)}
-                  unit="g"
-                ></CardIng>
-              ))
+              convertedIngredients.map((ing) => {
+                // Dichiara displayName qui, fuori dal JSX
+                const displayName =
+                  language === "it" && ing.translatedName
+                    ? ing.translatedName
+                    : ing.name;
+
+                    console.log("🔵 PRIMA CardIng - ing:", ing);
+  console.log("🔵 PRIMA CardIng - displayName:", displayName);
+  console.log("🔵 PRIMA CardIng - totalAmount:", ing.totalAmount);
+
+                return (
+                  <CardIng
+                    key={ing.id}
+                    id={ing.id}
+                    ing={displayName} 
+                    qta={ing.totalAmount.toFixed(2)}
+                    unit="g"
+                    >
+                  </CardIng>
+                );
+              })
             )}
           </div>
         </div>
