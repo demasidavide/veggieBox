@@ -210,15 +210,16 @@ function Home() {
                   img={recipe.image || "img non disp"}
                   title={recipe.title || "titolo non disp"}
                   showCalories={showCalories}
-                  kcal={
-                    !onlyIngredients
-                      ? (
-                          recipe.nutrition?.nutrients?.find(
-                            (n) => n.name === "Calories"
-                          ).amount / recipe.servings
-                        ).toFixed(1) || "non trovato"
-                      : "Non disponibile"
-                  }
+                  prepTime={recipe.readyInMinutes || "N/D"}
+                  // kcal={
+                  //   !onlyIngredients
+                  //     ? (
+                  //         recipe.nutrition?.nutrients?.find(
+                  //           (n) => n.name === "Calories"
+                  //         ).amount / recipe.servings
+                  //       ).toFixed(1) || "non trovato"
+                  //     : "Non disponibile"
+                  // }
                   viewRecipe={() => handleShowModal(recipe.id)}
                   onSave={handleSave}
                 ></Card>

@@ -7,7 +7,7 @@ export function Card({
   id,
   img,
   title,
-  kcal,
+  prepTime,
   showCalories,
   viewRecipe,
   onSave,
@@ -33,7 +33,7 @@ export function Card({
         />
         <div className="card-content">
           <h3 className="card-title">{displayTitle}</h3>
-          {showCalories && <p>{kcal} Kcal pers.</p>}
+          {showCalories && <p>{prepTime} min.</p>}
           <div className="buttons-style-2">
             <button className="btn btn-view" onClick={viewRecipe}>
               {t('viewRecipe', language)}

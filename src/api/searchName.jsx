@@ -11,7 +11,7 @@ export async function SearchName(query, diet, offset = 0) {
         offset: offset,
         apiKey: apiKey,
         diet: diet,
-        addRecipeNutrition: true,
+        addRecipeNutrition: false,
       },
     });
     console.log(response.status);
