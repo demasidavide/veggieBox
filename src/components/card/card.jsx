@@ -1,5 +1,5 @@
 import "./card.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSavedRecipes } from "../../context/RecipeContext";
 import { t } from "../../translation/translation";
 
@@ -14,6 +14,7 @@ export function Card({
   recipe,
 }) {
   const [selected, setSelected] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const { savedRecipes, language } = useSavedRecipes();
 
   const isSaved = savedRecipes.some(r => r.id === id);
@@ -21,6 +22,12 @@ export function Card({
   const displayTitle = language === 'it' 
     ? (recipe?.translatedTitle || title)  // Usa tradotto se esiste
     : title;  // Altrimenti originale
+
+    useEffect(()=>{
+      if (isSaved && isSaving){
+        setIsSaving(false);
+      }
+    },[isSaved, isSaving]);
 
   console.log(`-card-ricevute ${id}${img}${title}`);
   return (
@@ -40,12 +47,14 @@ export function Card({
             </button>
             <button
               className={!isSaved ? "btn btn-save" : "btn btn-save selected"}
-              onClick={() => {
-                onSave(recipe);
+              onClick={async () => {
+                setIsSaving(true);
+                await onSave(recipe);
                 setSelected(!selected);
               }}
             >
               {!isSaved ? `${t('save', language)}` : `${t('saved', language)}`}
+              {isSaving && <span className="spinner">⏳</span>}
             </button>
           </div>
         </div>

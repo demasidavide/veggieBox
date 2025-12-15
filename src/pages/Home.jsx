@@ -25,6 +25,7 @@ function Home() {
   const [showModal, setShowModal] = useState(false);
   const [showCalories, setShowCalories] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
+ 
   const [loadingDetails, setLoadingDetails] = useState(false);
   const {
     addRecipe,
