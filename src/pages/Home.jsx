@@ -23,7 +23,7 @@ function Home() {
   const [select, setSelect] = useState("");
   const [errorSearch, setErrorSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [showCalories, setShowCalories] = useState(false);
+  const [showInformation, setShowInformation] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
  
   const [loadingDetails, setLoadingDetails] = useState(false);
@@ -95,9 +95,9 @@ function Home() {
   //-----------------------------------------------
 
   // gestione per mostrare calorie nelle card------
-  const handleCaloriesChange = (value) => {
-    console.log("valore cal", showCalories);
-    setShowCalories(value);
+  const handleInformationsChange = (value) => {
+    console.log(showInformation);
+    setShowInformation(value);
   };
   //-----------------------------------------------
 
@@ -195,7 +195,7 @@ function Home() {
           </div>
           <SearchBar
             onSearch={handleSearch}
-            onCalories={handleCaloriesChange}
+            onCalories={handleInformationsChange}
           ></SearchBar>
         </div>
         {showModal && (
@@ -218,8 +218,11 @@ function Home() {
                   recipe={recipe}
                   img={recipe.image || "img non disp"}
                   title={recipe.title || "titolo non disp"}
-                  showCalories={showCalories}
+                  showInfo={showInformation}
                   prepTime={recipe.readyInMinutes || "N/D"}
+                  glutenFree={recipe.glutenFree ? (t('yes', language)) :("No")}
+                  healthS={recipe.healthScore.toFixed(1) || "N/D"}
+                  score={recipe.spoonacularScore.toFixed(1) || "N/D"}
                   // kcal={
                   //   !onlyIngredients
                   //     ? (

@@ -86,7 +86,7 @@ export function SearchBar({ onSearch, onCalories }) {
                   setCalories(!calories), onCalories(e.target.checked);
                 }}
               ></input>
-              {t("showcal", language)}
+              {t("showInfo", language)}
             </label>
             <label>
               <input

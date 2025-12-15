@@ -8,10 +8,13 @@ export function Card({
   img,
   title,
   prepTime,
-  showCalories,
+  showInfo,
   viewRecipe,
   onSave,
   recipe,
+  glutenFree,
+  healthS,
+  score,
 }) {
   const [selected, setSelected] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -40,7 +43,14 @@ export function Card({
         />
         <div className="card-content">
           <h3 className="card-title">{displayTitle}</h3>
-          {showCalories && <p>{prepTime} min.</p>}
+          {showInfo && 
+          <>
+          <p>{t('prepTime', language)} {prepTime} min.</p>
+          <p>Gluten Free: {glutenFree}</p>
+          <p>{t('healthScore', language)}: {healthS}</p>
+          <p>{t('score', language)}: {score}</p>
+          </>
+          }
           <div className="buttons-style-2">
             <button className="btn btn-view" onClick={viewRecipe}>
               {t('viewRecipe', language)}

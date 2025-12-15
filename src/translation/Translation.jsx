@@ -21,6 +21,7 @@ export const translationPresets = {
 // Traduzioni interfaccia (per bottoni, testi, ecc.)
 export const translations = {
   en: {
+    yes:'Yes',
     disct: "Discover delicious vegetarian and vegan recipes",
     vegetarian: "Vegetarian",
     vegan: "Vegan",
@@ -52,9 +53,14 @@ export const translations = {
     instNotAvailable:"Instructions not available",
     errorSearch: "No recipes found",
     errorLoading:"Error loading",
-    calories:"Calories"
+    calories:"Calories",
+    healthScore:"Health score",
+    score:"Score",
+    showInfo:"Show informations"
   },
   it: {
+        yes:'Si',
+
     disct: "Scopri ricette vegetariane e vegane deliziose",
     vegetarian: "Vegetariano",
     vegan: "Vegano",
@@ -87,7 +93,11 @@ export const translations = {
     instNotAvailable:"Istruzioni non disponibili",
     errorSearch: "Nessuna ricetta trovata",
     errorLoading:"Errore nel caricamento",
-    calories:"Calorie"
+    calories:"Calorie",
+        healthScore:"Valutazione salute",
+        score:"Punteggio",
+        showInfo:"Mostra informazioni"
+
   },
 };
 
