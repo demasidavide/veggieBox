@@ -39,7 +39,7 @@ function Home() {
 
   //funzione per far apparire la scritta end a ricerac finita
   useEffect(() => {
-    if (searchResults.length > 0 && searchResults.length < 10) {
+    if (searchResults.length > 0 && searchResults.length < 6) {
       setShowEnd(true);
     } else {
       setShowEnd(false);
@@ -154,6 +154,7 @@ function Home() {
     if (language === "it") {
       searchText = await TranslateText(searchData.input, "en", "it");
       console.log("traduzione input", searchText);
+      setSelect(searchText);
     }
 
     if (!onlyIngredients) {
@@ -182,11 +183,11 @@ function Home() {
     if (!onlyIngredients) {
       const data = await SearchName(select, searchRecipe, newOffset);
       const translated = await translateRecipeTitles(data.results);
-      setSearchResults([...recipes, ...translated]);
+      setSearchResults([...searchResults, ...translated]);
     } else {
       const data = await SearchIngredients(select, newOffset);
       const translated = await translateRecipeTitles(data);
-      setSearchResults([...recipes, ...translated]);
+      setSearchResults([...searchResults, ...translated]);
     }
     Setoffset(newOffset);
   };
@@ -256,7 +257,7 @@ function Home() {
         ) : (
           ""
         )}
-        {searchResults.length > 0 && searchResults.length >= 10 && (
+        {searchResults.length > 0 && searchResults.length >= 6 && (
           <ButtonMore load={loadMore}></ButtonMore>
         )}
       </div>
