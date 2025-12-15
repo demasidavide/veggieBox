@@ -4,7 +4,7 @@ import { translationPresets } from "../translation/translation";
 // Cache per salvare traduzioni già fatte
 const translationCache = { ...translationPresets };
 
-export async function TranslateText(text, targetLang = 'it') {
+export async function TranslateText(text, targetLang = 'it', sourceLang = 'en') {
   //limite caratteri 499 per limiti api
   const cutText = text.substring(0,499);
   // Crea chiave unica per questa traduzione
@@ -21,7 +21,7 @@ export async function TranslateText(text, targetLang = 'it') {
   
   try {
     // MyMemory API - GET request
-    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(cutText)}&langpair=en|${targetLang}`;
+    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(cutText)}&langpair=${sourceLang}|${targetLang}`;
     
     const response = await axios.get(url);
     

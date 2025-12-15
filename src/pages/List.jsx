@@ -147,6 +147,8 @@ export default function List() {
           <div className="container-card-ing">
             {ingredientsList.length === 0 ? (
               <p>{t("noIngredients", language)}</p>
+            ) : isConverting ? (
+              <p>⏳ {t("converting", language) || "Conversione in corso..."}</p>
             ) : (
               convertedIngredients.map((ing) => {
                 // Dichiara displayName qui, fuori dal JSX
@@ -155,19 +157,18 @@ export default function List() {
                     ? ing.translatedName
                     : ing.name;
 
-                    console.log("🔵 PRIMA CardIng - ing:", ing);
-  console.log("🔵 PRIMA CardIng - displayName:", displayName);
-  console.log("🔵 PRIMA CardIng - totalAmount:", ing.totalAmount);
+                console.log("🔵 PRIMA CardIng - ing:", ing);
+                console.log("🔵 PRIMA CardIng - displayName:", displayName);
+                console.log("🔵 PRIMA CardIng - totalAmount:", ing.totalAmount);
 
                 return (
                   <CardIng
                     key={ing.id}
                     id={ing.id}
-                    ing={displayName} 
+                    ing={displayName}
                     qta={ing.totalAmount.toFixed(2)}
                     unit="g"
-                    >
-                  </CardIng>
+                  ></CardIng>
                 );
               })
             )}

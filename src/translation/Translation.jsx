@@ -50,6 +50,7 @@ export const translations = {
     recipeFor:"Recipe for",
     prep:"Preparation",
     instNotAvailable:"Instructions not available",
+    errorSearch: "No recipes found",
     errorLoading:"Error loading",
     calories:"Calories"
   },
@@ -84,6 +85,7 @@ export const translations = {
     recipeFor:"Ricetta per",
     prep:"Preparazione",
     instNotAvailable:"Istruzioni non disponibili",
+    errorSearch: "Nessuna ricetta trovata",
     errorLoading:"Errore nel caricamento",
     calories:"Calorie"
   },

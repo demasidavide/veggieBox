@@ -7,6 +7,16 @@ const apiKey = import.meta.env.VITE_API_KEY;
 const conversionCache = {};
 
 export async function ConvertToGrams(ingredientName, sourceAmount, sourceUnit) {
+  // Validazione dei parametri
+  if (!ingredientName || !sourceUnit || sourceAmount === undefined) {
+    console.warn("⚠️ Parametri non validi:", {
+      ingredientName,
+      sourceAmount,
+      sourceUnit,
+    });
+    return sourceAmount || 0;
+  }
+
   // Crea una chiave unica per questo ingrediente + unità
   const cacheKey = `${ingredientName.toLowerCase()}-${sourceUnit.toLowerCase()}`;
 

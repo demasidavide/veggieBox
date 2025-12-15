@@ -66,6 +66,8 @@ function Home() {
         id: ing.id,
         name: ing.name,
         original: ing.original,
+        amount: ing.amount || "N/D",
+        unit: ing.unit || "g"
       })),
     });
   };
@@ -101,7 +103,7 @@ function Home() {
   // gestione errore ricerca da definire-----------
   const handleErrorSearch = () => {
     if (searchResults.length === 0) {
-      setErrorSearch("Nessuna ricetta trovata");
+      setErrorSearch(t('errorSearch', language));
     } else {
       setErrorSearch("");
     }
@@ -119,7 +121,6 @@ function Home() {
       setSearchResults([]);
       setSelect("");
       Setoffset(0);
-
       return;
     }
     //-----------test per api--------pasta---------
@@ -138,15 +139,22 @@ function Home() {
 
     console.log("Hai cercato:", searchData.input, searchData.scelta, offset);
 
+    let searchText = searchData.input;
+    if(language === 'it'){
+      searchText = await TranslateText(searchData.input, 'en','it');
+      console.log('traduzione input', searchText)
+
+    }
+
     if (!onlyIngredients) {
-      const data = await SearchName(searchData.input, searchData.scelta, 0);
+      const data = await SearchName(searchText, searchData.scelta, 0);
       console.log("hai cercato per nome", data.results);
       //traduzione
       const translated = await translateRecipeTitles(data.results);
       setSearchResults(translated);
       handleErrorSearch();
     } else {
-      const data = await SearchIngredients(searchData.input, 0);
+      const data = await SearchIngredients(searchText, 0);
       console.log("primo check", data);
       console.log("secondo check", data.length);
       console.log("hai cercato per ingredienti:", data);
