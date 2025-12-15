@@ -7,7 +7,7 @@ import { RecipeProvider } from "./context/RecipeContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/progetti/veggieBox/dist/">
       <RecipeProvider>
         <App />
       </RecipeProvider>
