@@ -26,7 +26,7 @@ function Home() {
   const [showInformation, setShowInformation] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [showEnd, setShowEnd] = useState(false);
- 
+
   const [loadingDetails, setLoadingDetails] = useState(false);
   const {
     addRecipe,
@@ -37,16 +37,16 @@ function Home() {
     language,
   } = useSavedRecipes();
 
-//funzione per far apparire la scritta end a ricerac finita 
+  //funzione per far apparire la scritta end a ricerac finita
   useEffect(() => {
-  if (searchResults.length > 0 && searchResults.length < 10) {
-    setShowEnd(true);
-  } else {
-    setShowEnd(false);
-  }
-}, [searchResults]);
+    if (searchResults.length > 0 && searchResults.length < 10) {
+      setShowEnd(true);
+    } else {
+      setShowEnd(false);
+    }
+  }, [searchResults]);
 
-   // Funzione per tradurre titoli ricette
+  // Funzione per tradurre titoli ricette
   const translateRecipeTitles = async (recipes) => {
     if (language === "en") {
       return recipes; // Nessuna traduzione necessaria
@@ -78,7 +78,7 @@ function Home() {
         name: ing.name,
         original: ing.original,
         amount: ing.amount || "N/D",
-        unit: ing.unit || "g"
+        unit: ing.unit || "g",
       })),
     });
   };
@@ -114,7 +114,7 @@ function Home() {
   // gestione errore ricerca da definire-----------
   const handleErrorSearch = () => {
     if (searchResults.length === 0) {
-      setErrorSearch(t('errorSearch', language));
+      setErrorSearch(t("errorSearch", language));
     } else {
       setErrorSearch("");
     }
@@ -151,10 +151,9 @@ function Home() {
     console.log("Hai cercato:", searchData.input, searchData.scelta, offset);
 
     let searchText = searchData.input;
-    if(language === 'it'){
-      searchText = await TranslateText(searchData.input, 'en','it');
-      console.log('traduzione input', searchText)
-
+    if (language === "it") {
+      searchText = await TranslateText(searchData.input, "en", "it");
+      console.log("traduzione input", searchText);
     }
 
     if (!onlyIngredients) {
@@ -230,7 +229,7 @@ function Home() {
                   title={recipe.title || "titolo non disp"}
                   showInfo={showInformation}
                   prepTime={recipe.readyInMinutes || "N/D"}
-                  glutenFree={recipe.glutenFree ? (t('yes', language)) :("No")}
+                  glutenFree={recipe.glutenFree ? t("yes", language) : "No"}
                   healthS={recipe.healthScore.toFixed(1) || "N/D"}
                   score={recipe.spoonacularScore.toFixed(1) || "N/D"}
                   // kcal={
@@ -251,9 +250,12 @@ function Home() {
           )} */}
         </div>
         {showEnd ? (
-        <div style={{ display: "block", width: "100%" }}><EndLabel></EndLabel></div>
-        ): ("")
-        }
+          <div style={{ display: "block", width: "100%" }}>
+            <EndLabel></EndLabel>
+          </div>
+        ) : (
+          ""
+        )}
         {searchResults.length > 0 && searchResults.length >= 10 && (
           <ButtonMore load={loadMore}></ButtonMore>
         )}
