@@ -72,3 +72,29 @@ body {
     transform: translateX(0px);
   }
 }
+
+@media screen and (max-width:450px) {
+
+  .container-main {
+    flex-direction: column;
+    padding-bottom: 10%;
+    
+  }
+  .container-main .container-recipes{
+    border-bottom:solid 3px #9caf88;
+    border-right: none;
+    margin-left:5%;
+  }
+  .buttons-container{
+    display: flex;
+    
+  }
+  .buttons-container button{
+    font-size: 1.1rem;
+    display: flex;
+    padding: 5%;
+    width: fit-content;
+  }
+
+
+}

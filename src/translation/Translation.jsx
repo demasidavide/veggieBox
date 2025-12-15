@@ -56,7 +56,8 @@ export const translations = {
     calories:"Calories",
     healthScore:"Health score",
     score:"Score",
-    showInfo:"Show informations"
+    showInfo:"Show informations",
+    end:"end"
   },
   it: {
         yes:'Si',
@@ -96,7 +97,8 @@ export const translations = {
     calories:"Calorie",
         healthScore:"Valutazione salute",
         score:"Punteggio",
-        showInfo:"Mostra informazioni"
+        showInfo:"Mostra informazioni",
+        end:"Fine"
 
   },
 };

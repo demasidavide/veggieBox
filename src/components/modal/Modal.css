@@ -22,7 +22,7 @@
   width: 50px;
   height: 50px;
   padding: 0;
-}
+}  
 .close img {
   border-radius: 10px;
   width: fit-content;
@@ -52,4 +52,24 @@
   padding-right: 20%;
   padding-bottom: 20%;
   
+}
+
+@media screen and (max-width:450px) {
+  
+  .container-modal{
+    height: 99%;
+    width: 98%;
+    padding: 0px;
+  }
+  .container-title h1{
+    padding: 0 15px;
+  }
+  .container-ingredients{
+    padding: 15px;
+    margin: 0;
+  }
+  .container-prep{
+    padding: 5%;
+    padding-bottom: 10%;
+  }
 }

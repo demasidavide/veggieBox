@@ -160,7 +160,7 @@ export default function List() {
                 console.log("🔵 PRIMA CardIng - ing:", ing);
                 console.log("🔵 PRIMA CardIng - displayName:", displayName);
                 console.log("🔵 PRIMA CardIng - totalAmount:", ing.totalAmount);
-
+    
                 return (
                   <CardIng
                     key={ing.id}

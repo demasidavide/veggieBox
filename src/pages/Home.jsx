@@ -25,6 +25,7 @@ function Home() {
   const [showModal, setShowModal] = useState(false);
   const [showInformation, setShowInformation] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [showEnd, setShowEnd] = useState(false);
  
   const [loadingDetails, setLoadingDetails] = useState(false);
   const {
@@ -36,7 +37,16 @@ function Home() {
     language,
   } = useSavedRecipes();
 
-  // Funzione per tradurre titoli ricette
+//funzione per far apparire la scritta end a ricerac finita 
+  useEffect(() => {
+  if (searchResults.length > 0 && searchResults.length < 10) {
+    setShowEnd(true);
+  } else {
+    setShowEnd(false);
+  }
+}, [searchResults]);
+
+   // Funzione per tradurre titoli ricette
   const translateRecipeTitles = async (recipes) => {
     if (language === "en") {
       return recipes; // Nessuna traduzione necessaria
@@ -237,10 +247,13 @@ function Home() {
                 ></Card>
               ))
             : errorSearch && <h2 style={{ color: "green" }}>{errorSearch}</h2>}
-          {searchResults.length > 0 && searchResults.length < 10 && (
-            <EndLabel></EndLabel>
-          )}
+          {/* {searchResults.length > 0 && searchResults.length < 10 && (setShowEnd(true)
+          )} */}
         </div>
+        {showEnd ? (
+        <div style={{ display: "block", width: "100%" }}><EndLabel></EndLabel></div>
+        ): ("")
+        }
         {searchResults.length > 0 && searchResults.length >= 10 && (
           <ButtonMore load={loadMore}></ButtonMore>
         )}
