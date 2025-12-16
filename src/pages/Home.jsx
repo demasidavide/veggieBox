@@ -14,6 +14,7 @@ import { useSavedRecipes } from "../context/RecipeContext";
 import { TranslateText } from "../api/translateText";
 import { ButtonLang } from "../components/buttonLang/ButtonLang";
 import { t } from "../translation/translation";
+import { SkeletonCard } from "../components/skeletonCard/SkeletonCard";
 
 function Home() {
   //const [recipes, setRecipes] = useState([]);
@@ -26,7 +27,7 @@ function Home() {
   const [showInformation, setShowInformation] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [showEnd, setShowEnd] = useState(false);
-
+  const [loadingCard, setLoadingCard] = useState(false);
   const [loadingDetails, setLoadingDetails] = useState(false);
   const {
     addRecipe,
@@ -123,6 +124,7 @@ function Home() {
 
   // gestione ricerca ricette da barra di ricerca
   async function handleSearch(searchData) {
+    setLoadingCard(true);
     setLastSearch(searchData);
     //controllo ricerca vuota------------------------
     if (!searchData.input || searchData.input.trim() === "") {
@@ -163,6 +165,8 @@ function Home() {
       //traduzione
       const translated = await translateRecipeTitles(data.results);
       setSearchResults(translated);
+      setLoadingCard(false);
+
       handleErrorSearch();
     } else {
       const data = await SearchIngredients(searchText, 0);
@@ -172,6 +176,8 @@ function Home() {
       // Traduci titoli
       const translated = await translateRecipeTitles(data);
       setSearchResults(translated);
+      setLoadingCard(false);
+
       handleErrorSearch();
     }
   }
@@ -179,6 +185,7 @@ function Home() {
 
   //funzione pulsante per caricare altre card--------
   const loadMore = async () => {
+    setLoadingCard(true);
     const newOffset = offset + 10;
     if (!onlyIngredients) {
       const data = await SearchName(select, searchRecipe, newOffset);
@@ -189,6 +196,7 @@ function Home() {
       const translated = await translateRecipeTitles(data);
       setSearchResults([...searchResults, ...translated]);
     }
+    setLoadingCard(false);
     Setoffset(newOffset);
   };
   //-----------------------------------------------------
@@ -218,7 +226,13 @@ function Home() {
           ></Modal>
         )}
         <div className="container-card">
-          {/* prova card */}
+          {loadingCard && (
+            <>
+              {Array.from({ length: 6 }).map((_, i) => (
+                <SkeletonCard key={i} />
+              ))}
+            </>
+          )}
 
           {searchResults.length > 0
             ? searchResults.map((recipe) => (
@@ -233,15 +247,6 @@ function Home() {
                   glutenFree={recipe.glutenFree ? t("yes", language) : "No"}
                   healthS={recipe.healthScore.toFixed(1) || "N/D"}
                   score={recipe.spoonacularScore.toFixed(1) || "N/D"}
-                  // kcal={
-                  //   !onlyIngredients
-                  //     ? (
-                  //         recipe.nutrition?.nutrients?.find(
-                  //           (n) => n.name === "Calories"
-                  //         ).amount / recipe.servings
-                  //       ).toFixed(1) || "non trovato"
-                  //     : "Non disponibile"
-                  // }
                   viewRecipe={() => handleShowModal(recipe.id)}
                   onSave={handleSave}
                 ></Card>
