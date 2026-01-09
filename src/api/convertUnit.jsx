@@ -58,7 +58,10 @@ export async function ConvertToGrams(ingredientName, sourceAmount, sourceUnit) {
     // Restituisci il valore convertito
     return sourceAmount * conversionFactor;
   } catch (e) {
-    console.error("❌ Errore conversione:", e);
+    console.error("❌ Errore conversione per:", ingredientName, sourceAmount, sourceUnit);
+    console.error("Response data:", e.response?.data);
+    console.error("Status:", e.response?.status);
+    console.error("Errore completo:", e.message);
     // Fallback: restituisci valore originale
     return sourceAmount;
   }

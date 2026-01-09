@@ -17,7 +17,6 @@ import { t } from "../translation/translation";
 import { SkeletonCard } from "../components/skeletonCard/SkeletonCard";
 
 function Home() {
-  //const [recipes, setRecipes] = useState([]);
   const [searchRecipe, setSearchRecipe] = useState("vegetarian");
   const [offset, Setoffset] = useState(0);
   const [onlyIngredients, setOnlyIngredients] = useState(false);
@@ -30,14 +29,16 @@ function Home() {
   const [loadingCard, setLoadingCard] = useState(false);
   const [loadingDetails, setLoadingDetails] = useState(false);
   const {
-    addRecipe,
+    savedRecipes,
+    setSavedRecipes,
+    ingredientsList,
+    setIngredientsList,
     searchResults,
     setSearchResults,
-    savedRecipes,
-    lastSearch,
     setLastSearch,
     language,
   } = useSavedRecipes();
+
   //funzione per aggiornare traduzione titoli al cambio lingua-----
   useEffect(() => {
     const updateLanguage = async () => {
@@ -75,30 +76,98 @@ function Home() {
     return translated;
   };
   //---------------------------------------------------------------------
+
   //salvataggio ricette in context-------------------------------------
   const handleSave = async (recipe) => {
-    // controlla se esiste ed esce dalla funzione senza fare la chiamata
-    const isSaved = savedRecipes.some((r) => r.id === recipe.id);
-    if (isSaved) {
-      console.log("Ricetta già salvata, nessuna chiamata API");
-      return; 
+    try {
+      const isSaved = savedRecipes.some((r) => r.id === recipe.id);
+      if (isSaved) {
+        console.log("Ricetta già salvata");
+        return;
+      }
+
+      const fullRecipe = await SearchRecipe(recipe.id);
+
+      // Traduzioni...
+      const [translatedTitle, translatedInstructions] = await Promise.all([
+        TranslateText(fullRecipe.title, "it"),
+        TranslateText(fullRecipe.instructions || "", "it"),
+      ]);
+
+      const translatedIngredients = [];
+      for (const ing of fullRecipe.extendedIngredients) {
+        const translatedName = await TranslateText(ing.name, "it");
+        translatedIngredients.push({
+          id: ing.id,
+          name: ing.name,
+          translatedName,
+          original: ing.original,
+          amount: ing.amount || "N/D",
+          unit: ing.unit || "g",
+        });
+      }
+
+      // Crea ricetta
+      const newRecipe = {
+        id: fullRecipe.id,
+        title: fullRecipe.title,
+        servings: fullRecipe.servings,
+        selectedServings: fullRecipe.servings,
+        instructions: fullRecipe.instructions,
+        ingredients: translatedIngredients.map((ing) => ({
+          id: ing.id,
+          name: ing.name,
+          original: ing.original,
+          amount: ing.amount,
+          unit: ing.unit,
+        })),
+        translations: {
+          it: {
+            title: translatedTitle,
+            instructions: translatedInstructions,
+            ingredients: translatedIngredients.map((ing) => ing.translatedName),
+          },
+        },
+      };
+
+      // Salva ricetta
+      setSavedRecipes([...savedRecipes, newRecipe]);
+
+      // Aggiungi ingredienti (logica di addIngredientsFromRecipe)
+      const servingRatio = newRecipe.selectedServings / newRecipe.servings;
+      const newIngredients = [...ingredientsList];
+
+      newRecipe.ingredients.forEach((ing, index) => {
+        const adjustedAmount = ing.amount * servingRatio;
+        const existingIndex = newIngredients.findIndex((i) => i.id === ing.id);
+        const translatedName =
+          newRecipe.translations?.it?.ingredients?.[index] || ing.name;
+
+        if (existingIndex >= 0) {
+          newIngredients[existingIndex].totalAmount += adjustedAmount;
+          newIngredients[existingIndex].count += 1;
+        } else {
+          newIngredients.push({
+            id: ing.id,
+            name: ing.name,
+            translatedName: translatedName,
+            totalAmount: adjustedAmount,
+            unit: ing.unit,
+            count: 1,
+          });
+        }
+      });
+
+      setIngredientsList(newIngredients);
+      console.log("🔍 Ingredienti salvati:", newIngredients);
+      newIngredients.forEach((ing) => {
+        console.log(
+          `ID: ${ing.id} | name (EN): ${ing.name} | translatedName (IT): ${ing.translatedName}`
+        );
+      });
+    } catch (error) {
+      console.error("❌ Errore:", error);
     }
-    // Carica dettagli completi della ricetta
-    const fullRecipe = await SearchRecipe(recipe.id);
-    console.log("---", fullRecipe.extendedIngredients);
-    addRecipe({
-      id: fullRecipe.id,
-      title: fullRecipe.title,
-      servings: fullRecipe.servings,
-      instructions: fullRecipe.instructions,
-      ingredients: fullRecipe.extendedIngredients.map((ing) => ({
-        id: ing.id,
-        name: ing.name,
-        original: ing.original,
-        amount: ing.amount || "N/D",
-        unit: ing.unit || "g",
-      })),
-    });
   };
   //---------------------------------------------------------------------
   //gestione apertura e chiusura modale----------------------------------

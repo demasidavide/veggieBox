@@ -100,7 +100,7 @@ export default function List() {
       convertAll();
     }
   }, [ingredientsList]);
-
+  //-----------------------------------------------------------------------
   return (
     <>
       {showModal && (
@@ -157,9 +157,16 @@ export default function List() {
                     ? ing.translatedName
                     : ing.name;
 
-                console.log("🔵 PRIMA CardIng - ing:", ing);
-                console.log("🔵 PRIMA CardIng - displayName:", displayName);
-                console.log("🔵 PRIMA CardIng - totalAmount:", ing.totalAmount);
+                // console.log("🔵 PRIMA CardIng - ing:", ing);
+                // console.log("🔵 PRIMA CardIng - displayName:", displayName);
+                // console.log("🔵 PRIMA CardIng - totalAmount:", ing.totalAmount);
+                // console.log("🌍 Lingua attuale:", language);
+                // console.log("🔍 ing.name (dovrebbe essere EN):", ing.name);
+                // console.log(
+                //   "🔍 ing.translatedName (dovrebbe essere IT):",
+                //   ing.translatedName
+                // );
+                // console.log("📺 displayName mostrato:", displayName);
 
                 return (
                   <CardIng
