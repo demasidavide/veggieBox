@@ -37,7 +37,17 @@ function Home() {
     setLastSearch,
     language,
   } = useSavedRecipes();
-
+  //funzione per aggiornare traduzione titoli al cambio lingua-----
+  useEffect(() => {
+    const updateLanguage = async () => {
+      if (searchResults.length > 0) {
+        const translated = await translateRecipeTitles(searchResults);
+        setSearchResults(translated);
+      }
+    };
+    updateLanguage();
+  }, [language]);
+  //----------------------------------------------------------------
   //funzione per far apparire la scritta end a ricerca finita
   useEffect(() => {
     if (searchResults.length > 0 && searchResults.length < 6) {
@@ -46,8 +56,8 @@ function Home() {
       setShowEnd(false);
     }
   }, [searchResults]);
-
-  // Funzione per tradurre titoli ricette
+  //------------------------------------------------------------------
+  // Funzione per tradurre titoli ricette-----------------------------
   const translateRecipeTitles = async (recipes) => {
     if (language === "en") {
       return recipes; // Nessuna traduzione necessaria
@@ -63,8 +73,8 @@ function Home() {
     console.log("✅ Titoli tradotti");
     return translated;
   };
-
-  //salvataggio ricette in context------------------
+//---------------------------------------------------------------------
+  //salvataggio ricette in context-------------------------------------
   const handleSave = async (recipe) => {
     // Carica dettagli completi della ricetta
     const fullRecipe = await SearchRecipe(recipe.id);
@@ -83,8 +93,8 @@ function Home() {
       })),
     });
   };
-  //------------------------------------------------
-  //gestione apertura e chiusura modale-------------
+  //---------------------------------------------------------------------
+  //gestione apertura e chiusura modale----------------------------------
   const handleShowModal = async (id) => {
     if (!showModal) {
       setShowModal(true);
@@ -168,9 +178,6 @@ function Home() {
       handleErrorSearch();
     } else {
       const data = await SearchIngredients(searchText, 0);
-      console.log("primo check", data);
-      console.log("secondo check", data.length);
-      console.log("hai cercato per ingredienti:", data);
       // Traduci titoli
       const translated = await translateRecipeTitles(data);
       setSearchResults(translated);
@@ -183,7 +190,7 @@ function Home() {
   //funzione pulsante per caricare altre card--------
   const loadMore = async () => {
     setLoadingCard(true);
-    const newOffset = offset + 10;
+    const newOffset = offset + 6;
     if (!onlyIngredients) {
       const data = await SearchName(select, searchRecipe, newOffset);
       const translated = await translateRecipeTitles(data.results);
@@ -259,9 +266,11 @@ function Home() {
         ) : (
           ""
         )}
-        {searchResults.length > 0 && searchResults.length > 6 ? (
+        {searchResults.length > 0 && searchResults.length >= 6 ? (
           <ButtonMore load={loadMore}></ButtonMore>
-        ):""}
+        ) : (
+          ""
+        )}
       </div>
     </>
   );
