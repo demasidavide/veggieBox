@@ -21,7 +21,6 @@ export function RecipeProvider({ children }) {
   // Salva in localStorage quando cambia
   useEffect(() => {
     localStorage.setItem("language", language);
-    console.log("🌍 Lingua impostata:", language);
   }, [language]);
 
   //local storage ricette e ingredienti------------------------
@@ -42,28 +41,28 @@ export function RecipeProvider({ children }) {
   useEffect(() => {
     localStorage.setItem("ingredientsList", JSON.stringify(ingredientsList));
   }, [ingredientsList]);
-
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   //funzione per convertire unita di misura in grammi------------
-  const convertIngredientsToGrams = async () => {
-    const convertedList = [];
+  // const convertIngredientsToGrams = async () => {
+  //   const convertedList = [];
 
-    for (const ing of ingredientsList) {
-      const gramsAmount = await ConvertToGrams(
-        ing.name,
-        ing.totalAmount,
-        ing.unit
-      );
+  //   for (const ing of ingredientsList) {
+  //     const gramsAmount = await ConvertToGrams(
+  //       ing.name,
+  //       ing.totalAmount,
+  //       ing.unit
+  //     );
 
-      convertedList.push({
-        ...ing,
-        totalAmount: gramsAmount,
-        unit: "g",
-      });
-    }
+  //     convertedList.push({
+  //       ...ing,
+  //       totalAmount: gramsAmount,
+  //       unit: "g",
+  //     });
+  //   }
 
-    return convertedList;
-  };
-//---------------------------------------------------------------
+  //   return convertedList;
+  // };
+  //---------------------------------------------------------------
 
   //funzione per aggiungere ricette alla lista-------------------
   const addRecipe = async (recipe) => {
@@ -76,9 +75,9 @@ export function RecipeProvider({ children }) {
 
     // Traduci il titolo e ingredienti
     const [translatedTitle, translatedInstructions] = await Promise.all([
-  TranslateText(recipe.title, "it"),
-  TranslateText(recipe.instructions || "", "it")
-]);
+      TranslateText(recipe.title, "it"),
+      TranslateText(recipe.instructions || "", "it"),
+    ]);
 
     // Traduci i nomi degli ingredienti
     const translatedIngredients = [];
@@ -107,29 +106,11 @@ export function RecipeProvider({ children }) {
 
     const updatedRecipes = [...savedRecipes, newRecipe];
     setSavedRecipes(updatedRecipes);
-//-----------------------------------------------------
+    //-----------------------------------------------------
 
-// Aggiungi ingredienti alla lista---------------------
+    // Aggiungi ingredienti alla lista---------------------
     addIngredientsFromRecipe(newRecipe);
   };
-
-  // const addRecipe = (recipe) => {
-  //   if (savedRecipes.find((r) => r.id === recipe.id)) {
-  //     console.log("context-Ricetta già salvata");
-  //     return;
-  //   }
-  //   const newRecipe = {
-  //     ...recipe,
-  //     selectedServings: recipe.servings,
-  //   };
-
-  //   const updatedRecipes = [...savedRecipes, newRecipe];
-  //   setSavedRecipes(updatedRecipes);
-
-  // Aggiungi ingredienti alla lista
-  //addIngredientsFromRecipe(newRecipe);
-  //};
-  //----------------------------------------------------------
 
   //funzione per rimuovere elementi dall lista ricette--------
   const removeRecipe = (id) => {
@@ -169,14 +150,12 @@ export function RecipeProvider({ children }) {
     const servingRatio = recipe.selectedServings / recipe.servings;
     const newIngredients = [...ingredientsList];
 
-     
-    
-    recipe.ingredients.forEach((ing,index) => {
+    recipe.ingredients.forEach((ing, index) => {
       const adjustedAmount = ing.amount * servingRatio;
       const existingIndex = newIngredients.findIndex((i) => i.id === ing.id);
-    // Prendi il nome tradotto dalle traduzioni salvate
-    const translatedName = recipe.translations?.it?.ingredients?.[index]?.name || ing.name;
-
+      // Prendi il nome tradotto dalle traduzioni salvate
+      const translatedName =
+        recipe.translations?.it?.ingredients?.[index]?.name || ing.name;
 
       if (existingIndex >= 0) {
         // Ingrediente già esiste: incrementa

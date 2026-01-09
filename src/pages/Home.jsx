@@ -38,7 +38,7 @@ function Home() {
     language,
   } = useSavedRecipes();
 
-  //funzione per far apparire la scritta end a ricerac finita
+  //funzione per far apparire la scritta end a ricerca finita
   useEffect(() => {
     if (searchResults.length > 0 && searchResults.length < 6) {
       setShowEnd(true);
@@ -84,7 +84,6 @@ function Home() {
     });
   };
   //------------------------------------------------
-
   //gestione apertura e chiusura modale-------------
   const handleShowModal = async (id) => {
     if (!showModal) {
@@ -128,9 +127,9 @@ function Home() {
     setLastSearch(searchData);
     //controllo ricerca vuota------------------------
     if (!searchData.input || searchData.input.trim() === "") {
-      setErrorSearch("Inserisci qualcosa da cercare");
+      setLoadingCard(false);
+      setErrorSearch(t("searchEmpty", language));
       setTimeout(() => setErrorSearch(""), 3000);
-      //setRecipes([]);
       setSearchResults([]);
       setSelect("");
       Setoffset(0);
@@ -166,7 +165,6 @@ function Home() {
       const translated = await translateRecipeTitles(data.results);
       setSearchResults(translated);
       setLoadingCard(false);
-
       handleErrorSearch();
     } else {
       const data = await SearchIngredients(searchText, 0);
@@ -177,7 +175,6 @@ function Home() {
       const translated = await translateRecipeTitles(data);
       setSearchResults(translated);
       setLoadingCard(false);
-
       handleErrorSearch();
     }
   }
@@ -262,9 +259,9 @@ function Home() {
         ) : (
           ""
         )}
-        {searchResults.length > 0 && searchResults.length >= 6 && (
+        {searchResults.length > 0 && searchResults.length > 6 ? (
           <ButtonMore load={loadMore}></ButtonMore>
-        )}
+        ):""}
       </div>
     </>
   );

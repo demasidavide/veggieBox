@@ -73,6 +73,7 @@ export const translationPresets = {
 export const translations = {
   en: {
     yes: "Yes",
+    searchEmpty: "Enter something to search for",
     disct: "Discover delicious vegetarian and vegan recipes",
     vegetarian: "Vegetarian",
     vegan: "Vegan",
@@ -112,7 +113,7 @@ export const translations = {
   },
   it: {
     yes: "Si",
-
+    searchEmpty: "Inserisci qualcosa da cercare",
     disct: "Scopri ricette vegetariane e vegane deliziose",
     vegetarian: "Vegetariano",
     vegan: "Vegano",
