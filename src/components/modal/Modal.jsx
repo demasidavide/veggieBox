@@ -33,21 +33,19 @@ export function Modal({ onClose, recipe, loading }) {
       try {
         const [title, instructions] = await Promise.all([
           TranslateText(recipe.title || "", "it"),
-          //TranslateText(recipe.summary || "", "it"),
           TranslateText(recipe.instructions || "", "it"),
         ]);
 
         const translatedIngredients = await Promise.all(
-      recipe.extendedIngredients?.map(async (ing) => ({
-        ...ing,
-        original: await TranslateText(ing.original, "it"),
-      })) || []
-    );
+          recipe.extendedIngredients?.map(async (ing) => ({
+            ...ing,
+            original: await TranslateText(ing.original, "it"),
+          })) || []
+        );
 
         setTranslatedContent({
           title,
           instructions,
-          //summary,
           ingredients: translatedIngredients,
         });
         console.log("✅ Traduzione modale completata");
@@ -67,15 +65,10 @@ export function Modal({ onClose, recipe, loading }) {
       ? translatedContent.title
       : recipe?.title;
 
-      const displayIngredients =
-  language === "it" && translatedContent?.ingredients
-    ? translatedContent.ingredients
-    : recipe?.extendedIngredients;
-
-  // const displaySummary =
-  //   language === "it" && translatedContent
-  //     ? translatedContent.summary
-  //     : recipe?.summary;
+  const displayIngredients =
+    language === "it" && translatedContent?.ingredients
+      ? translatedContent.ingredients
+      : recipe?.extendedIngredients;
 
   const displayInstructions =
     language === "it" && translatedContent
@@ -97,7 +90,7 @@ export function Modal({ onClose, recipe, loading }) {
           <img src={close} alt="chiudi"></img>
         </button>
         {loading || isTranslating ? (
-          <div className="loading">{t('loading', language)}</div>
+          <div className="loading">{t("loading", language)}</div>
         ) : recipe ? (
           <>
             <div className="container-title">
@@ -109,9 +102,13 @@ export function Modal({ onClose, recipe, loading }) {
             </div>
             <hr></hr>
             <div className="container-ingredients">
-              <h5>{t('prepTime', language)} {recipe.readyInMinutes}'</h5>
-              <p>{t('recipeFor', language)}: {recipe.servings} pers.</p>
-              <h3>{t('ingredients', language)}</h3>
+              <h5>
+                {t("prepTime", language)} {recipe.readyInMinutes}'
+              </h5>
+              <p>
+                {t("recipeFor", language)}: {recipe.servings} pers.
+              </p>
+              <h3>{t("ingredients", language)}</h3>
               <ul>
                 {displayIngredients?.map((ing) => (
                   <li key={ing.id}>{ing.original || ing.name}</li>
@@ -119,7 +116,7 @@ export function Modal({ onClose, recipe, loading }) {
               </ul>
               {recipe.nutrition?.nutrients && (
                 <p>
-                  {t('calories', language)}:{" "}
+                  {t("calories", language)}:{" "}
                   {(
                     recipe.nutrition.nutrients.find(
                       (n) => n.name === "Calories"
@@ -131,18 +128,18 @@ export function Modal({ onClose, recipe, loading }) {
             </div>
             <hr></hr>
             <div className="container-prep">
-              <h3>{t('prep', language)}</h3>
+              <h3>{t("prep", language)}</h3>
               {displayInstructions ? (
                 <div
                   dangerouslySetInnerHTML={{ __html: displayInstructions }}
                 ></div>
               ) : (
-                <p>{t('instNotAvailable', language)}</p>
+                <p>{t("instNotAvailable", language)}</p>
               )}
             </div>
           </>
         ) : (
-          <div>{t('errorLoading', language)}</div>
+          <div>{t("errorLoading", language)}</div>
         )}
       </div>
     </>

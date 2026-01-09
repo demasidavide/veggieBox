@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import "./SearchBar.css";
-import { SearchName } from "../../api/searchName";
 import icon from "../../assets/icons-filter.png";
 import { useSavedRecipes } from "../../context/RecipeContext";
 import { t } from "../../translation/translation";

@@ -1,6 +1,6 @@
 import "./Home.css";
 import mockData from "../mocks/recipesData.json";
-import { use, useActionState, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { SearchBar } from "../components/SearchBar/SearchBar";
 import { SearchName } from "../api/searchName";
 import { SearchIngredients } from "../api/searchIngredients";

@@ -2,7 +2,6 @@ import "./List.css";
 import { ListRecipes } from "../components/listRecipes/ListRecipes.jsx";
 import { CardIng } from "../components/listIngredients/CardIng.jsx";
 import { useSavedRecipes } from "../context/RecipeContext.jsx";
-import { ConfirmButton } from "../components/button/confirm/ConfirmButton.jsx";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ConvertToGrams } from "../api/convertUnit.jsx";
@@ -156,17 +155,6 @@ export default function List() {
                   language === "it" && ing.translatedName
                     ? ing.translatedName
                     : ing.name;
-
-                // console.log("🔵 PRIMA CardIng - ing:", ing);
-                // console.log("🔵 PRIMA CardIng - displayName:", displayName);
-                // console.log("🔵 PRIMA CardIng - totalAmount:", ing.totalAmount);
-                // console.log("🌍 Lingua attuale:", language);
-                // console.log("🔍 ing.name (dovrebbe essere EN):", ing.name);
-                // console.log(
-                //   "🔍 ing.translatedName (dovrebbe essere IT):",
-                //   ing.translatedName
-                // );
-                // console.log("📺 displayName mostrato:", displayName);
 
                 return (
                   <CardIng
