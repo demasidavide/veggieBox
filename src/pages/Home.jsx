@@ -33,6 +33,7 @@ function Home() {
     addRecipe,
     searchResults,
     setSearchResults,
+    savedRecipes,
     lastSearch,
     setLastSearch,
     language,
@@ -73,9 +74,15 @@ function Home() {
     console.log("✅ Titoli tradotti");
     return translated;
   };
-//---------------------------------------------------------------------
+  //---------------------------------------------------------------------
   //salvataggio ricette in context-------------------------------------
   const handleSave = async (recipe) => {
+    // controlla se esiste ed esce dalla funzione senza fare la chiamata
+    const isSaved = savedRecipes.some((r) => r.id === recipe.id);
+    if (isSaved) {
+      console.log("Ricetta già salvata, nessuna chiamata API");
+      return; 
+    }
     // Carica dettagli completi della ricetta
     const fullRecipe = await SearchRecipe(recipe.id);
     console.log("---", fullRecipe.extendedIngredients);
