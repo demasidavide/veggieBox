@@ -27,6 +27,7 @@ function Home() {
   const [showEnd, setShowEnd] = useState(false);
   const [loadingCard, setLoadingCard] = useState(false);
   const [loadingDetails, setLoadingDetails] = useState(false);
+  const [totalRecipes, setTotalRecipes] = useState(0);
   const {
     savedRecipes,
     setSavedRecipes,
@@ -37,6 +38,8 @@ function Home() {
     setLastSearch,
     language,
   } = useSavedRecipes();
+
+  const PAGE_SIZE = 6;
 
   //funzione per aggiornare traduzione titoli al cambio lingua-----
   useEffect(() => {
@@ -64,7 +67,6 @@ function Home() {
       return recipes; // Nessuna traduzione necessaria
     }
 
-    console.log("🔄 Traduzione titoli in corso...");
     const translated = await Promise.all(
       recipes.map(async (recipe) => ({
         ...recipe,
@@ -215,7 +217,7 @@ function Home() {
       Setoffset(0);
       return;
     }
-    
+
     setSelect(searchData.input);
     setSearchRecipe(searchData.scelta);
     setOnlyIngredients(searchData.ingredients);
@@ -233,6 +235,8 @@ function Home() {
       //traduzione
       const translated = await translateRecipeTitles(data.results);
       setSearchResults(translated);
+      // usa il total fornito dal server se disponibile, altrimenti fallback alla lunghezza ricevuta
+      setTotalRecipes(data.totalResults ?? translated.length);
       setLoadingCard(false);
       handleErrorSearch();
     } else {
@@ -240,6 +244,8 @@ function Home() {
       // Traduci titoli
       const translated = await translateRecipeTitles(data);
       setSearchResults(translated);
+      // SearchIngredients non fornisce totalResults: usa la lunghezza ricevuta
+      setTotalRecipes(translated.length);
       setLoadingCard(false);
       handleErrorSearch();
     }
@@ -249,16 +255,28 @@ function Home() {
   //funzione pulsante per caricare altre card--------
   const loadMore = async () => {
     setLoadingCard(true);
-    const newOffset = offset + 6;
+    const newOffset = offset + PAGE_SIZE;
+
     if (!onlyIngredients) {
       const data = await SearchName(select, searchRecipe, newOffset);
       const translated = await translateRecipeTitles(data.results);
-      setSearchResults([...searchResults, ...translated]);
+      setSearchResults((prev) => {
+        const next = [...prev, ...translated];
+        // aggiorna total usando il server se presente, altrimenti la nuova lunghezza
+        setTotalRecipes(data.totalResults ?? next.length);
+        return next;
+      });
     } else {
       const data = await SearchIngredients(select, newOffset);
       const translated = await translateRecipeTitles(data);
-      setSearchResults([...searchResults, ...translated]);
+      setSearchResults((prev) => {
+        const next = [...prev, ...translated];
+        // best-effort: aggiorna total con la nuova lunghezza
+        setTotalRecipes(next.length);
+        return next;
+      });
     }
+
     setLoadingCard(false);
     Setoffset(newOffset);
   };
@@ -325,7 +343,7 @@ function Home() {
         ) : (
           ""
         )}
-        {searchResults.length > 0 && searchResults.length >= 6 ? (
+        {searchResults.length > 0 && totalRecipes > searchResults.length ? (
           <ButtonMore load={loadMore}></ButtonMore>
         ) : (
           ""

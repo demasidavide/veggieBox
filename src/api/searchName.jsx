@@ -15,13 +15,13 @@ export async function SearchName(query, diet, offset = 0) {
         addRecipeInformation: true,
       },
     });
-    console.log(response.status);
+    console.log(`Status code: ${response.status}`);
 
     return response.data;
   } catch (e) {
     console.log("-searchname-", e);
     if (e.response.status === 402) {
-      alert("abbonamento scaduto");
+      alert("Abbonamento Spoonacular scaduto!Raggiunto limite giornaliero.");
     }
     alert("Attenzione chiamata api non riuscita-searchName-");
   }

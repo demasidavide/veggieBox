@@ -14,7 +14,6 @@ export function SearchBar({ onSearch, onCalories }) {
   const [placeholder, setPlaceholder] = useState("Cerca una ricetta");
 
   useEffect(() => {
-    console.log("SS", lastSearch);
     setInput(lastSearch.input || "");
     setScelta(lastSearch.scelta || "vegetarian");
     setIngredients(lastSearch.ingredients || false);
