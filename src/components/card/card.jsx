@@ -65,8 +65,14 @@ export function Card({
               className={!isSaved ? "btn btn-save" : "btn btn-save selected"}
               onClick={async () => {
                 setIsSaving(true);
-                await onSave(recipe);
-                setSelected(!selected);
+                try {
+                  await onSave(recipe);
+                  setSelected((s) => !s);
+                } catch (e) {
+                  console.error("Error saving recipe:", e);
+                } finally {
+                  setIsSaving(false);
+                }
               }}
             >
               {!isSaved ? `${t("save", language)}` : `${t("saved", language)}`}

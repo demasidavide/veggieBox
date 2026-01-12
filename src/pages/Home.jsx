@@ -45,8 +45,12 @@ function Home() {
   useEffect(() => {
     const updateLanguage = async () => {
       if (searchResults.length > 0) {
-        const translated = await translateRecipeTitles(searchResults);
-        setSearchResults(translated);
+        try {
+          const translated = await translateRecipeTitles(searchResults);
+          setSearchResults(translated);
+        } catch (e) {
+          console.error("updateLanguage error:", e);
+        }
       }
     };
     updateLanguage();
@@ -66,14 +70,23 @@ function Home() {
     if (language === "en") {
       return recipes; // Nessuna traduzione necessaria
     }
-
-    const translated = await Promise.all(
-      recipes.map(async (recipe) => ({
-        ...recipe,
-        translatedTitle: await TranslateText(recipe.title, "it"),
-      }))
-    );
-    return translated;
+    try {
+      const translated = await Promise.all(
+        recipes.map(async (recipe) => {
+          try {
+            const translatedTitle = await TranslateText(recipe.title, "it");
+            return { ...recipe, translatedTitle };
+          } catch (e) {
+            console.error("translateRecipeTitles item error:", e);
+            return { ...recipe, translatedTitle: recipe.title };
+          }
+        })
+      );
+      return translated;
+    } catch (e) {
+      console.error("translateRecipeTitles error:", e);
+      return recipes;
+    }
   };
   //---------------------------------------------------------------------
 
@@ -207,47 +220,49 @@ function Home() {
   async function handleSearch(searchData) {
     setLoadingCard(true);
     setLastSearch(searchData);
-    //controllo ricerca vuota------------------------
-    if (!searchData.input || searchData.input.trim() === "") {
-      setLoadingCard(false);
-      setErrorSearch(t("searchEmpty", language));
-      setTimeout(() => setErrorSearch(""), 3000);
-      setSearchResults([]);
-      setSelect("");
+    try {
+      // controllo ricerca vuota
+      if (!searchData.input || searchData.input.trim() === "") {
+        setErrorSearch(t("searchEmpty", language));
+        setTimeout(() => setErrorSearch(""), 3000);
+        setSearchResults([]);
+        setSelect("");
+        Setoffset(0);
+        return;
+      }
+
+      setSelect(searchData.input);
+      setSearchRecipe(searchData.scelta);
+      setOnlyIngredients(searchData.ingredients);
+      setLastSearch(searchData);
       Setoffset(0);
-      return;
-    }
 
-    setSelect(searchData.input);
-    setSearchRecipe(searchData.scelta);
-    setOnlyIngredients(searchData.ingredients);
-    setLastSearch(searchData);
-    Setoffset(0);
+      let searchText = searchData.input;
+      if (language === "it") {
+        searchText = await TranslateText(searchData.input, "en", "it");
+        setSelect(searchText);
+      }
 
-    let searchText = searchData.input;
-    if (language === "it") {
-      searchText = await TranslateText(searchData.input, "en", "it");
-      setSelect(searchText);
-    }
+      if (!onlyIngredients) {
+        const data = await SearchName(searchText, searchData.scelta, 0);
+        const translated = await translateRecipeTitles(data.results);
+        setSearchResults(translated);
+        // usa il total fornito dal server se disponibile, altrimenti fallback alla lunghezza ricevuta
+        setTotalRecipes(data.totalResults ?? translated.length);
+      } else {
+        const data = await SearchIngredients(searchText, 0);
+        const translated = await translateRecipeTitles(data);
+        setSearchResults(translated);
+        // SearchIngredients non fornisce totalResults: usa la lunghezza ricevuta
+        setTotalRecipes(translated.length);
+      }
 
-    if (!onlyIngredients) {
-      const data = await SearchName(searchText, searchData.scelta, 0);
-      //traduzione
-      const translated = await translateRecipeTitles(data.results);
-      setSearchResults(translated);
-      // usa il total fornito dal server se disponibile, altrimenti fallback alla lunghezza ricevuta
-      setTotalRecipes(data.totalResults ?? translated.length);
-      setLoadingCard(false);
       handleErrorSearch();
-    } else {
-      const data = await SearchIngredients(searchText, 0);
-      // Traduci titoli
-      const translated = await translateRecipeTitles(data);
-      setSearchResults(translated);
-      // SearchIngredients non fornisce totalResults: usa la lunghezza ricevuta
-      setTotalRecipes(translated.length);
+    } catch (error) {
+      console.error("handleSearch error:", error);
+      setErrorSearch(t("errorSearch", language));
+    } finally {
       setLoadingCard(false);
-      handleErrorSearch();
     }
   }
   // ------------------------------------------------
@@ -256,29 +271,32 @@ function Home() {
   const loadMore = async () => {
     setLoadingCard(true);
     const newOffset = offset + PAGE_SIZE;
-
-    if (!onlyIngredients) {
-      const data = await SearchName(select, searchRecipe, newOffset);
-      const translated = await translateRecipeTitles(data.results);
-      setSearchResults((prev) => {
-        const next = [...prev, ...translated];
-        // aggiorna total usando il server se presente, altrimenti la nuova lunghezza
-        setTotalRecipes(data.totalResults ?? next.length);
-        return next;
-      });
-    } else {
-      const data = await SearchIngredients(select, newOffset);
-      const translated = await translateRecipeTitles(data);
-      setSearchResults((prev) => {
-        const next = [...prev, ...translated];
-        // best-effort: aggiorna total con la nuova lunghezza
-        setTotalRecipes(next.length);
-        return next;
-      });
+    try {
+      if (!onlyIngredients) {
+        const data = await SearchName(select, searchRecipe, newOffset);
+        const translated = await translateRecipeTitles(data.results);
+        setSearchResults((prev) => {
+          const next = [...prev, ...translated];
+          // aggiorna total usando il server se presente, altrimenti la nuova lunghezza
+          setTotalRecipes(data.totalResults ?? next.length);
+          return next;
+        });
+      } else {
+        const data = await SearchIngredients(select, newOffset);
+        const translated = await translateRecipeTitles(data);
+        setSearchResults((prev) => {
+          const next = [...prev, ...translated];
+          // best-effort: aggiorna total con la nuova lunghezza
+          setTotalRecipes(next.length);
+          return next;
+        });
+      }
+      Setoffset(newOffset);
+    } catch (e) {
+      console.error("loadMore error:", e);
+    } finally {
+      setLoadingCard(false);
     }
-
-    setLoadingCard(false);
-    Setoffset(newOffset);
   };
   //-----------------------------------------------------
   return (

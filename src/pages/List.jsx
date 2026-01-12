@@ -77,19 +77,37 @@ export default function List() {
   useEffect(() => {
     const convertAll = async () => {
       setIsConverting(true);
-      const converted = [];
+      try {
+        const converted = [];
 
-      for (const ing of ingredientsList) {
-        const grams = await ConvertToGrams(ing.name, ing.totalAmount, ing.unit);
-        converted.push({
-          ...ing,
-          totalAmount: grams,
-          unit: "g",
-        });
+        for (const ing of ingredientsList) {
+          try {
+            const grams = await ConvertToGrams(
+              ing.name,
+              ing.totalAmount,
+              ing.unit
+            );
+            converted.push({
+              ...ing,
+              totalAmount: grams,
+              unit: "g",
+            });
+          } catch (e) {
+            console.error("ConvertToGrams error for", ing.name, e);
+            converted.push({
+              ...ing,
+              totalAmount: ing.totalAmount,
+              unit: ing.unit,
+            });
+          }
+        }
+
+        setConvertedIngredients(converted);
+      } catch (e) {
+        console.error("convertAll error:", e);
+      } finally {
+        setIsConverting(false);
       }
-
-      setConvertedIngredients(converted);
-      setIsConverting(false);
     };
 
     if (ingredientsList.length > 0) {
