@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { ConvertToGrams } from "../api/convertUnit.jsx";
 import { Modal } from "../components/modal/Modal.jsx";
 import { SearchRecipe } from "../api/searchRecipe.jsx";
-import { t } from "../translation/translation.jsx";
+import { t } from "../translation/translation";
 
 export default function List() {
   const { savedRecipes, removeRecipe, ingredientsList, language } =
