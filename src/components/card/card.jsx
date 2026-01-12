@@ -33,7 +33,6 @@ export function Card({
     }
   }, [isSaved, isSaving]);
 
-  console.log(`-card-ricevute ${id}${img}${title}`);
   return (
     <>
       <div className={!isSaved ? "card-style-2" : "card-style-2 selected"}>

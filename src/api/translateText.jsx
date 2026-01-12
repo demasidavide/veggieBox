@@ -12,12 +12,8 @@ export async function TranslateText(text, targetLang = 'it', sourceLang = 'en') 
   
   // Controlla cache
   if (translationCache[cacheKey]) {
-    console.log(`✅ Cache HIT traduzione: ${cutText.substring(0, 30)}...`);
     return translationCache[cacheKey];
   }
-  
-  // Se non in cache, chiama API
-  console.log(`🌐 Cache MISS traduzione: ${cutText.substring(0, 30)}... - Chiamata API`);
   
   try {
     // MyMemory API - GET request
@@ -30,7 +26,6 @@ export async function TranslateText(text, targetLang = 'it', sourceLang = 'en') 
     
     // Salva in cache
     translationCache[cacheKey] = translatedText;
-    console.log(`💾 Salvato in cache: ${cutText.substring(0, 30)}...`);
     
     return translatedText;
     

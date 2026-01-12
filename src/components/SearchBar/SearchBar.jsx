@@ -38,7 +38,6 @@ export function SearchBar({ onSearch, onCalories }) {
       calories: calories,
       ingredients: ingredients,
     };
-    console.log("controllo", searchData);
     onSearch(searchData);
   }
   // ------------------------------

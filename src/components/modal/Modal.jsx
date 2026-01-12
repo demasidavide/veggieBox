@@ -28,7 +28,6 @@ export function Modal({ onClose, recipe, loading }) {
 
       // Altrimenti traduci al volo
       setIsTranslating(true);
-      console.log("🔄 Traduzione modale in corso...");
 
       try {
         const [title, instructions] = await Promise.all([

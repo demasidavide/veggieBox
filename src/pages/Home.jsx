@@ -1,5 +1,4 @@
 import "./Home.css";
-import mockData from "../mocks/recipesData.json";
 import { useState, useEffect } from "react";
 import { SearchBar } from "../components/SearchBar/SearchBar";
 import { SearchName } from "../api/searchName";
@@ -72,7 +71,6 @@ function Home() {
         translatedTitle: await TranslateText(recipe.title, "it"),
       }))
     );
-    console.log("✅ Titoli tradotti");
     return translated;
   };
   //---------------------------------------------------------------------
@@ -82,7 +80,6 @@ function Home() {
     try {
       const isSaved = savedRecipes.some((r) => r.id === recipe.id);
       if (isSaved) {
-        console.log("Ricetta già salvata");
         return;
       }
 
@@ -159,7 +156,6 @@ function Home() {
       });
 
       setIngredientsList(newIngredients);
-      console.log("🔍 Ingredienti salvati:", newIngredients);
       newIngredients.forEach((ing) => {
         console.log(
           `ID: ${ing.id} | name (EN): ${ing.name} | translatedName (IT): ${ing.translatedName}`
@@ -177,7 +173,6 @@ function Home() {
       setLoadingDetails(true);
       try {
         const data = await SearchRecipe(id);
-        console.log("dettagli ricetta:", data);
         setSelectedRecipe(data);
       } catch (e) {
         console.log("errore ricetta-app-:", e);
@@ -192,7 +187,6 @@ function Home() {
 
   // gestione per mostrare calorie nelle card------
   const handleInformationsChange = (value) => {
-    console.log(showInformation);
     setShowInformation(value);
   };
   //-----------------------------------------------
@@ -221,32 +215,21 @@ function Home() {
       Setoffset(0);
       return;
     }
-    //-----------test per api--------pasta---------
-    const useMock = import.meta.env.VITE_USE_MOCK === "false";
-    if (useMock) {
-      console.log("🔧 Modalità test: usando dati mock");
-      setSearchResults(mockData.results);
-      return;
-    }
-    //fine test per api pasta------------------------------
+    
     setSelect(searchData.input);
     setSearchRecipe(searchData.scelta);
     setOnlyIngredients(searchData.ingredients);
     setLastSearch(searchData);
     Setoffset(0);
 
-    console.log("Hai cercato:", searchData.input, searchData.scelta, offset);
-
     let searchText = searchData.input;
     if (language === "it") {
       searchText = await TranslateText(searchData.input, "en", "it");
-      console.log("traduzione input", searchText);
       setSelect(searchText);
     }
 
     if (!onlyIngredients) {
       const data = await SearchName(searchText, searchData.scelta, 0);
-      console.log("hai cercato per nome", data.results);
       //traduzione
       const translated = await translateRecipeTitles(data.results);
       setSearchResults(translated);

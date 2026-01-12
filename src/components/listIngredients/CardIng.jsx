@@ -3,7 +3,6 @@ import { useState } from "react";
 
 export function CardIng({ ing, qta, id, unit }) {
   const [selected, setSelected] = useState(false);
-console.log("CardIng ricevuto:", { ing, qta, unit });
   return (
     <>
       <div

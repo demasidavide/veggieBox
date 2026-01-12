@@ -35,9 +35,6 @@ export async function ConvertToGrams(ingredientName, sourceAmount, sourceUnit) {
     return sourceAmount * conversionCache[cacheKey];
   }
 
-  // Se non è in cache, fai la chiamata API
-  console.log(`🌐 Cache MISS: ${cacheKey} - Chiamata API`);
-
   try {
     const response = await axios.get(apiBase, {
       params: {
@@ -53,12 +50,15 @@ export async function ConvertToGrams(ingredientName, sourceAmount, sourceUnit) {
     const conversionFactor = response.data.targetAmount;
     conversionCache[cacheKey] = conversionFactor;
 
-    console.log(`💾 Salvato in cache: ${cacheKey} = ${conversionFactor}g`);
-
     // Restituisci il valore convertito
     return sourceAmount * conversionFactor;
   } catch (e) {
-    console.error("❌ Errore conversione per:", ingredientName, sourceAmount, sourceUnit);
+    console.error(
+      "❌ Errore conversione per:",
+      ingredientName,
+      sourceAmount,
+      sourceUnit
+    );
     console.error("Response data:", e.response?.data);
     console.error("Status:", e.response?.status);
     console.error("Errore completo:", e.message);

@@ -22,7 +22,6 @@ export function ListRecipes({ onClose, title, id, servings, onViewRecipe }) {
     const recipe = savedRecipes.find((r) => r.id === id);
     removeIngredientsFromRecipe(recipe);
     setSavedRecipes(savedRecipes.filter((r) => r.id !== id));
-    console.log("HH-context-Ricetta rimossa:", id);
   };
   //--------------------------------------------------------------------------
   //funzione per rimuovere ingredenti-----------------------------------------
@@ -55,7 +54,6 @@ export function ListRecipes({ onClose, title, id, servings, onViewRecipe }) {
     const recipe = savedRecipes.find((r) => r.id === recipeId);
 
     if (!recipe) {
-      console.log("Ricetta non trovata");
       return;
     }
 
@@ -72,8 +70,6 @@ export function ListRecipes({ onClose, title, id, servings, onViewRecipe }) {
     // Aggiungi gli ingredienti con i nuovi serving
     const updatedRecipe = updatedRecipes.find((r) => r.id === recipeId);
     addIngredientsFromRecipe(updatedRecipe);
-
-    console.log("Serving aggiornati per ricetta:", recipeId, newServings);
   };
 
   //----------------------------------------------------------

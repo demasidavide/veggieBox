@@ -9,7 +9,6 @@ export function ButtonLang() {
   const toggleLanguage = () => {
     const newLang = language === "en" ? "it" : "en";
     setLanguage(newLang);
-    console.log("🌍 Lingua cambiata:", newLang);
   };
 
   return (

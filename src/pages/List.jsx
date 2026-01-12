@@ -17,8 +17,6 @@ export default function List() {
   const [showModal, setShowModal] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [loadingDetails, setLoadingDetails] = useState(false);
-  console.log("Numero ricette salvate", savedRecipes.length);
-  console.log("Lista ingredienti", ingredientsList);
 
   // Funzione per aprire la modale----------------------------------------
   const handleShowModal = async (id) => {
@@ -47,7 +45,6 @@ export default function List() {
           title: "Lista della Spesa VeggieBox",
           text: `🛒 Lista Ingredienti:\n\n${text}`,
         });
-        console.log("Lista condivisa con successo!");
       } catch (error) {
         console.log("Condivisione annullata");
       }
