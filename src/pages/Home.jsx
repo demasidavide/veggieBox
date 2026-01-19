@@ -1,5 +1,5 @@
 import "./Home.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { SearchBar } from "../components/SearchBar/SearchBar";
 import { SearchName } from "../api/searchName";
 import { SearchIngredients } from "../api/searchIngredients";
@@ -42,19 +42,22 @@ function Home() {
   const PAGE_SIZE = 6;
 
   //funzione per aggiornare traduzione titoli al cambio lingua-----
+  //utilizzo useRef per tenere traccia della lingua usata
+  const languageRef = useRef(language);
   useEffect(() => {
     const updateLanguage = async () => {
-      if (searchResults.length > 0) {
+      if (searchResults.length > 0 && languageRef.current !== language) {
         try {
           const translated = await translateRecipeTitles(searchResults);
           setSearchResults(translated);
+          languageRef.current = language; // aggiorno language dopo la traduzione per loop infinito di errori
         } catch (e) {
           console.error("updateLanguage error:", e);
         }
       }
     };
     updateLanguage();
-  }, [language]);
+  }, [language, searchResults]);//includo searchResult senza loop peche controllato da languageRef nella if
   //----------------------------------------------------------------
   //funzione per far apparire la scritta end a ricerca finita
   useEffect(() => {
