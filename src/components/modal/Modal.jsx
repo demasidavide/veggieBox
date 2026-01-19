@@ -65,7 +65,7 @@ export function Modal({ onClose, recipe, loading }) {
     };
 
     translateContent();
-  }, [recipe, language, savedRecipe]);
+  }, [recipe, language]);
 
   // Determina quale contenuto mostrare
   const displayTitle =
