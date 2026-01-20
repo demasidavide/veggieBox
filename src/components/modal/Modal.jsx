@@ -14,7 +14,9 @@ export function Modal({ onClose, recipe, loading }) {
   const savedRecipe = savedRecipes.find((r) => r.id === recipe?.id);
   const lastTranslatedRef = useRef({ recipeId: null, language: null }); //prova con useref
   useEffect(() => {
+    let cancelled = false; //inserito per controllare s eil componente viene smontato prima della fine della richiesta traduzione
     const translateContent = async () => {
+
       if (!recipe || language === "en") {
         setTranslatedContent(null);
         return;
@@ -22,8 +24,10 @@ export function Modal({ onClose, recipe, loading }) {
 
       // Se è salvata, usa traduzioni già pronte
       if (savedRecipe?.translations?.it) {
-        setTranslatedContent(savedRecipe.translations.it);
-        lastTranslatedRef.current = { recipeId: recipe.id, language }; //prova per salvare ultima traduzione
+        if (!cancelled) {
+          setTranslatedContent(savedRecipe.translations.it);
+          lastTranslatedRef.current = { recipeId: recipe.id, language }; //prova per salvare ultima traduzione
+        }
         return;
       }
       //prova useref controlla se gia tradotta
@@ -34,8 +38,10 @@ export function Modal({ onClose, recipe, loading }) {
         return;
       }
 
-      // Altrimenti traduci al volo
-      setIsTranslating(true);
+      if (!cancelled) {
+        // Altrimenti traduci al volo
+        setIsTranslating(true);
+      }
 
       try {
         const [title, instructions] = await Promise.all([
@@ -50,21 +56,30 @@ export function Modal({ onClose, recipe, loading }) {
           })) || [],
         );
 
-        setTranslatedContent({
-          title,
-          instructions,
-          ingredients: translatedIngredients,
-        });
-        lastTranslatedRef.current = { recipeId: recipe.id, language }; //prova useref salvataggio traduzione
-        console.log("✅ Traduzione modale completata");
+        if (!cancelled) {
+          setTranslatedContent({
+            title,
+            instructions,
+            ingredients: translatedIngredients,
+          });
+          lastTranslatedRef.current = { recipeId: recipe.id, language }; //prova useref salvataggio traduzione
+          console.log("✅ Traduzione modale completata");
+        }
       } catch (e) {
-        console.error("❌ Errore traduzione modale:", e);
+        if (!cancelled) {
+          console.error("❌ Errore traduzione modale:", e);
+        }
       } finally {
-        setIsTranslating(false);
+        if (!cancelled) {
+          setIsTranslating(false);
+        }
       }
     };
-
+    
     translateContent();
+    return () => {
+      cancelled = true; //inserito per cancellare l operazione alla fine
+    };
   }, [recipe, language]);
 
   // Determina quale contenuto mostrare
