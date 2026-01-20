@@ -20,92 +20,117 @@ export function ListRecipes({ onClose, title, id, servings, onViewRecipe }) {
   //funzione per rimuovere dalla lista----------------------------------------
   const removeRecipe = (id) => {
     const recipe = savedRecipes.find((r) => r.id === id);
-    removeIngredientsFromRecipe(recipe);
+    const updatedIngredients = removeRecipeIngredients(recipe);
+    setIngredientsList(updatedIngredients);
     setSavedRecipes(savedRecipes.filter((r) => r.id !== id));
   };
-  //--------------------------------------------------------------------------
-  //funzione per rimuovere ingredenti-----------------------------------------
-  const removeIngredientsFromRecipe = (recipe) => {
+  //funzione per eliminare ingredienti da ricetta cancellata------------------
+  const removeRecipeIngredients = (recipe) => {
     const servingRatio = recipe.selectedServings / recipe.servings;
-    const newIngredients = [...ingredientsList];
+    let updatedIngredients = [...ingredientsList];
 
     recipe.ingredients.forEach((ing) => {
       const adjustedAmount = ing.amount * servingRatio;
-      const existingIndex = newIngredients.findIndex((i) => i.id === ing.id);
+      const existingIndex = updatedIngredients.findIndex(
+        (i) => i.id === ing.id,
+      );
 
       if (existingIndex >= 0) {
-        // Decrementa quantità e conteggio
-        newIngredients[existingIndex].totalAmount -= adjustedAmount;
-        newIngredients[existingIndex].count -= 1;
+        updatedIngredients[existingIndex].totalAmount -= adjustedAmount;
+        updatedIngredients[existingIndex].count -= 1;
 
-        // Se count = 0, rimuovi completamente l'ingrediente
-        if (newIngredients[existingIndex].count === 0) {
-          newIngredients.splice(existingIndex, 1);
+        // se count arriva a 0, rimuovi completamente
+        if (updatedIngredients[existingIndex].count <= 0) {
+          updatedIngredients.splice(existingIndex, 1);
         }
       }
     });
 
-    setIngredientsList(newIngredients);
+    return updatedIngredients;
   };
-  //--------------------------------------------------------------------------
-  //funzione per aggiornare ingredienti con servings----------
+//---------------------------------------------------------------------------------
+  // raggruppo updateServings,addIngredientsFromRecipe,removeIngredientsFromRecipe(sostituita con removeRecipeIngredients)
   const updateServings = (recipeId, newServings) => {
-    // Trova la ricetta da aggiornare
     const recipe = savedRecipes.find((r) => r.id === recipeId);
+    if (!recipe) return;
 
-    if (!recipe) {
-      return;
-    }
-
-    // Rimuovi gli ingredienti con i vecchi serving
-    removeIngredientsFromRecipe(recipe);
-
-    // Aggiorna i serving della ricetta
-    const updatedRecipes = savedRecipes.map((r) =>
-      r.id === recipeId ? { ...r, selectedServings: newServings } : r
+    const { updatedRecipes, updatedIngredients } = calculateServingsUpdate(
+      recipe,
+      newServings,
+      savedRecipes,
+      ingredientsList,
     );
-
     setSavedRecipes(updatedRecipes);
-
-    // Aggiungi gli ingredienti con i nuovi serving
-    const updatedRecipe = updatedRecipes.find((r) => r.id === recipeId);
-    addIngredientsFromRecipe(updatedRecipe);
+    setIngredientsList(updatedIngredients);
   };
 
-  //----------------------------------------------------------
-  //funzione per aggiungere elementi alla lista ingredienti-----------
-  const addIngredientsFromRecipe = (recipe) => {
-    const servingRatio = recipe.selectedServings / recipe.servings;
-    const newIngredients = [...ingredientsList];
+  const calculateServingsUpdate = (
+    recipe,
+    newServings,
+    recipes,
+    ingredients,
+  ) => {
+    const oldServingRatio = recipe.selectedServings / recipe.servings;
+    const newServingRatio = newServings / recipe.servings;
 
-    recipe.ingredients.forEach((ing, index) => {
-      const adjustedAmount = ing.amount * servingRatio;
-      const existingIndex = newIngredients.findIndex((i) => i.id === ing.id);
-      // Prendi il nome tradotto dalle traduzioni salvate
-      const translatedName =
-        recipe.translations?.it?.ingredients?.[index]?.name || ing.name;
+    // crea nuova lista ingredienti
+    let updatedIngredients = [...ingredients];
+
+    // qui rimozione serving vecchi
+    recipe.ingredients.forEach((ing) => {
+      const oldAdjustedAmount = ing.amount * oldServingRatio;
+      const existingIndex = updatedIngredients.findIndex(
+        (i) => i.id === ing.id,
+      );
 
       if (existingIndex >= 0) {
+        updatedIngredients[existingIndex].totalAmount -= oldAdjustedAmount;
+        updatedIngredients[existingIndex].count -= 1;
+
+        // rimozione totale se count arirva a 0
+        if (updatedIngredients[existingIndex].count <= 0) {
+          updatedIngredients.splice(existingIndex, 1);
+        }
+      }
+    });
+
+    recipe.ingredients.forEach((ing, index) => {
+      const newAdjustedAmount = ing.amount * newServingRatio;
+      const existingIndex = updatedIngredients.findIndex(
+        (i) => i.id === ing.id,
+      );
+
+      // traduzione
+      const translatedName =
+        recipe.translations?.it?.ingredients?.[index]?.name || ing.name;
+      //presa dalla vecchia funzione
+      if (existingIndex >= 0) {
         // Ingrediente già esiste: incrementa
-        newIngredients[existingIndex].totalAmount += adjustedAmount;
-        newIngredients[existingIndex].count += 1;
+        updatedIngredients[existingIndex].totalAmount += newAdjustedAmount;
+        updatedIngredients[existingIndex].count += 1;
       } else {
         // Ingrediente nuovo: aggiungi
-        newIngredients.push({
+        updatedIngredients.push({
           id: ing.id,
           name: ing.name,
           translatedName: translatedName,
-          totalAmount: adjustedAmount,
+          totalAmount: newAdjustedAmount,
           unit: ing.unit,
           count: 1,
         });
       }
     });
 
-    setIngredientsList(newIngredients);
-  };
-  //---------------------------------------------------------
+    const updatedRecipes = recipes.map((r) =>
+      r.id === recipe.id ? { ...r, selectedServings: newServings } : r,
+    );
 
+    return {
+      updatedRecipes,
+      updatedIngredients,
+    };
+  };
+//------------------------------------------------------------------------------------
   return (
     <>
       <div className="container-list">
