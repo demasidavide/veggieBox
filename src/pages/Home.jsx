@@ -173,11 +173,11 @@ function Home() {
       });
 
       setIngredientsList(newIngredients);
-      newIngredients.forEach((ing) => {
-        console.log(
-          `ID: ${ing.id} | name (EN): ${ing.name} | translatedName (IT): ${ing.translatedName}`
-        );
-      });
+      // newIngredients.forEach((ing) => {
+      //   console.log(
+      //     `ID: ${ing.id} | name (EN): ${ing.name} | translatedName (IT): ${ing.translatedName}`
+      //   );
+      // });
     } catch (error) {
       console.error("❌ Errore:", error);
     }
