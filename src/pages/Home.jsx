@@ -57,7 +57,7 @@ function Home() {
       }
     };
     updateLanguage();
-  }, [language, searchResults]);//includo searchResult senza loop peche controllato da languageRef nella if
+  }, [language, searchResults]); //includo searchResult senza loop peche controllato da languageRef nella if
   //----------------------------------------------------------------
   //funzione per far apparire la scritta end a ricerca finita
   useEffect(() => {
@@ -83,7 +83,7 @@ function Home() {
             console.error("translateRecipeTitles item error:", e);
             return { ...recipe, translatedTitle: recipe.title };
           }
-        })
+        }),
       );
       return translated;
     } catch (e) {
@@ -109,18 +109,31 @@ function Home() {
         TranslateText(fullRecipe.instructions || "", "it"),
       ]);
 
-      const translatedIngredients = [];
-      for (const ing of fullRecipe.extendedIngredients) {
-        const translatedName = await TranslateText(ing.name, "it");
-        translatedIngredients.push({
-          id: ing.id,
-          name: ing.name,
-          translatedName,
-          original: ing.original,
-          amount: ing.amount || "N/D",
-          unit: ing.unit || "g",
-        });
-      }
+      const translatedIngredients = await Promise.all(
+        fullRecipe.extendedIngredients.map(async (ing) => {
+          const translatedName = await TranslateText(ing.name, "it");
+          return {
+            id: ing.id,
+            name: ing.name,
+            translatedName,
+            original: ing.original,
+            amount: ing.amount || "N/D",
+            unit: ing.unit || "g",
+          };
+        }),
+      );
+      // const translatedIngredients = [];
+      // for (const ing of fullRecipe.extendedIngredients) {
+      //   const translatedName = await TranslateText(ing.name, "it");
+      //   translatedIngredients.push({
+      //     id: ing.id,
+      //     name: ing.name,
+      //     translatedName,
+      //     original: ing.original,
+      //     amount: ing.amount || "N/D",
+      //     unit: ing.unit || "g",
+      //   });
+      // }
 
       // Crea ricetta
       const newRecipe = {
@@ -155,7 +168,7 @@ function Home() {
       newRecipe.ingredients.forEach((ing, index) => {
         const adjustedAmount = ing.amount * servingRatio;
         const existingIndex = newIngredients.findIndex((i) => i.id === ing.id);
-        const translatedName = translatedIngredients[index].translatedName;//gia tradotti in riga 143
+        const translatedName = translatedIngredients[index].translatedName; //gia tradotti in riga 143
 
         if (existingIndex >= 0) {
           newIngredients[existingIndex].totalAmount += adjustedAmount;
@@ -173,7 +186,6 @@ function Home() {
       });
 
       setIngredientsList(newIngredients);
-      
     } catch (error) {
       console.error("❌ Errore:", error);
     }

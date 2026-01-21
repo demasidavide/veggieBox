@@ -76,40 +76,39 @@ export default function List() {
   //prova funzione conversione in grammi------------------------------
   useEffect(() => {
     const convertAll = async () => {
-      setIsConverting(true);
-      try {
-        const converted = [];
-
-        for (const ing of ingredientsList) {
-          try {
-            const grams = await ConvertToGrams(
-              ing.name,
-              ing.totalAmount,
-              ing.unit
-            );
-            converted.push({
-              ...ing,
-              totalAmount: grams,
-              unit: "g",
-            });
-          } catch (e) {
-            console.error("ConvertToGrams error for", ing.name, e);
-            converted.push({
-              ...ing,
-              totalAmount: ing.totalAmount,
-              unit: ing.unit,
-            });
-          }
+  setIsConverting(true);
+  try {
+    const converted = await Promise.all(
+      ingredientsList.map(async (ing) => {
+        try {
+          const grams = await ConvertToGrams(
+            ing.name,
+            ing.totalAmount,
+            ing.unit
+          );
+          return {
+            ...ing,
+            totalAmount: grams,
+            unit: "g",
+          };
+        } catch (e) {
+          console.error("ConvertToGrams error for", ing.name, e);
+          return {
+            ...ing,
+            totalAmount: ing.totalAmount,
+            unit: ing.unit,
+          };
         }
+      })
+    );
 
-        setConvertedIngredients(converted);
-      } catch (e) {
-        console.error("convertAll error:", e);
-      } finally {
-        setIsConverting(false);
-      }
-    };
-
+    setConvertedIngredients(converted);
+  } catch (e) {
+    console.error("convertAll error:", e);
+  } finally {
+    setIsConverting(false);
+  }
+};
     if (ingredientsList.length > 0) {
       convertAll();
     }
