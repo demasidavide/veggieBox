@@ -5,8 +5,10 @@ import { useEffect, useState, useRef } from "react";
 import { TranslateText } from "../../api/translateText";
 import { useSavedRecipes } from "../../context/RecipeContext";
 import { t } from "../../translation/translation";
-import { getTranslatedTitle, getTranslatedField } from "../../translation/translation";
-
+import {
+  getTranslatedTitle,
+  getTranslatedField,
+} from "../../translation/translation";
 
 export function Modal({ onClose, recipe, loading }) {
   const { language, savedRecipes } = useSavedRecipes();
@@ -18,7 +20,6 @@ export function Modal({ onClose, recipe, loading }) {
   useEffect(() => {
     let cancelled = false; //inserito per controllare s eil componente viene smontato prima della fine della richiesta traduzione
     const translateContent = async () => {
-
       if (!recipe || language === "en") {
         setTranslatedContent(null);
         return;
@@ -65,7 +66,6 @@ export function Modal({ onClose, recipe, loading }) {
             ingredients: translatedIngredients,
           });
           lastTranslatedRef.current = { recipeId: recipe.id, language }; //prova useref salvataggio traduzione
-          console.log("✅ Traduzione modale completata");
         }
       } catch (e) {
         if (!cancelled) {
@@ -77,7 +77,7 @@ export function Modal({ onClose, recipe, loading }) {
         }
       }
     };
-    
+
     translateContent();
     return () => {
       cancelled = true; //inserito per cancellare l operazione alla fine
@@ -87,15 +87,25 @@ export function Modal({ onClose, recipe, loading }) {
   // Determina quale contenuto mostrare
   //sostituzione con helper nuovi
   //titolo
-const displayTitle = getTranslatedTitle(savedRecipe || recipe, language, recipe?.title);
-//istruzioni
-const displayInstructions = language === "it"
-  ? (getTranslatedField(savedRecipe, 'instructions', language) || translatedContent?.instructions || recipe?.instructions)
-  : recipe?.instructions;
-//ingredienti
-  const displayIngredients = language === "it"
-  ? (getTranslatedField(savedRecipe, 'ingredients', language) || translatedContent?.ingredients || recipe?.extendedIngredients)
-  : recipe?.extendedIngredients;
+  const displayTitle = getTranslatedTitle(
+    savedRecipe || recipe,
+    language,
+    recipe?.title,
+  );
+  //istruzioni
+  const displayInstructions =
+    language === "it"
+      ? getTranslatedField(savedRecipe, "instructions", language) ||
+        translatedContent?.instructions ||
+        recipe?.instructions
+      : recipe?.instructions;
+  //ingredienti
+  const displayIngredients =
+    language === "it"
+      ? getTranslatedField(savedRecipe, "ingredients", language) ||
+        translatedContent?.ingredients ||
+        recipe?.extendedIngredients
+      : recipe?.extendedIngredients;
 
   useEffect(() => {
     document.body.style.overflow = "hidden";

@@ -122,19 +122,7 @@ function Home() {
           };
         }),
       );
-      // const translatedIngredients = [];
-      // for (const ing of fullRecipe.extendedIngredients) {
-      //   const translatedName = await TranslateText(ing.name, "it");
-      //   translatedIngredients.push({
-      //     id: ing.id,
-      //     name: ing.name,
-      //     translatedName,
-      //     original: ing.original,
-      //     amount: ing.amount || "N/D",
-      //     unit: ing.unit || "g",
-      //   });
-      // }
-
+      
       // Crea ricetta
       const newRecipe = {
         id: fullRecipe.id,
@@ -163,29 +151,34 @@ function Home() {
 
       // Aggiungi ingredienti (logica di addIngredientsFromRecipe)
       const servingRatio = newRecipe.selectedServings / newRecipe.servings;
-      const newIngredients = [...ingredientsList];
+      const updatedIngredients = newRecipe.ingredients.reduce((acc, ing, index) => {
+  const adjustedAmount = ing.amount * servingRatio;
+  const existingIndex = acc.findIndex((i) => i.id === ing.id);
+  const translatedName = translatedIngredients[index].translatedName;
 
-      newRecipe.ingredients.forEach((ing, index) => {
-        const adjustedAmount = ing.amount * servingRatio;
-        const existingIndex = newIngredients.findIndex((i) => i.id === ing.id);
-        const translatedName = translatedIngredients[index].translatedName; //gia tradotti in riga 143
+  if (existingIndex >= 0) {
+    return acc.map((item, i) => 
+      i === existingIndex 
+        ? { 
+            ...item, 
+            totalAmount: item.totalAmount + adjustedAmount, 
+            count: item.count + 1 
+          }
+        : item
+    );
+  } else {
+    return [...acc, {
+      id: ing.id,
+      name: ing.name,
+      translatedName: translatedName,
+      totalAmount: adjustedAmount,
+      unit: ing.unit,
+      count: 1,
+    }];
+  }
+}, [...ingredientsList]);
 
-        if (existingIndex >= 0) {
-          newIngredients[existingIndex].totalAmount += adjustedAmount;
-          newIngredients[existingIndex].count += 1;
-        } else {
-          newIngredients.push({
-            id: ing.id,
-            name: ing.name,
-            translatedName: translatedName,
-            totalAmount: adjustedAmount,
-            unit: ing.unit,
-            count: 1,
-          });
-        }
-      });
-
-      setIngredientsList(newIngredients);
+setIngredientsList(updatedIngredients);
     } catch (error) {
       console.error("❌ Errore:", error);
     }

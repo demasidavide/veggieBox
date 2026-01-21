@@ -13,7 +13,6 @@ export function ListRecipes({ onClose, title, id, servings, onViewRecipe }) {
   } = useSavedRecipes();
   const recipe = savedRecipes.find((r) => r.id === id);
   // Determina quale titolo mostrare
-  //nuovo helper
   const displayTitle = getTranslatedTitle(recipe, language, title);
   //--------------------------------------------------------------------------
   //funzione per rimuovere dalla lista----------------------------------------
