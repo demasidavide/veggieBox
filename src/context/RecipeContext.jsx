@@ -53,7 +53,6 @@ export function RecipeProvider({ children }) {
         setLastSearch,
         language,
         setLanguage,
-        setIngredientsList,
       }}
     >
       {children}

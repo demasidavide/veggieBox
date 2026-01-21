@@ -1,8 +1,7 @@
 import "./card.css";
 import { useEffect, useState } from "react";
 import { useSavedRecipes } from "../../context/RecipeContext";
-import { t } from "../../translation/translation";
-import { getTranslatedTitle } from "../../translation/translation";
+import { t, getTranslatedTitle } from "../../translation/translation";
 
 export function Card({
   id,
