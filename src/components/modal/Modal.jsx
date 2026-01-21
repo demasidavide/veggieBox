@@ -5,6 +5,8 @@ import { useEffect, useState, useRef } from "react";
 import { TranslateText } from "../../api/translateText";
 import { useSavedRecipes } from "../../context/RecipeContext";
 import { t } from "../../translation/translation";
+import { getTranslatedTitle, getTranslatedField,getTranslatedIngredientName } from "../../translation/translation";
+
 
 export function Modal({ onClose, recipe, loading }) {
   const { language, savedRecipes } = useSavedRecipes();
@@ -83,20 +85,31 @@ export function Modal({ onClose, recipe, loading }) {
   }, [recipe, language]);
 
   // Determina quale contenuto mostrare
-  const displayTitle =
-    language === "it" && translatedContent
-      ? translatedContent.title
-      : recipe?.title;
+  //prova sostituzione con helper nuovi
+  //titolo
+const displayTitle = getTranslatedTitle(savedRecipe || recipe, language, recipe?.title);
+//istruzioni
+const displayInstructions = language === "it"
+  ? (getTranslatedField(savedRecipe, 'instructions', language) || translatedContent?.instructions || recipe?.instructions)
+  : recipe?.instructions;
+//ingredienti
+  const displayIngredients = language === "it"
+  ? (getTranslatedField(savedRecipe, 'ingredients', language) || translatedContent?.ingredients || recipe?.extendedIngredients)
+  : recipe?.extendedIngredients;
+  // const displayTitle =
+  //   language === "it" && translatedContent
+  //     ? translatedContent.title
+  //     : recipe?.title;
 
-  const displayIngredients =
-    language === "it" && translatedContent?.ingredients
-      ? translatedContent.ingredients
-      : recipe?.extendedIngredients;
+  // const displayIngredients =
+  //   language === "it" && translatedContent?.ingredients
+  //     ? translatedContent.ingredients
+  //     : recipe?.extendedIngredients;
 
-  const displayInstructions =
-    language === "it" && translatedContent
-      ? translatedContent.instructions
-      : recipe?.instructions;
+  // const displayInstructions =
+  //   language === "it" && translatedContent
+  //     ? translatedContent.instructions
+  //     : recipe?.instructions;
 
   useEffect(() => {
     document.body.style.overflow = "hidden";

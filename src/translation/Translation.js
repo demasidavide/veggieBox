@@ -150,3 +150,50 @@ export const translations = {
 export const t = (key, language) => {
   return translations[language]?.[key] || key;
 };
+
+//prova helper per traduzione 
+export const getTranslatedField = (
+  recipe,
+  fieldPath,
+  language,
+  fallback = "",
+) => {
+  if (language === "en" || !recipe?.translations?.[language]) {
+    return fallback;
+  }
+
+  return recipe.translations[language][fieldPath] || fallback;
+};
+
+//prova helper per traduzione titolo e utilizzo di getTranslatedField
+export const getTranslatedTitle = (recipe, language, originalTitle) => {
+  if (language === "en") {
+    return originalTitle;
+  }
+  if (recipe?.translatedTitle) {
+    return recipe.translatedTitle;
+  }
+
+  return getTranslatedField(recipe, "title", language, originalTitle);
+};
+
+/**
+ * Recupera il nome tradotto di un ingrediente
+ * @param {Object} recipe - L'oggetto ricetta
+ * @param {number} index - Indice dell'ingrediente
+ * @param {string} language - La lingua
+ * @param {string} originalName - Nome originale come fallback
+ * @returns {string} Il nome tradotto o originale
+ */
+export const getTranslatedIngredientName = (
+  recipe,
+  index,
+  language,
+  originalName,
+) => {
+  if (language === "en" || !recipe?.translations?.[language]?.ingredients) {
+    return originalName;
+  }
+
+  return recipe.translations[language].ingredients[index]?.name || originalName;
+};
