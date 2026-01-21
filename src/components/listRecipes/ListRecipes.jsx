@@ -1,7 +1,11 @@
 import "./ListRecipes.css";
 import { useSavedRecipes } from "../../context/RecipeContext";
 import { t } from "../../translation/translation";
-import { getTranslatedTitle, getTranslatedField,getTranslatedIngredientName } from "../../translation/translation";
+import {
+  getTranslatedTitle,
+  getTranslatedField,
+  getTranslatedIngredientName,
+} from "../../translation/translation";
 
 export function ListRecipes({ onClose, title, id, servings, onViewRecipe }) {
   const {
@@ -13,8 +17,8 @@ export function ListRecipes({ onClose, title, id, servings, onViewRecipe }) {
   } = useSavedRecipes();
   const recipe = savedRecipes.find((r) => r.id === id);
   // Determina quale titolo mostrare
-    //prova nuovo helper
-      const displayTitle = getTranslatedTitle(recipe, language, title);
+  //prova nuovo helper
+  const displayTitle = getTranslatedTitle(recipe, language, title);
   // const displayTitle =
   //   language === "it" && recipe?.translations?.it?.title
   //     ? recipe.translations.it.title
@@ -44,14 +48,16 @@ export function ListRecipes({ onClose, title, id, servings, onViewRecipe }) {
 
         // se count arriva a 0, rimuovi completamente
         if (updatedIngredients[existingIndex].count <= 0) {
-          updatedIngredients.splice(existingIndex, 1);
+          updatedIngredients = updatedIngredients.filter(
+            (_, i) => i !== existingIndex,
+          );
         }
       }
     });
 
     return updatedIngredients;
   };
-//---------------------------------------------------------------------------------
+  //---------------------------------------------------------------------------------
   // raggruppo updateServings,addIngredientsFromRecipe,removeIngredientsFromRecipe(sostituita con removeRecipeIngredients)
   const updateServings = (recipeId, newServings) => {
     const recipe = savedRecipes.find((r) => r.id === recipeId);
@@ -92,7 +98,9 @@ export function ListRecipes({ onClose, title, id, servings, onViewRecipe }) {
 
         // rimozione totale se count arirva a 0
         if (updatedIngredients[existingIndex].count <= 0) {
-          updatedIngredients.splice(existingIndex, 1);
+          updatedIngredients = updatedIngredients.filter(
+            (_, i) => i !== existingIndex,
+          );
         }
       }
     });
@@ -112,15 +120,18 @@ export function ListRecipes({ onClose, title, id, servings, onViewRecipe }) {
         updatedIngredients[existingIndex].totalAmount += newAdjustedAmount;
         updatedIngredients[existingIndex].count += 1;
       } else {
-        // Ingrediente nuovo: aggiungi
-        updatedIngredients.push({
-          id: ing.id,
-          name: ing.name,
-          translatedName: translatedName,
-          totalAmount: newAdjustedAmount,
-          unit: ing.unit,
-          count: 1,
-        });
+        // Ingrediente nuovo: aggiungi(tolto .push)
+        updatedIngredients = [
+          ...updatedIngredients,
+          {
+            id: ing.id,
+            name: ing.name,
+            translatedName: translatedName,
+            totalAmount: newAdjustedAmount,
+            unit: ing.unit,
+            count: 1,
+          },
+        ];
       }
     });
 
@@ -133,7 +144,7 @@ export function ListRecipes({ onClose, title, id, servings, onViewRecipe }) {
       updatedIngredients,
     };
   };
-//------------------------------------------------------------------------------------
+  //------------------------------------------------------------------------------------
   return (
     <>
       <div className="container-list">

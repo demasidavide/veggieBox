@@ -12,7 +12,7 @@ import { EndLabel } from "../components/label/end";
 import { useSavedRecipes } from "../context/RecipeContext";
 import { TranslateText } from "../api/translateText";
 import { ButtonLang } from "../components/buttonLang/ButtonLang";
-import { t } from "../translation/translation";
+import { t, getTranslatedIngredientName } from "../translation/translation";
 import { SkeletonCard } from "../components/skeletonCard/SkeletonCard";
 
 function Home() {
@@ -155,8 +155,7 @@ function Home() {
       newRecipe.ingredients.forEach((ing, index) => {
         const adjustedAmount = ing.amount * servingRatio;
         const existingIndex = newIngredients.findIndex((i) => i.id === ing.id);
-        const translatedName =
-          newRecipe.translations?.it?.ingredients?.[index] || ing.name;
+        const translatedName = translatedIngredients[index].translatedName;//gia tradotti in riga 143
 
         if (existingIndex >= 0) {
           newIngredients[existingIndex].totalAmount += adjustedAmount;
