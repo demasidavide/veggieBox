@@ -173,11 +173,7 @@ function Home() {
       });
 
       setIngredientsList(newIngredients);
-      // newIngredients.forEach((ing) => {
-      //   console.log(
-      //     `ID: ${ing.id} | name (EN): ${ing.name} | translatedName (IT): ${ing.translatedName}`
-      //   );
-      // });
+      
     } catch (error) {
       console.error("❌ Errore:", error);
     }
@@ -353,8 +349,6 @@ function Home() {
                 ></Card>
               ))
             : errorSearch && <h2 style={{ color: "green" }}>{errorSearch}</h2>}
-          {/* {searchResults.length > 0 && searchResults.length < 10 && (setShowEnd(true)
-          )} */}
         </div>
         {showEnd ? (
           <div style={{ display: "block", width: "100%" }}>

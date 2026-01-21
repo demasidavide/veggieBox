@@ -2,7 +2,7 @@ import "./card.css";
 import { useEffect, useState } from "react";
 import { useSavedRecipes } from "../../context/RecipeContext";
 import { t } from "../../translation/translation";
-import { getTranslatedTitle, getTranslatedField,getTranslatedIngredientName } from "../../translation/translation";
+import { getTranslatedTitle } from "../../translation/translation";
 
 export function Card({
   id,
@@ -24,10 +24,6 @@ export function Card({
   const isSaved = savedRecipes.some((r) => r.id === id);
   // Determina quale titolo mostrare con helper prova
   const displayTitle = getTranslatedTitle(recipe, language, title);
-  // const displayTitle =
-  //   language === "it"
-  //     ? recipe?.translatedTitle || title 
-  //     : title; 
 
   useEffect(() => {
     if (isSaved && isSaving) {

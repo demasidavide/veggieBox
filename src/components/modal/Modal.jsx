@@ -5,7 +5,7 @@ import { useEffect, useState, useRef } from "react";
 import { TranslateText } from "../../api/translateText";
 import { useSavedRecipes } from "../../context/RecipeContext";
 import { t } from "../../translation/translation";
-import { getTranslatedTitle, getTranslatedField,getTranslatedIngredientName } from "../../translation/translation";
+import { getTranslatedTitle, getTranslatedField } from "../../translation/translation";
 
 
 export function Modal({ onClose, recipe, loading }) {
@@ -85,7 +85,7 @@ export function Modal({ onClose, recipe, loading }) {
   }, [recipe, language]);
 
   // Determina quale contenuto mostrare
-  //prova sostituzione con helper nuovi
+  //sostituzione con helper nuovi
   //titolo
 const displayTitle = getTranslatedTitle(savedRecipe || recipe, language, recipe?.title);
 //istruzioni
@@ -96,20 +96,6 @@ const displayInstructions = language === "it"
   const displayIngredients = language === "it"
   ? (getTranslatedField(savedRecipe, 'ingredients', language) || translatedContent?.ingredients || recipe?.extendedIngredients)
   : recipe?.extendedIngredients;
-  // const displayTitle =
-  //   language === "it" && translatedContent
-  //     ? translatedContent.title
-  //     : recipe?.title;
-
-  // const displayIngredients =
-  //   language === "it" && translatedContent?.ingredients
-  //     ? translatedContent.ingredients
-  //     : recipe?.extendedIngredients;
-
-  // const displayInstructions =
-  //   language === "it" && translatedContent
-  //     ? translatedContent.instructions
-  //     : recipe?.instructions;
 
   useEffect(() => {
     document.body.style.overflow = "hidden";

@@ -1,11 +1,7 @@
 import "./ListRecipes.css";
 import { useSavedRecipes } from "../../context/RecipeContext";
 import { t } from "../../translation/translation";
-import {
-  getTranslatedTitle,
-  getTranslatedField,
-  getTranslatedIngredientName,
-} from "../../translation/translation";
+import { getTranslatedTitle } from "../../translation/translation";
 
 export function ListRecipes({ onClose, title, id, servings, onViewRecipe }) {
   const {
@@ -17,12 +13,8 @@ export function ListRecipes({ onClose, title, id, servings, onViewRecipe }) {
   } = useSavedRecipes();
   const recipe = savedRecipes.find((r) => r.id === id);
   // Determina quale titolo mostrare
-  //prova nuovo helper
+  //nuovo helper
   const displayTitle = getTranslatedTitle(recipe, language, title);
-  // const displayTitle =
-  //   language === "it" && recipe?.translations?.it?.title
-  //     ? recipe.translations.it.title
-  //     : title;
   //--------------------------------------------------------------------------
   //funzione per rimuovere dalla lista----------------------------------------
   const removeRecipe = (id) => {

@@ -165,7 +165,7 @@ export const getTranslatedField = (
   return recipe.translations[language][fieldPath] || fallback;
 };
 
-//prova helper per traduzione titolo e utilizzo di getTranslatedField
+// helper per traduzione titolo e utilizzo di getTranslatedField
 export const getTranslatedTitle = (recipe, language, originalTitle) => {
   if (language === "en") {
     return originalTitle;
@@ -177,14 +177,7 @@ export const getTranslatedTitle = (recipe, language, originalTitle) => {
   return getTranslatedField(recipe, "title", language, originalTitle);
 };
 
-/**
- * Recupera il nome tradotto di un ingrediente
- * @param {Object} recipe - L'oggetto ricetta
- * @param {number} index - Indice dell'ingrediente
- * @param {string} language - La lingua
- * @param {string} originalName - Nome originale come fallback
- * @returns {string} Il nome tradotto o originale
- */
+// helper per traduzione nome ingredienti
 export const getTranslatedIngredientName = (
   recipe,
   index,
