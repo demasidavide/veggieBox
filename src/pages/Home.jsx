@@ -30,9 +30,8 @@ function Home() {
   const [totalRecipes, setTotalRecipes] = useState(0);
   const {
     savedRecipes,
-    setSavedRecipes,
     ingredientsList,
-    setIngredientsList,
+    updateRecipesAndIngredients,
     searchResults,
     setSearchResults,
     setLastSearch,
@@ -122,7 +121,7 @@ function Home() {
           };
         }),
       );
-      
+
       // Crea ricetta
       const newRecipe = {
         id: fullRecipe.id,
@@ -146,39 +145,45 @@ function Home() {
         },
       };
 
-      // Salva ricetta
-      setSavedRecipes([...savedRecipes, newRecipe]);
-
-      // Aggiungi ingredienti (logica di addIngredientsFromRecipe)
+      // Salva ricetta e aggiungi ingredienti in un'unica operazione
       const servingRatio = newRecipe.selectedServings / newRecipe.servings;
-      const updatedIngredients = newRecipe.ingredients.reduce((acc, ing, index) => {
-  const adjustedAmount = ing.amount * servingRatio;
-  const existingIndex = acc.findIndex((i) => i.id === ing.id);
-  const translatedName = translatedIngredients[index].translatedName;
+      const updatedIngredients = newRecipe.ingredients.reduce(
+        (acc, ing, index) => {
+          const adjustedAmount = ing.amount * servingRatio;
+          const existingIndex = acc.findIndex((i) => i.id === ing.id);
+          const translatedName = translatedIngredients[index].translatedName;
 
-  if (existingIndex >= 0) {
-    return acc.map((item, i) => 
-      i === existingIndex 
-        ? { 
-            ...item, 
-            totalAmount: item.totalAmount + adjustedAmount, 
-            count: item.count + 1 
+          if (existingIndex >= 0) {
+            return acc.map((item, i) =>
+              i === existingIndex
+                ? {
+                    ...item,
+                    totalAmount: item.totalAmount + adjustedAmount,
+                    count: item.count + 1,
+                  }
+                : item,
+            );
+          } else {
+            return [
+              ...acc,
+              {
+                id: ing.id,
+                name: ing.name,
+                translatedName: translatedName,
+                totalAmount: adjustedAmount,
+                unit: ing.unit,
+                count: 1,
+              },
+            ];
           }
-        : item
-    );
-  } else {
-    return [...acc, {
-      id: ing.id,
-      name: ing.name,
-      translatedName: translatedName,
-      totalAmount: adjustedAmount,
-      unit: ing.unit,
-      count: 1,
-    }];
-  }
-}, [...ingredientsList]);
+        },
+        [...ingredientsList],
+      );
 
-setIngredientsList(updatedIngredients);
+      updateRecipesAndIngredients(
+        [...savedRecipes, newRecipe],
+        updatedIngredients,
+      );
     } catch (error) {
       console.error("❌ Errore:", error);
     }

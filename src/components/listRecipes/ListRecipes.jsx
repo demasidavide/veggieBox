@@ -6,9 +6,9 @@ import { getTranslatedTitle } from "../../translation/translation";
 export function ListRecipes({ onClose, title, id, servings, onViewRecipe }) {
   const {
     savedRecipes,
-    setSavedRecipes,
-    setIngredientsList,
     ingredientsList,
+    updateRecipesAndIngredients,
+    dispatch,
     language,
   } = useSavedRecipes();
   const recipe = savedRecipes.find((r) => r.id === id);
@@ -19,8 +19,9 @@ export function ListRecipes({ onClose, title, id, servings, onViewRecipe }) {
   const removeRecipe = (id) => {
     const recipe = savedRecipes.find((r) => r.id === id);
     const updatedIngredients = removeRecipeIngredients(recipe);
-    setIngredientsList(updatedIngredients);
-    setSavedRecipes(savedRecipes.filter((r) => r.id !== id));
+    const updatedRecipes = savedRecipes.filter((r) => r.id !== id);
+
+    updateRecipesAndIngredients(updatedRecipes, updatedIngredients);
   };
   //funzione per eliminare ingredienti da ricetta cancellata------------------
   const removeRecipeIngredients = (recipe) => {
@@ -60,8 +61,7 @@ export function ListRecipes({ onClose, title, id, servings, onViewRecipe }) {
       savedRecipes,
       ingredientsList,
     );
-    setSavedRecipes(updatedRecipes);
-    setIngredientsList(updatedIngredients);
+    updateRecipesAndIngredients(updatedRecipes, updatedIngredients);
   };
 
   const calculateServingsUpdate = (
